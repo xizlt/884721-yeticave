@@ -53,7 +53,10 @@ $user_name = ''; // укажите здесь ваше имя
             <!--заполните этот список из массива с товарами-->
             <?php
             $arr = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
-            $goods = [
+            $arrLength = count($arr);
+
+/*
+            $goods = (
                     ['name': '2014 Rossignol District Snowboard',
                      'group': 'Доски и лыжи',
                      'price':'10999',
@@ -85,8 +88,8 @@ $user_name = ''; // укажите здесь ваше имя
                      'price':'5400',
                      'URL_image':'img/lot-6.jpg'
                     ]
-            ]
-            
+            )
+*/
             ?>
             <li class="lots__item lot">
                 <div class="lot__image">
@@ -115,8 +118,13 @@ $user_name = ''; // укажите здесь ваше имя
     <nav class="nav">
         <ul class="nav__list container">
             <!--заполните этот список из массива категорий-->
+
+
             <li class="nav__item">
-                <a href="pages/all-lots.html">Название категории</a>
+                <a href="pages/all-lots.html"><?php for($i=0; $i < arrLength;){
+                    $arrs += 1;
+                        $i++;
+                    }  ?></a>
             </li>
         </ul>
     </nav>
