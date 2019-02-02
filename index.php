@@ -47,13 +47,13 @@ $user_name = ''; // укажите здесь ваше имя
             $arrLength = count($categories);
             ?>
 
-            <?php while ($cur_index < $arrLength) : ?>
+            <?php foreach($categories as $cotegory) : ?>
 
             <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="pages/all-lots.html"> <?=$categories[$cur_index]; ?> </a>
+                <a class="promo__link" href="pages/all-lots.html"> <?=$cotegory; ?> </a>
             </li>
-                <?php  $cur_index += 1; ?>
-                <?php endwhile; ?>
+
+                <?php endforeach; ?>
         </ul>
     </section>
     <section class="lots">
@@ -134,12 +134,11 @@ $user_name = ''; // укажите здесь ваше имя
             $arrLength = count($categories);
             ?>
 
-            <?php while ($cur_index < $arrLength): ?>
+            <?php foreach($categories as $cotegory) : ?>
             <li class="nav__item">
-                <a href="pages/all-lots.html"> <?=$categories[$cur_index]; ?>  </a>
+                <a href="pages/all-lots.html"> <?=$cotegory; ?>  </a>
             </li>
-                <?php $cur_index += 1; ?>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
