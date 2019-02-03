@@ -3,6 +3,8 @@ $is_auth = rand(0, 1);
 
 $user_name = ''; // укажите здесь ваше имя
 ?>
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -47,10 +49,10 @@ $user_name = ''; // укажите здесь ваше имя
             $arrLength = count($categories);
             ?>
 
-            <?php foreach($categories as $cotegory) : ?>
+            <?php foreach($categories as $category) : ?>
 
             <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="pages/all-lots.html"> <?=$cotegory; ?> </a>
+                <a class="promo__link" href="pages/all-lots.html"> <?=$category; ?> </a>
             </li>
 
                 <?php endforeach; ?>
@@ -134,9 +136,9 @@ $user_name = ''; // укажите здесь ваше имя
             $arrLength = count($categories);
             ?>
 
-            <?php foreach($categories as $cotegory) : ?>
+            <?php foreach($categories as $category) : ?>
             <li class="nav__item">
-                <a href="pages/all-lots.html"> <?=$cotegory; ?>  </a>
+                <a href="pages/all-lots.html"> <?=$category; ?>  </a>
             </li>
                 <?php endforeach; ?>
         </ul>
