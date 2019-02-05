@@ -60,7 +60,6 @@ $lots = [
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
             <a class="main-header__add-lot button" href="pages/add-lot.html">Добавить лот</a>
-
             <nav class="user-menu">
                 <!--ПРОВЕРИТЬ ДЗ-->
                 <?php if ($is_auth === 1): ?>
@@ -77,7 +76,6 @@ $lots = [
                         </li>
                     </ul>
                 <?php endif; ?>
-
             </nav>
         </div>
     </header>
@@ -87,14 +85,11 @@ $lots = [
             <h2 class="promo__title">Нужен стафф для катки?</h2>
             <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
             <ul class="promo__list">
-
                 <!--заполните этот список из массива категорий-->
                 <?php foreach ($categories as $category) : ?>
-
                     <li class="promo__item promo__item--boards">
                         <a class="promo__link" href="pages/all-lots.html"> <?=$category; ?> </a>
                     </li>
-
                 <?php endforeach; ?>
             </ul>
         </section>
@@ -105,7 +100,6 @@ $lots = [
             <ul class="lots__list">
                 <!--заполните этот список из массива с товарами-->
                 <?php foreach ($lots as $lot): ?>
-
                     <li class="lots__item lot">
                         <div class="lot__image">
                             <img src="<?=$lot['image']; ?>" width="350" height="260" alt="">
@@ -134,8 +128,6 @@ $lots = [
     <nav class="nav">
         <ul class="nav__list container">
             <!--заполните этот список из массива категорий-->
-
-
             <?php foreach ($categories as $category) : ?>
                 <li class="nav__item">
                     <a href="pages/all-lots.html"> <?=$category; ?>  </a>
