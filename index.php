@@ -2,6 +2,41 @@
 $is_auth = rand(0, 1);
 
 $user_name = 'Иван'; // укажите здесь ваше имя
+$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
+
+$lots = [
+    ['name' => '2014 Rossignol District Snowboard',
+        'group'=> 'Доски и лыжи',
+        'price'=>'10999',
+        'image'=>'img/lot-1.jpg'
+    ],
+    ['name'=> 'DC Ply Mens 2016/2017 Snowboard',
+        'group'=> 'Доски и лыжи',
+        'price'=>'159999',
+        'image'=>'img/lot-2.jpg'
+    ],
+    ['name'=> 'Крепления Union Contact Pro 2015 года размер L/XL	',
+        'group'=> 'Крепления',
+        'price'=>'8000',
+        'image'=>'img/lot-3.jpg'
+    ],
+
+    ['name'=> 'Ботинки для сноуборда DC Mutiny Charocal',
+        'group'=> 'Ботинки',
+        'price'=>'10999',
+        'image'=>'img/lot-4.jpg'
+    ],
+    ['name'=> 'Куртка для сноуборда DC Mutiny Charocal',
+        'group'=> 'Одежда',
+        'price'=>'7500',
+        'image'=>'img/lot-5.jpg'
+    ],
+    ['name'=> 'Маска Oakley Canopy',
+        'group'=> 'Разное',
+        'price'=>'5400',
+        'image'=>'img/lot-6.jpg'
+    ]
+]
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -54,14 +89,7 @@ $user_name = 'Иван'; // укажите здесь ваше имя
             <ul class="promo__list">
 
                 <!--заполните этот список из массива категорий-->
-
-                <?php
-                $categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
-                $cur_index = 0;
-                $arrLength = count($categories);
-                ?>
-
-                <?php foreach($categories as $category) : ?>
+                <?php foreach ($categories as $category) : ?>
 
                     <li class="promo__item promo__item--boards">
                         <a class="promo__link" href="pages/all-lots.html"> <?=$category; ?> </a>
@@ -76,42 +104,6 @@ $user_name = 'Иван'; // укажите здесь ваше имя
             </div>
             <ul class="lots__list">
                 <!--заполните этот список из массива с товарами-->
-                <?php
-                $lots = [
-                    ['name' => '2014 Rossignol District Snowboard',
-                        'group'=> 'Доски и лыжи',
-                        'price'=>'10999',
-                        'image'=>'img/lot-1.jpg'
-                    ],
-                    ['name'=> 'DC Ply Mens 2016/2017 Snowboard',
-                        'group'=> 'Доски и лыжи',
-                        'price'=>'159999',
-                        'image'=>'img/lot-2.jpg'
-                    ],
-                    ['name'=> 'Крепления Union Contact Pro 2015 года размер L/XL	',
-                        'group'=> 'Крепления',
-                        'price'=>'8000',
-                        'image'=>'img/lot-3.jpg'
-                    ],
-
-                    ['name'=> 'Ботинки для сноуборда DC Mutiny Charocal',
-                        'group'=> 'Ботинки',
-                        'price'=>'10999',
-                        'image'=>'img/lot-4.jpg'
-                    ],
-                    ['name'=> 'Куртка для сноуборда DC Mutiny Charocal',
-                        'group'=> 'Одежда',
-                        'price'=>'7500',
-                        'image'=>'img/lot-5.jpg'
-                    ],
-                    ['name'=> 'Маска Oakley Canopy',
-                        'group'=> 'Разное',
-                        'price'=>'5400',
-                        'image'=>'img/lot-6.jpg'
-                    ]
-                ]
-                ?>
-
                 <?php foreach ($lots as $lot): ?>
 
                     <li class="lots__item lot">
@@ -142,12 +134,9 @@ $user_name = 'Иван'; // укажите здесь ваше имя
     <nav class="nav">
         <ul class="nav__list container">
             <!--заполните этот список из массива категорий-->
-            <?php
-            $cur_index = 0;
-            $arrLength = count($categories);
-            ?>
 
-            <?php foreach($categories as $category) : ?>
+
+            <?php foreach ($categories as $category) : ?>
                 <li class="nav__item">
                     <a href="pages/all-lots.html"> <?=$category; ?>  </a>
                 </li>
