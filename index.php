@@ -1,10 +1,7 @@
 <?php
 $is_auth = rand(0, 1);
-
 $user_name = 'Иван'; // укажите здесь ваше имя
-
 $categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
-
 $lots = [
     [   'name' => '2014 Rossignol District Snowboard',
         'group' => 'Доски и лыжи',
@@ -21,7 +18,6 @@ $lots = [
         'price' => '8000',
         'image' => 'img/lot-3.jpg'
     ],
-
     [   'name' => 'Ботинки для сноуборда DC Mutiny Charocal',
         'group' => 'Ботинки',
         'price' => '10999',
@@ -38,6 +34,15 @@ $lots = [
         'image' => 'img/lot-6.jpg'
     ]
 ];
+
+function formatPrice ($lot)
+{
+    $rate_ceil = ceil($lot);
+    if ($rate_ceil > 1000) {
+        $rate_ceil = number_format($rate_ceil, 0, null, ' ');
+    }
+    return $rate_ceil . " &#8381";
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -61,22 +66,22 @@ $lots = [
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
             <a class="main-header__add-lot button" href="pages/add-lot.html">Добавить лот</a>
-        <nav class="user-menu">
-          <!--ПРОВЕРИТЬ ДЗ-->
-        <?php if ($is_auth === 1): ?>
-          <div class="user-menu__logged">
-            <p> <?=$user_name; ?> </p>
-          </div>
-        <?php else: ?>
-          <ul class="user-menu__list">
-            <li class="user-menu__item">
-              <a href="#">Регистрация</a>
-            </li>
-            <li class="user-menu__item">
-              <a href="#">Вход</a>
-            </li>
-          </ul>
-        <?php endif; ?>
+            <nav class="user-menu">
+                <!--ПРОВЕРИТЬ ДЗ-->
+                <?php if ($is_auth === 1): ?>
+                    <div class="user-menu__logged">
+                        <p> <?=$user_name; ?> </p>
+                    </div>
+                <?php else: ?>
+                    <ul class="user-menu__list">
+                        <li class="user-menu__item">
+                            <a href="#">Регистрация</a>
+                        </li>
+                        <li class="user-menu__item">
+                            <a href="#">Вход</a>
+                        </li>
+                    </ul>
+                <?php endif; ?>
             </nav>
         </div>
     </header>
@@ -115,7 +120,7 @@ $lots = [
                             <div class="lot__state">
                                 <div class="lot__rate">
                                     <span class="lot__amount">Стартовая цена</span>
-                                    <span class="lot__cost"><?=$lot['price']; ?><b class="rub">р</b></span>
+                                    <span class="lot__cost"><?=formatPrice($lot['price']); ?></span>
                                 </div>
                                 <div class="lot__timer timer">
                                     12:23
