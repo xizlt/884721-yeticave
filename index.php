@@ -2,6 +2,7 @@
 $is_auth = rand(0, 1);
 
 $user_name = 'Иван'; // укажите здесь ваше имя
+
 $categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
 
 $lots = [
@@ -36,7 +37,7 @@ $lots = [
         'price' => '5400',
         'image' => 'img/lot-6.jpg'
     ]
-]
+];
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -60,24 +61,22 @@ $lots = [
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
             <a class="main-header__add-lot button" href="pages/add-lot.html">Добавить лот</a>
-
-            <nav class="user-menu">
-                <!--ПРОВЕРИТЬ ДЗ-->
-                <?php if ($is_auth === 1): ?>
-                    <div class="user-menu__logged">
-                        <p> <?=$user_name; ?> </p>
-                    </div>
-                <?php else: ?>
-                    <ul class="user-menu__list">
-                        <li class="user-menu__item">
-                            <a href="#">Регистрация</a>
-                        </li>
-                        <li class="user-menu__item">
-                            <a href="#">Вход</a>
-                        </li>
-                    </ul>
-                <?php endif; ?>
-
+        <nav class="user-menu">
+          <!--ПРОВЕРИТЬ ДЗ-->
+        <?php if ($is_auth === 1): ?>
+          <div class="user-menu__logged">
+            <p> <?=$user_name; ?> </p>
+          </div>
+        <?php else: ?>
+          <ul class="user-menu__list">
+            <li class="user-menu__item">
+              <a href="#">Регистрация</a>
+            </li>
+            <li class="user-menu__item">
+              <a href="#">Вход</a>
+            </li>
+          </ul>
+        <?php endif; ?>
             </nav>
         </div>
     </header>
