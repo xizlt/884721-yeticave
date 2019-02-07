@@ -3,6 +3,10 @@ $is_auth = rand(0, 1);
 
 $user_name = 'Иван'; // укажите здесь ваше имя
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 411fe8f3f986e792e344905ea437d13feee030ac
 $categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
 $lots = [
     [   'name' => '2014 Rossignol District Snowboard',
@@ -36,9 +40,13 @@ $lots = [
         'price' => '5400',
         'image' => 'img/lot-6.jpg'
     ]
+<<<<<<< HEAD
 ]
 =======
 >>>>>>> master
+=======
+];
+>>>>>>> 411fe8f3f986e792e344905ea437d13feee030ac
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -63,6 +71,7 @@ $lots = [
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
             <a class="main-header__add-lot button" href="pages/add-lot.html">Добавить лот</a>
+<<<<<<< HEAD
             <nav class="user-menu">
                 <!--ПРОВЕРИТЬ ДЗ-->
                 <?php if ($is_auth === 1): ?>
@@ -79,6 +88,24 @@ $lots = [
                         </li>
                     </ul>
                 <?php endif; ?>
+=======
+        <nav class="user-menu">
+          <!--ПРОВЕРИТЬ ДЗ-->
+        <?php if ($is_auth === 1): ?>
+          <div class="user-menu__logged">
+            <p> <?=$user_name; ?> </p>
+          </div>
+        <?php else: ?>
+          <ul class="user-menu__list">
+            <li class="user-menu__item">
+              <a href="#">Регистрация</a>
+            </li>
+            <li class="user-menu__item">
+              <a href="#">Вход</a>
+            </li>
+          </ul>
+        <?php endif; ?>
+>>>>>>> 411fe8f3f986e792e344905ea437d13feee030ac
             </nav>
         </div>
     </header>
