@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set("Europe/Moscow");
 function include_template($name, $data) {
     $name = 'templates/' . $name;
     $result = '';
@@ -30,7 +31,6 @@ function filterXss($lots) {
     return $text;
 }
 
-date_default_timezone_set("Europe/Moscow");
 function time_before_tomorrow(){
     $now = date_create('now');
     $tomorrow = date_create('tomorrow');
