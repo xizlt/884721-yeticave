@@ -1,7 +1,7 @@
 <?php
 $is_auth = rand(0, 1);
 $user_name = 'Иван'; // укажите здесь ваше имя
-$page_title = 'Главная страница интернет-аукциона';
+
 $categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
 $lots = [
     [   'name' => '2014 Rossignol District Snowboard',
@@ -47,3 +47,4 @@ function formatPrice ($lot)
 
 require_once('functions.php');
 ?>
+

@@ -2,13 +2,12 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?php $page_title ?></title>
+    <title><?php $title ?></title>
     <link href="css/normalize.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
 <div class="page-wrapper">
-
     <header class="main-header">
         <div class="main-header__container container">
             <h1 class="visually-hidden">YetiCave</h1>
@@ -39,9 +38,8 @@
             </nav>
         </div>
     </header>
-
     <main class="container">
-        <?=$page_content; ?>
+        <?=$content; ?>
     </main>
 </div>
 
@@ -49,8 +47,6 @@
     <nav class="nav">
         <ul class="nav__list container">
             <!--заполните этот список из массива категорий-->
-
-
             <?php foreach ($categories as $category) : ?>
                 <li class="nav__item">
                     <a href="pages/all-lots.html"> <?=$category; ?>  </a>

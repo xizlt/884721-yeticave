@@ -15,3 +15,17 @@ $result = ob_get_clean();
 
 return $result;
 }
+
+$page_content = include_template('index.php', [
+    'categories' => $categories,
+    'lots' => $lots,
+    ]);
+$lay_content = include_template('layout.php', [
+    'content' => $page_content,
+    'title' => 'Главная страница аукциона',
+    'user_name' => $user_name,
+    'categories' => $categories,
+    'is_auth' => $is_auth
+]);
+
+print($lay_content);
