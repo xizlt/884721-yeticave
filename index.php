@@ -26,7 +26,7 @@ $lots = [
         'price' => '10999',
         'image' => 'img/lot-4.jpg'
     ],
-    [   'name'=> 'Куртка для сноуборда DC Mutiny Charocal',
+    [   'name' => 'Куртка для сноуборда DC Mutiny Charocal',
         'group' => 'Одежда',
         'price' => '7500',
         'image' => 'img/lot-5.jpg'
