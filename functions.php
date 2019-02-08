@@ -28,5 +28,5 @@ function formatPrice ($lot)
 function filterXss($lots) {
     $text = htmlspecialchars($lots);
     return $text;
-};
+}
 
