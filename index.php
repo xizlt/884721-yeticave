@@ -1,4 +1,6 @@
 <?php
+require_once('functions.php');
+
 $is_auth = rand(0, 1);
 $user_name = 'Иван'; // укажите здесь ваше имя
 
@@ -36,20 +38,18 @@ $lots = [
     ]
 ];
 
-function formatPrice ($lot)
-{
-    $rate_ceil = ceil($lot);
-    if ($rate_ceil >= 1000) {
-        $rate_ceil = number_format($rate_ceil, 0, null, ' ');
-    }
-    return $rate_ceil . " &#8381";
-}
+$page_content = include_template('index.php', [
+    'categories' => $categories,
+    'lots' => $lots,
+]);
+$layout = include_template('layout.php', [
+    'content' => $page_content,
+    'title' => 'Главная страница аукциона',
+    'user_name' => $user_name,
+    'categories' => $categories,
+    'is_auth' => $is_auth
+]);
 
-function esc($lots) {
-    $text = htmlspecialchars($lots);
-    return $text;
-};
-
-require_once('functions.php');
+print($layout);
 ?>
 

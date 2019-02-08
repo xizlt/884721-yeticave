@@ -1,33 +1,32 @@
 <?php
 function include_template($name, $data) {
-$name = 'templates/' . $name;
-$result = '';
+    $name = 'templates/' . $name;
+    $result = '';
 
-if (!is_readable($name)) {
-return $result;
+    if (!is_readable($name)) {
+    return $result;
+    }
+
+    ob_start();
+    extract($data);
+    require $name;
+
+    $result = ob_get_clean();
+
+    return $result;
 }
 
-ob_start();
-extract($data);
-require $name;
+function formatPrice ($lot)
+{
+    $rate_ceil = ceil($lot);
+    if ($rate_ceil >= 1000) {
+        $rate_ceil = number_format($rate_ceil, 0, null, ' ');
+    }
+    return $rate_ceil . " &#8381";
+}
 
-$result = ob_get_clean();
-
-return $result;
+function filterXss($lots) {
+    $text = htmlspecialchars($lots);
+    return $text;
 };
-
-
-$page_content = include_template('index.php', [
-    'categories' => $categories,
-    'lots' => $lots,
-    ]);
-$lay_content = include_template('layout.php', [
-    'content' => $page_content,
-    'title' => 'Главная страница аукциона',
-    'user_name' => $user_name,
-    'categories' => $categories,
-    'is_auth' => $is_auth
-]);
-
-print($lay_content);
 
