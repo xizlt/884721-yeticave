@@ -31,7 +31,7 @@ function filterXss($lots) {
 }
 
 date_default_timezone_set("Europe/Moscow");
-function show_time() {
+function time_before_tomorrow(){
     $now = date_create('now');
     $tomorrow = date_create('tomorrow');
     $diff = date_diff($now, $tomorrow);
