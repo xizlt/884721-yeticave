@@ -30,3 +30,10 @@ function filterXss($lots) {
     return $text;
 }
 
+date_default_timezone_set("Europe/Moscow");
+function show_time() {
+    $now = date_create('now');
+    $tomorrow = date_create('tomorrow');
+    $diff = date_diff($now, $tomorrow);
+    return date_interval_format($diff,"%H:%I");
+}
