@@ -45,6 +45,11 @@ function formatPrice ($lot)
     return $rate_ceil . " &#8381";
 }
 
+function esc($lots) {
+    $text = htmlspecialchars($lots);
+    return $text;
+};
+
 require_once('functions.php');
 ?>
 

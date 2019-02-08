@@ -14,7 +14,8 @@ require $name;
 $result = ob_get_clean();
 
 return $result;
-}
+};
+
 
 $page_content = include_template('index.php', [
     'categories' => $categories,
@@ -29,3 +30,4 @@ $lay_content = include_template('layout.php', [
 ]);
 
 print($lay_content);
+
