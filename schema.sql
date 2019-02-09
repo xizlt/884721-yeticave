@@ -7,7 +7,7 @@ USE yeticave;
 
 create table categories (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name varchar NOT NULL,
+  name varchar NOT NULL
 );
 
 create table lots (
