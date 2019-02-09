@@ -12,32 +12,32 @@ create table categories (
 
 create table lots (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  date_creat TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  name_lot char  NOT NULL,
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  name char NOT NULL,
   description char,
-  img text  NOT NULL,
-  start_price DECIMAL  NOT NULL,
-  date_end TIMESTAMP,
-  step DECIMAL,
-  winner_id int NOT NULL,
+  img text NOT NULL,
+  start_price INT NOT NULL,
+  end_time TIMESTAMP,
+  step INT,
+  winner_id int,
   user_id int NOT NULL,
   category_id int NOT NULL
 );
 
 create table rate (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  summ DECIMAL  NOT NULL,
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  amount INT NOT NULL,
   user_id int NOT NULL,
   lot_id int NOT NULL
 );
 
 create table users (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  date_reg TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  email char unique  NOT NULL,
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  email char unique NOT NULL,
   name char,
-  password char  NOT NULL,
+  password char NOT NULL,
   avatar text,
   contacts char unique,
   add_lot_id int NOT NULL,
