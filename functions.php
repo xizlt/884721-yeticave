@@ -30,3 +30,9 @@ function filterXss($lots) {
     return $text;
 }
 
+function time_before_tomorrow(){
+    $now = date_create('now');
+    $tomorrow = date_create('tomorrow');
+    $diff = date_diff($now, $tomorrow);
+    return date_interval_format($diff,"%H:%I");
+}
