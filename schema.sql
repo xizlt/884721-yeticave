@@ -7,41 +7,38 @@ USE yeticave;
 
 create table categories (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name varchar NOT NULL
+  name varchar(255) UNIQUE NOT NULL
 );
 
 create table lots (
   id INT AUTO_INCREMENT PRIMARY KEY,
   create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  name char NOT NULL,
-  description char,
-  img text NOT NULL,
+  name varchar(255) NOT NULL,
+  description varchar(255) NOT NULL,
+  img varchar(1000) NOT NULL,
   start_price INT NOT NULL,
-  end_time TIMESTAMP,
-  step INT,
-  winner_id int,
-  user_id int NOT NULL,
-  category_id int NOT NULL
+  end_time TIMESTAMP NULL,
+  step INT NOT NULL,
+  winner_id INT null,
+  user_id INT NOT NULL,
+  category_id INT NOT NULL
 );
+CREATE INDEX winner_id_idx ON lots(winner_id);
 
-create table rate (
+CREATE table rate (
   id INT AUTO_INCREMENT PRIMARY KEY,
   create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   amount INT NOT NULL,
-  user_id int NOT NULL,
-  lot_id int NOT NULL
+  user_id INT NOT NULL,
+  lot_id INT NOT NULL
 );
 
 create table users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  email char unique NOT NULL,
-  name char,
-  password char NOT NULL,
-  avatar text,
-  contacts char unique,
-  add_lot_id int NOT NULL,
-  rate_id int NOT NULL
+  email varchar(320) unique NOT NULL,
+  name varchar(255) NOT NULL,
+  password varchar(255) NOT NULL,
+  avatar varchar(1000),
+  contacts varchar(1000) NOT NULL
 );
-
-insert into categories (name) value ('Доски и лыжи'), ('Крепления'), ('Ботинки'), ('Одежда'), ('Инструменты'), ('Разное');
