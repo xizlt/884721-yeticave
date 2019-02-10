@@ -5,17 +5,17 @@ CREATE DATABASE yeticave
 
 USE yeticave;
 
-create table categories (
+CREATE TABLE categories (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name varchar(255) UNIQUE NOT NULL
+  name VARCHAR(255) UNIQUE NOT NULL
 );
 
-create table lots (
+CREATE TABLE lots (
   id INT AUTO_INCREMENT PRIMARY KEY,
   create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  name varchar(255) NOT NULL,
-  description varchar(255) NOT NULL,
-  img varchar(1000) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  img VARCHAR(1000) NOT NULL,
   start_price INT NOT NULL,
   end_time TIMESTAMP NULL,
   step INT NOT NULL,
@@ -24,21 +24,30 @@ create table lots (
   category_id INT NOT NULL
 );
 CREATE INDEX winner_id_idx ON lots(winner_id);
+CREATE INDEX user_id_idx ON lots(user_id);
+CREATE INDEX category_id_idx ON lots(category_id);
+CREATE INDEX name_idx ON lots(name);
+CREATE INDEX description_idx ON lots(description);
 
-CREATE table rate (
+CREATE TABLE rate (
   id INT AUTO_INCREMENT PRIMARY KEY,
   create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   amount INT NOT NULL,
   user_id INT NOT NULL,
   lot_id INT NOT NULL
 );
+CREATE INDEX create_time_idx ON rate(create_time);
+CREATE INDEX user_id_idx ON rate(user_id);
+CREATE INDEX lot_id_idx ON rate(lot_id);
 
-create table users (
+CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  email varchar(320) unique NOT NULL,
-  name varchar(255) NOT NULL,
-  password varchar(255) NOT NULL,
-  avatar varchar(1000),
-  contacts varchar(1000) NOT NULL
+  email VARCHAR(320) UNIQUE NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  avatar VARCHAR(1000),
+  contacts VARCHAR(1000) NOT NULL
 );
+CREATE INDEX create_time_idx ON users(create_time);
+CREATE INDEX name_idx ON users(name);
