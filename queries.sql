@@ -56,7 +56,8 @@ SET name = 'Крепления Union Contact Pro 2015 года размер M'
 WHERE id = 3;
 
 -- получил список самых свежих ставок для лота по его идентификатору;
-SELECT  id, amount
-FROM rate
+SELECT l.id, amount
+FROM rate r
+JOIN lots l ON l.id = lot_id
 WHERE lot_id = 2
-ORDER BY create_time desc;
+ORDER BY r.create_time desc;
