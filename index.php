@@ -21,20 +21,21 @@ if ($con == false) {
 
 //запрос в БД
 $sql = 'SELECT l.id, c.name AS category_name, l.name, l.img, COALESCE(MAX(r.amount), l.start_price) AS total_price, l.create_time AS last_rite_time
-FROM lots l
-JOIN categories c
-ON l.category_id = c.id
-LEFT JOIN rate r
-ON r.lot_id = l.id
-GROUP BY l.id
-ORDER BY l.create_time DESC
-limit 8;';
+        FROM lots l
+        JOIN categories c
+        ON l.category_id = c.id
+        LEFT JOIN rate r
+        ON r.lot_id = l.id
+        GROUP BY l.id
+        ORDER BY l.create_time DESC
+        limit 8;';
 $result_lots = mysqli_query($con, $sql);
 $lots = mysqli_fetch_all($result_lots, MYSQLI_ASSOC);
 
 $sql_cat = 'SELECT * FROM categories';
 $result_cat = mysqli_query($con, $sql_cat);
 $categories = mysqli_fetch_all($result_cat, MYSQLI_ASSOC);
+
 
 $page_content = include_template('index.php', [
     'categories' => $categories,
