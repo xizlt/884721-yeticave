@@ -19,7 +19,7 @@ CREATE TABLE lots (
   start_price INT NOT NULL,
   end_time TIMESTAMP NULL,
   step INT NOT NULL,
-  winner_id INT null,
+  winner_id INT NULL,
   user_id INT NOT NULL,
   category_id INT NOT NULL
 );
