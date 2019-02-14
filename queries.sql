@@ -35,13 +35,14 @@ VALUE ('2019-01-09 20:47', 'exemple_2@bb.com', 'Берюзюк Юлия', '8585'
 SELECT * FROM categories;
 
 -- получил самые новые, открытые лоты. Каждый лот включает название, стартовую цену, ссылку на изображение, цену, название категории;
-SELECT l.id, c.name AS category_name, l.name, l.start_price, l.img, r.amount, r.create_time AS date
+SELECT l.id, c.name AS category_name, l.name, l.start_price, l.img, MAX(r.amount) AS total_price, l.create_time
 FROM lots l
 JOIN categories c
 ON l.category_id = c.id
 JOIN rate r
 ON r.lot_id = l.id
-ORDER BY date DESC
+GROUP BY l.id
+ORDER BY l.create_time DESC
 limit 5;
 -- получил лот по его id, а также название категории, к которой принадлежит лот.
 SELECT *
@@ -56,7 +57,7 @@ SET name = 'Крепления Union Contact Pro 2015 года размер M'
 WHERE id = 3;
 
 -- получил список самых свежих ставок для лота по его идентификатору;
-SELECT l.id, amount
+SELECT r.id, amount
 FROM rate r
 JOIN lots l ON l.id = lot_id
 WHERE lot_id = 2
