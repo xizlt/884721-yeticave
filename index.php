@@ -6,39 +6,35 @@ require_once('functions.php');
 $is_auth = rand(0, 1);
 $user_name = 'Иван'; // укажите здесь ваше имя
 
-$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
-$lots = [
-    [   'name' => '2014 Rossignol District Snowboard',
-        'group' => 'Доски и лыжи',
-        'price' => '10999',
-        'image' => 'img/lot-1.jpg'
-    ],
-    [   'name' => 'DC Ply Mens 2016/2017 Snowboard',
-        'group' => 'Доски и лыжи',
-        'price' => '159999',
-        'image' => 'img/lot-2.jpg'
-    ],
-    [   'name' => 'Крепления Union Contact Pro 2015 года размер L/XL	',
-        'group' => 'Крепления',
-        'price' => '8000',
-        'image' => 'img/lot-3.jpg'
-    ],
-    [   'name' => 'Ботинки для сноуборда DC Mutiny Charocal',
-        'group' => 'Ботинки',
-        'price' => '10999',
-        'image' => 'img/lot-4.jpg'
-    ],
-    [   'name' => 'Куртка для сноуборда DC Mutiny Charocal',
-        'group' => 'Одежда',
-        'price' => '7500',
-        'image' => 'img/lot-5.jpg'
-    ],
-    [   'name' => 'Маска Oakley Canopy',
-        'group' => 'Разное',
-        'price' => '5400',
-        'image' => 'img/lot-6.jpg'
-    ]
-];
+
+// подключение к MySQL
+$con = mysqli_connect("localhost", "root", "", "yeticave"); //ресурс соединения
+mysqli_set_charset($con, "utf8"); // кодировка
+
+// соответствие типам
+$link = mysqli_init();
+mysqli_options($link, MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1);
+
+if ($con == false) {
+    print("Ошибка подключения: " . mysqli_connect_error()); // проверка на ошибку соединения
+}
+
+//запрос в БД
+$sql = 'SELECT l.id, c.name AS category_name, l.name, l.img, COALESCE(MAX(r.amount), l.start_price) AS total_price, l.create_time AS last_rite_time
+FROM lots l
+JOIN categories c
+ON l.category_id = c.id
+LEFT JOIN rate r
+ON r.lot_id = l.id
+GROUP BY l.id
+ORDER BY l.create_time DESC
+limit 8;';
+$result_lots = mysqli_query($con, $sql);
+$lots = mysqli_fetch_all($result_lots, MYSQLI_ASSOC);
+
+$sql_cat = 'SELECT * FROM categories';
+$result_cat = mysqli_query($con, $sql_cat);
+$categories = mysqli_fetch_all($result_cat, MYSQLI_ASSOC);
 
 $page_content = include_template('index.php', [
     'categories' => $categories,
