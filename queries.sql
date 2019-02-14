@@ -35,7 +35,7 @@ VALUE ('2019-01-09 20:47', 'exemple_2@bb.com', 'Берюзюк Юлия', '8585'
 SELECT * FROM categories;
 
 -- получил самые новые, открытые лоты. Каждый лот включает название, стартовую цену, ссылку на изображение, цену, название категории;
-SELECT l.id, c.name AS category_name, l.name, l.start_price, l.img, MAX(r.amount) AS total_price, l.create_time
+SELECT l.id, c.name AS category_name, l.name, l.start_price, l.img, MAX(r.amount) AS total_price, l.create_time AS last_rite_time
 FROM lots l
 JOIN categories c
 ON l.category_id = c.id
