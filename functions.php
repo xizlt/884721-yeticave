@@ -36,3 +36,34 @@ function time_before_tomorrow(){
     $diff = date_diff($now, $tomorrow);
     return date_interval_format($diff,"%H:%I");
 }
+
+function connectDb($config){
+    $connection = mysqli_connect($config['host'], $config['user'], $config['password'], $config['database']);
+    if ($connection == false) {
+       $connection = die("Ошибка подключения: " . mysqli_connect_error()); // проверка на ошибку соединения
+    }
+    return $connection;
+}
+
+function getCategories($connection) {
+    $result = [];
+    $sql = 'SELECT * FROM categories';
+    if ($query = mysqli_query($connection, $sql)) {
+        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    }
+    return $result;
+}
+
+
+function getLots($connection) {
+    $result = [];
+    $sql = 'SELECT l.id, c.name AS category_name, l.name, l.img, l.start_price AS total_price, l.create_time AS last_rite_time
+            FROM lots l
+            JOIN categories c
+            ON l.category_id = c.id
+            ORDER BY l.create_time DESC;';
+    if ($query = mysqli_query($connection, $sql)) {
+        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    }
+    return $result;
+}
