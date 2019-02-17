@@ -1,10 +1,11 @@
 <?php
-function include_template($name, $data) {
+function include_template($name, $data)
+{
     $name = 'templates/' . $name;
     $result = '';
 
     if (!is_readable($name)) {
-    return $result;
+        return $result;
     }
 
     ob_start();
@@ -16,7 +17,7 @@ function include_template($name, $data) {
     return $result;
 }
 
-function formatPrice ($lot)
+function formatPrice($lot)
 {
     $rate_ceil = ceil($lot);
     if ($rate_ceil >= 1000) {
@@ -25,27 +26,36 @@ function formatPrice ($lot)
     return $rate_ceil . " &#8381";
 }
 
-function filterXss($lots) {
+function filterXss($lots)
+{
     $text = htmlspecialchars($lots);
     return $text;
 }
 
-function time_before_tomorrow(){
+function time_before_tomorrow()
+{
     $now = date_create('now');
     $tomorrow = date_create('tomorrow');
     $diff = date_diff($now, $tomorrow);
-    return date_interval_format($diff,"%H:%I");
+    return date_interval_format($diff, "%H:%I");
 }
 
-function connectDb($config){
+function connectDb($config)
+{
     $connection = mysqli_connect($config['host'], $config['user'], $config['password'], $config['database']);
+    mysqli_set_charset($connection, "utf8");
+    // соответствие типам
+    $link = mysqli_init();
+    mysqli_options($link, MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1);
+
     if ($connection == false) {
-       $connection = die("Ошибка подключения: " . mysqli_connect_error()); // проверка на ошибку соединения
+        $connection = die("Ошибка подключения: " . mysqli_connect_error()); // проверка на ошибку соединения
     }
-    return $connection;
+        return $connection;
 }
 
-function getCategories($connection) {
+function getCategories($connection)
+{
     $result = [];
     $sql = 'SELECT * FROM categories';
     if ($query = mysqli_query($connection, $sql)) {
@@ -55,7 +65,8 @@ function getCategories($connection) {
 }
 
 
-function getLots($connection) {
+function getLots($connection)
+{
     $result = [];
     $sql = 'SELECT l.id, c.name AS category_name, l.name, l.img, l.start_price AS total_price, l.create_time AS last_rite_time
             FROM lots l
