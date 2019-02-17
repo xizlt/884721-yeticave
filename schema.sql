@@ -17,7 +17,7 @@ CREATE TABLE lots (
   description VARCHAR(255) NOT NULL,
   img VARCHAR(1000) NOT NULL,
   start_price INT NOT NULL,
-  end_time TIMESTAMP NULL,
+  end_time TIMESTAMP NOT NULL,
   step INT NOT NULL,
   winner_id INT NULL,
   user_id INT NOT NULL,
