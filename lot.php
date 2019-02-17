@@ -13,13 +13,13 @@ $connection = connectDb($config['db']);
 $categories = getCategories($connection);
 $lots = getLots($connection);
 
-$page_content = include_template('index.php', [
+$page_content_lot = include_template('lot_index.php', [
     'categories' => $categories,
     'lots' => $lots
 ]);
 $layout = include_template('layout.php', [
-    'content' => $page_content,
-    'title' => 'Главная страница аукциона',
+    'content' => $page_content_lot,
+    'title' => 'Страница лота',
     'user_name' => $user_name,
     'categories' => $categories,
     'is_auth' => $is_auth
