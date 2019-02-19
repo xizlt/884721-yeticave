@@ -51,7 +51,7 @@ function connectDb($config)
     if ($connection == false) {
         $connection = die("Ошибка подключения: " . mysqli_connect_error()); // проверка на ошибку соединения
     }
-        return $connection;
+    return $connection;
 }
 
 function getCategories($connection)
@@ -73,6 +73,17 @@ function getLots($connection)
             JOIN categories c
             ON l.category_id = c.id
             ORDER BY l.create_time DESC;';
+    if ($query = mysqli_query($connection, $sql)) {
+        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    }
+    return $result;
+}
+
+function getLots_id($connection, $lot_id)
+{
+    $result = [];
+    $sql = 'SELECT *, c.name AS category_name, l.name as name FROM lots l JOIN categories c
+            ON l.category_id = c.id WHERE  l.id = ' . $lot_id;
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
     }
