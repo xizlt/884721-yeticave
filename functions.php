@@ -32,12 +32,18 @@ function filterXss($lots)
     return $text;
 }
 
-function time_before_tomorrow()
+function time_before_end($end_string_time)
 {
-    $now = date_create('now');
-    $tomorrow = date_create('tomorrow');
-    $diff = date_diff($now, $tomorrow);
-    return date_interval_format($diff, "%H:%I");
+    $ts_midnight = strtotime($end_string_time);
+    $secs_to_midnight = $ts_midnight - time();
+    $hours = floor($secs_to_midnight / 3600);
+    $minutes = floor(($secs_to_midnight % 3600) / 60);
+    if($minutes){}
+    $result = $hours . " : " . $minutes;
+    if($result <= 0){
+        $result = "00:00";
+    }
+    return $result;
 }
 
 function connectDb($config)
@@ -68,7 +74,7 @@ function getCategories($connection)
 function getLots($connection)
 {
     $result = [];
-    $sql = 'SELECT l.id, c.name AS category_name, l.name, l.img, l.start_price AS total_price, l.create_time AS last_rite_time
+    $sql = 'SELECT l.id, c.name AS category_name, l.name, l.img, l.start_price AS total_price, l.create_time AS last_rite_time, l.end_time, 
             FROM lots l
             JOIN categories c
             ON l.category_id = c.id
@@ -79,13 +85,25 @@ function getLots($connection)
     return $result;
 }
 
-function getLots_id($connection, $lot_id)
+function getLot($connection, $lot_id)
 {
     $result = [];
-    $sql = 'SELECT *, c.name AS category_name, l.name as name FROM lots l JOIN categories c
-            ON l.category_id = c.id WHERE  l.id = ' . $lot_id;
+    $sql = "SELECT l.id, c.name AS category_name, l.name as name, COALESCE (MAX(r.amount), l.start_price)as price, l.img,l.description, l.start_price
+           FROM lots l
+           JOIN categories c
+            ON l.category_id = c.id
+            JOIN rate r
+            ON r.lot_id = l.id 
+            where l.id = '$lot_id';";
+
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    }else{
+        $error = mysqli_error($connection);
+        $content = include_template('error.php', ['error' => $error]);
     }
-    return $result;
+    if ($result){
+        return $result[0];
+    }
+    return null;
 }

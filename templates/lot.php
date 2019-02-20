@@ -9,7 +9,6 @@
     </ul>
 </nav>
    <section class="lot-item container">
-       <?php foreach ($lots as $lot): ?>
     <h2><?= $lot ['name']; ?></h2>
     <div class="lot-item__content">
         <div class="lot-item__left">
@@ -22,15 +21,15 @@
         <div class="lot-item__right">
             <div class="lot-item__state">
                 <div class="lot-item__timer timer">
-                    <?= time_before_tomorrow() ?>
+                    <?= time_before_end($lot['end_time']) ?>
                 </div>
                 <div class="lot-item__cost-state">
                     <div class="lot-item__rate">
                         <span class="lot-item__amount">Текущая цена</span>
-                        <span class="lot-item__cost"><?=$lot['start_price']; ?></span>
+                        <span class="lot-item__cost"><?=formatPrice($lot['price']); ?></span>
                     </div>
                     <div class="lot-item__min-cost">
-                        Мин. ставка <span><?=$lot['start_price']; ?> р</span>
+                        Мин. ставка <span><?= formatPrice($lot['start_price']); ?></span>
                     </div>
                 </div>
                 <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">
@@ -42,9 +41,6 @@
                     <button type="submit" class="button">Сделать ставку</button>
                 </form>
             </div>
-
-            <?php endforeach; ?>
-
             <div class="history">
                 <h3>История ставок (<span>10</span>)</h3>
                 <table class="history__list">
