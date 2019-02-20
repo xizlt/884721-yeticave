@@ -38,9 +38,15 @@ function time_before_end($end_string_time)
     $secs_to_midnight = $ts_midnight - time();
     $hours = floor($secs_to_midnight / 3600);
     $minutes = floor(($secs_to_midnight % 3600) / 60);
-    if($minutes){}
+    if ($hours < 10) {
+        $hours = '0' . $hours;
+    }
+    if ($minutes < 10) {
+        $minutes = '0' . $minutes;
+    }
+
     $result = $hours . " : " . $minutes;
-    if($result <= 0){
+    if ($result <= 0) {
         $result = "00:00";
     }
     return $result;
@@ -88,22 +94,24 @@ function getLots($connection)
 function getLot($connection, $lot_id)
 {
     $result = [];
-    $sql = "SELECT l.id, c.name AS category_name, l.name as name, COALESCE (MAX(r.amount), l.start_price)as price, l.img,l.description, l.start_price
-           FROM lots l
-           JOIN categories c
+    $sql = "SELECT l.id, c.name AS category_name, l.name as name, COALESCE(MAX(r.amount), l.start_price)as price, l.img,l.description, l.start_price, l.end_time
+            FROM lots l
+            JOIN categories c
             ON l.category_id = c.id
             JOIN rate r
             ON r.lot_id = l.id 
-            where l.id = '$lot_id';";
+            where l.id ='$lot_id';";
 
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-    }else{
+    } else {
         $error = mysqli_error($connection);
         $content = include_template('error.php', ['error' => $error]);
     }
-    if ($result){
+
+    if ($result) {
         return $result[0];
+    } else {
+        return null;
     }
-    return null;
 }

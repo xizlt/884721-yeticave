@@ -9,21 +9,23 @@ $user_name = 'Иван'; // укажите здесь ваше имя
 
 $config = require 'config.php';
 
-if (!isset($_GET['id'])){
-   die('Отсутствует id лота в запросе');
+if (!isset($_GET['id'])) {
+    die('<b>Отсутствует id лота в запросе или такого параметра нет</b>');
+} else {
+
+    $lot_id = $_GET['id'];
 }
-$lot_id = $_GET['id'];
 
 $connection = connectDb($config['db']);
 $categories = getCategories($connection);
 
 $lot = getLot($connection, $lot_id);
-if($lot) {
+if ($lot) {
     $page_content = include_template('lot.php', [
         'categories' => $categories,
         'lot' => $lot
     ]);
-}else{
+} else {
     header("HTTP/1.0 404 Not Found");
     $page_content = include_template('error.php', [
         'error' => 'Такого лота нет'
