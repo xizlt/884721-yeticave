@@ -45,7 +45,7 @@ function time_before_end($end_string_time)
         $minutes = '0' . $minutes;
     }
 
-    $result = $hours . " : " . $minutes;
+    $result = $hours . ":" . $minutes;
     if ($result <= 0) {
         $result = "00:00";
     }
