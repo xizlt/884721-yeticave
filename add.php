@@ -13,7 +13,7 @@ $categories = getCategories($connection);
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $lot = $_POST['lot-img'];
+    $lots = $_POST['lot-img'];
     $filename = uniqid() . '.jpg';
     $lot['img'] = $filename;
     move_uploaded_file($_FILES['lot-img']['tmp_name'], 'img/' . $filename);
