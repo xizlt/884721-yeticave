@@ -5,11 +5,16 @@ require_once ('functions.php');
 
 $is_auth = rand(0, 1);
 $user_name = 'Иван'; // укажите здесь ваше имя
-
+/*
+define('IMG_FILE_TYPES', ['jpg' =>'image/jpeg',
+    'jpeg' => 'image/pjpeg',
+    'png' =>'image/png']);
+*/
 $config = require 'config.php';
 $connection = connectDb($config['db']);
 $categories = getCategories($connection);
 
+// Мой рабочий вариант но без валидации
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $lot = $_POST['lot'];
 
@@ -25,7 +30,7 @@ $categories = getCategories($connection);
         $res = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
 
-//$res = add_lot($connection);
+
         if ($res) {
             $lot_id = mysqli_insert_id($connection);
 
@@ -35,8 +40,7 @@ $categories = getCategories($connection);
         }
     }
 
-
-/*
+/* ВАРИК КАК ПО ДЕМКЕ НО НЕ РАБОТАЕТ
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lot = $_POST['lot'];
 ////////////////////////////////////////////////////
@@ -52,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_FILES['lot_img']['name'])) {
         $tmp_name = $_FILES['lot_img']['tmp_name'];
         //$path = ($_FILES['lot_img']['name']);
-
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $file_type = finfo_file($finfo, $tmp_name);
 
@@ -69,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             //move_uploaded_file($tmp_name, 'img/' . $path);
             $lot['img'] = 'img/' . $filename;
-            move_uploaded_file($tmp_name, 'img/' . $lot['img']);
+            move_uploaded_file($tmp_name, $lot['img']);
         }
     }else {
         $errors['lot_img'] = 'Вы не загрузили файл';
@@ -87,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
     } else {
-        $page_content = include_template('add_lot.php', ['lot' => $lot, 'errors' => $errors, 'dict' => $dict]);
+        $page_content = include_template('add_lot.php', ['lot' => $lot, 'errors' => $errors, 'dict' => $dict, 'categories' => $categories]);
     }
 }else {
     $page_content = include_template('add_lot.php', []);
@@ -105,4 +108,95 @@ $layout = include_template('layout.php', [
     'categories' => $categories,
     'is_auth' => $is_auth
 ]);
+
+
 print($layout);
+
+/* ПОДСМОТРЕл
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $add_lot = $_POST;
+    $required = ['category', 'name', 'message', 'lot_img', 'rate', 'date', 'step'];
+    $dict = ['category' => 'Категория', 'name' => 'Название', 'message' => 'Описание лота','lot_img' => 'Изображение','rate' => 'начальную цену','date' => 'дату завершения торгов','step' => 'шаг ставки'];
+    $errors = [];
+    foreach ($required as $key) {
+        if (!isset($_POST[$key])) {
+            $errors[$key] = 'Это поле надо заполнить';
+        }
+// Валидация на выбор категории
+        if($key === 'category' && $add_lot[$key] === 'Выберите категорию') {
+            $errors[$key] = 'Выберите категорию из списка';
+        }
+    }
+
+    // Валидация на заполнение числовых значений цены и мин ставки
+    foreach($add_lot as $key => $value) {
+        if($key === 'rate' || $key === 'step') {
+            if(!filter_var($value, FILTER_VALIDATE_INT)) {
+                $errors[$key] = 'Введите в это поле положительное, целое число.';
+            } else {
+                if($value <= 0) {
+                    $errors[$key] = 'Введите в это поле положительное, целое число.';
+                }
+            }
+        }
+    }
+
+    // Валидация на заполнение верной даты
+    if( ($add_lot['date']) !== date('Y-m-d' , strtotime($add_lot['date'])) || strtotime($add_lot['date']) < strtotime('tomorrow')) {
+        $errors['date'] = 'Введите корректную дату завершения торгов, которая позже текущей даты хотя бы на один день';
+    }
+    // Валидация на загрузку файла с картинкой лота
+    if (isset($_FILES['lot_img']['name']) && !empty($_FILES['lot_img']['name'])) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $file_type = finfo_file($finfo, $_FILES['lot_img']['tmp_name']);
+        if (!array_search($file_type, IMG_FILE_TYPES)) {
+            $errors['lot_img'] = 'Необходимо загрузить фото с расширением JPEG, JPG или PNG';
+        } else {
+            $file_tmp_name = $_FILES['lot_img']['tmp_name'];
+            $file_name = $_FILES['lot_img']['name'];
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $file_type = finfo_file($finfo, $file_tmp_name);
+            $file_name_uniq = uniqid() . pathinfo($file_name, PATHINFO_EXTENSION);
+            $file_path = __DIR__ . '/img/';
+            $lot['img'] = '/img/' . trim($file_name_uniq);
+            // Перемещение загруженного файла в папку сайта
+            move_uploaded_file($file_tmp_name, $file_path . $file_name_uniq);
+
+            // Создание подготовленного выражения
+            $sql = 'INSERT INTO lots (category_id, name, description, img, start_price, end_time, step, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, 1)';
+
+            $stmt = mysqli_prepare($connection, $sql);
+            mysqli_stmt_bind_param($stmt, 'isssisi', $lot['category'], $lot['name'], $lot['message'], $lot['img'], $lot['rate'], $lot['date'], $lot['step']);
+
+            $res = mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+            if ($res) {
+                $lot_id = mysqli_insert_id($connection);
+                header("Location: lot.php?id=" . $lot_id);
+
+            } else {
+                $errors['form'] = 'Пожалуйста, исправьте ошибки в форме.';
+                $page_content = include_template('add_lot.php', [
+                    'categories' => $categories,
+                    'errors' => $errors,
+                    'lot' => $lot
+                ]);
+            }
+        }
+    }
+    if (count($errors)) {
+        $errors['form'] = 'Пожалуйста, исправьте ошибки в форме.';
+        $page_content = include_template('add.php', [
+            'categories' => $categories,
+            'errors' => $errors,
+            'lot' => $lot
+        ]);
+        exit();
+    }
+} else {
+    $page_content = include_template('add.php', [
+        'categories' => $categories
+    ]);
+}
+*/
+
