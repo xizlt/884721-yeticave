@@ -1,6 +1,6 @@
 <?php
-function include_template($name, $data)
-{
+//шаблонизатор
+function include_template($name, $data){
     $name = 'templates/' . $name;
     $result = '';
 
@@ -16,9 +16,8 @@ function include_template($name, $data)
 
     return $result;
 }
-
-function formatPrice($lot)
-{
+//преобразует цену к формату Х ХХХ
+function formatPrice($lot){
     $rate_ceil = ceil($lot);
     if ($rate_ceil >= 1000) {
         $rate_ceil = number_format($rate_ceil, 0, null, ' ');
@@ -26,14 +25,13 @@ function formatPrice($lot)
     return $rate_ceil . " &#8381";
 }
 
-function filterXss($lots)
-{
+//Xss
+function filterXss($lots){
     $text = htmlspecialchars($lots);
     return $text;
 }
-
-function time_before_end($end_string_time)
-{
+//время до окончания жизни лота
+function time_before_end($end_string_time){
     $end_time = strtotime($end_string_time);
     $secs_to_end_time = $end_time - time();
     $hours = floor($secs_to_end_time / 3600);
@@ -47,8 +45,8 @@ function time_before_end($end_string_time)
     return $result;
 }
 
-function connectDb($config)
-{
+//подключение к БД
+function connectDb($config){
     $connection = mysqli_connect($config['host'], $config['user'], $config['password'], $config['database']);
     mysqli_set_charset($connection, "utf8");
     // соответствие типам
@@ -61,19 +59,21 @@ function connectDb($config)
     return $connection;
 }
 
-function getCategories($connection)
-{
+//получение списка категорий
+function getCategories($connection){
     $result = [];
     $sql = 'SELECT * FROM categories';
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    }else{
+        $error = mysqli_error($connection);
+        $result = print('Ошибка MySQL ' . $error);
     }
     return $result;
 }
 
-
-function getLots($connection)
-{
+//получение списка лотов
+function getLots($connection){
     $result = [];
     $sql = 'SELECT l.id, c.name AS category_name, l.name, l.img, l.start_price, l.create_time AS last_rite_time, l.end_time
             FROM lots l
@@ -82,12 +82,15 @@ function getLots($connection)
             ORDER BY l.create_time DESC;';
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    }else{
+        $error = mysqli_error($connection);
+        $result = print('Ошибка MySQL ' . $error);
     }
     return $result;
 }
 
-function getLot($connection, $lot_id)
-{
+//получение лота для просмотра
+function getLot($connection, $lot_id){
     $result = [];
     $sql = "SELECT l.id, c.name AS category_name, l.name as name, COALESCE(MAX(r.amount), l.start_price)as price, l.img,l.description, l.start_price, l.end_time
             FROM lots l
@@ -99,9 +102,9 @@ function getLot($connection, $lot_id)
 
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-    } else {
+    } else{
         $error = mysqli_error($connection);
-        $content = include_template('error.php', ['error' => $error]);
+        $result = print('Ошибка MySQL ' . $error);
     }
 
     if ($result) {
@@ -111,53 +114,23 @@ function getLot($connection, $lot_id)
     }
 }
 
+/*
+function add_lot($connection)
+{
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $lot = $_POST['lot'];
 
+        $filename = uniqid() . '.jpg';
+        $lot['img'] = 'img/' . $filename;
+        move_uploaded_file($_FILES['lot_img']['tmp_name'], $lot['img']);
 
+        $sql = 'INSERT INTO lots (category_id, name, description, img, start_price, end_time, step, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, 1)';
 
-/**
- * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
- *
- * @param $link mysqli Ресурс соединения
- * @param $sql string SQL запрос с плейсхолдерами вместо значений
- * @param array $data Данные для вставки на место плейсхолдеров
- *
- * @return mysqli_stmt Подготовленное выражение
- */
-function db_get_prepare_stmt($connection, $sql, $date = []) {
-    $stmt = mysqli_prepare($connection, $sql);
+        $stmt = mysqli_prepare($connection, $sql);
+        mysqli_stmt_bind_param($stmt, 'isssisi', $lot['category'], $lot['name'], $lot['message'], $lot['img'], $lot['rate'], $lot['date'], $lot['step']);
 
-    if ($data) {
-        $types = '';
-        $stmt_data = [];
-
-        foreach ($data as $value) {
-            $type = null;
-
-            if (is_int($value)) {
-                $type = 'i';
-            }
-            else if (is_string($value)) {
-                $type = 's';
-            }
-            else if (is_double($value)) {
-                $type = 'd';
-            }
-
-            if ($type) {
-                $types .= $type;
-                $stmt_data[] = $value;
-            }
-        }
-
-        $values = array_merge([$stmt, $types], $stmt_data);
-
-        $func = 'mysqli_stmt_bind_param';
-        $func(...$values);
-    }
-
-    return $stmt;
+        $res = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }return $res;
 }
-
-function show_error(&$content, $error) {
-    $content = include_template('error.php', ['error' => $error]);
-}
+*/

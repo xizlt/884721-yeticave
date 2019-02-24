@@ -17,6 +17,7 @@ if (!isset($_GET['id'])) {
 }
 
 $connection = connectDb($config['db']);
+
 $categories = getCategories($connection);
 
 $lot = getLot($connection, $lot_id);
@@ -31,6 +32,7 @@ if ($lot) {
         'error' => 'Такого лота нет'
     ]);
 }
+
 
 $layout = include_template('layout.php', [
     'content' => $page_content,
