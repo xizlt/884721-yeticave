@@ -1,7 +1,7 @@
 <?php
 
-date_default_timezone_set ("Europe/Moscow");
-require_once ('functions.php');
+date_default_timezone_set("Europe/Moscow");
+require_once('functions.php');
 
 $is_auth = rand(0, 1);
 $user_name = 'Иван'; // укажите здесь ваше имя
@@ -15,34 +15,122 @@ $connection = connectDb($config['db']);
 $categories = getCategories($connection);
 
 // Мой рабочий вариант но без валидации
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $lot = $_POST['lot'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $lot = $_POST['lot'];
+    $errors = [];
 
-        $filename = uniqid() . '.jpg';
-        $lot['img'] = 'img/' . $filename;
-        move_uploaded_file($_FILES['lot_img']['tmp_name'], $lot['img']);
-
-        $sql = 'INSERT INTO lots (category_id, name, description, img, start_price, end_time, step, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, 1)';
-
-        $stmt = mysqli_prepare($connection, $sql);
-        mysqli_stmt_bind_param($stmt, 'isssisi', $lot['category'], $lot['name'], $lot['message'], $lot['img'], $lot['rate'], $lot['date'], $lot['step']);
-
-        $res = mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-
-
-        if ($res) {
-            $lot_id = mysqli_insert_id($connection);
-
-            header("Location: lot.php?id=" . $lot_id);
+        // Название
+        if (!empty($_POST['name'])) {
+            if (strlen($_POST['name']) < 2 || strlen($_POST['name']) > 101) {
+                $errors['name'] = "Название не может быть меньше 2 и больше 100 символов";
+            } else {
+                $lot['name'] = $_POST['name'];
+            }
         } else {
-            $content = include_template('error.php', ['error' => mysqli_error($connection)]);
+            $errors['name'] = "J(JJ(J(J(";
         }
-    }
 
-    
+// Цена и ставка
+        if (!empty($_POST['rate'])) {
+            if (is_numeric($_POST['rate'])) {
+                if ($_POST['rate'] < 0) {
+                    $errors['rate'] = "Введите сумму больше 0";
+                } else {
+                    if (strlen($_POST['rate']) > 6) {
+                        $errors['rate'] = "Цена не может быть больше 999 999 руб";
+                    } else {
+                        if (!is_int($_POST['rate'])) {
+                            $errors['rate'] = "Цена должна равняться целому числу";
+                        } else {
+                            $lot['rate'] = "Все хорошо";
+                        }
+                    }
+                }
+            } else {
+                $errors['rate'] = "Заполните поле цифрами";
+            }
+        } else {
+            $errors['rate'] = "Заполните поле";
+        }
+//для описания
+        if (!empty($_POST['message'])) {
+            if (strlen($_POST['message']) < 11 || strlen($_POST['message']) > 301) {
+                $errors['message'] = "Описание не может быть меньше 10 и больше 300 символов";
+            } else {
+                $lot['message'] = $_POST['message'];
+            }
+        } else {
+            $errors['message'] = "Заполните поле";
+        }
+
+//категории
+        if ($_POST['category'] == "Выберите категорию" ) {
+            $errors['category'] = "Выберите категорию";
+        } else {
+            $lot['category'] = $_POST['category'];
+        }
+
+//дата
+        if (!empty($_POST['date'])) {
+            $dl = strtotime($_POST['date']);
+            $date = date("Y-m-d H:i", $d1);
+            if ($date == time()) {
+                $errors['date'] = "Дата должна быть больше текущей";
+            } else {
+                if ($date > date("Y-m-d H:i", $d1 . "+ 3 month")) {
+                    $errors['date'] = "Дата не может быть больше 3 месяцев от текущей";
+                } else {
+                    $lot['date'] = "Все хорошо";
+                }
+            }
+        } else {
+            $errors['date'] = "Укажите дату";
+        }
+        if (!count($errors)) {
+
+            $filename = uniqid() . '.jpg';
+            $lot['img'] = 'img/' . $filename;
+            move_uploaded_file($_FILES['lot_img']['tmp_name'], $lot['img']);
+
+            $sql = 'INSERT INTO lots (category_id, name, description, img, start_price, end_time, step, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, 1)';
+
+            $stmt = mysqli_prepare($connection, $sql);
+            mysqli_stmt_bind_param($stmt, 'isssisi', $lot['category'], $lot['name'], $lot['message'], $lot['img'], $lot['rate'], $lot['date'], $lot['step']);
+
+            $res = mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+
+            if ($res) {
+                $lot_id = mysqli_insert_id($connection);
+
+                header("Location: lot.php?id=" . $lot_id);
+            } else {
+                $page_content = include_template('add_lot.php', ['errors' => $errors, 'categories' => $categories]);
+                //$page_content = include_template('error.php', ['error' => mysqli_error($connection)]);
+            }
+        }else{
+            $page_content = include_template('add_lot.php', ['errors' => $errors, 'categories' => $categories]);
+        }
+} else {
+    $page_content = include_template('add_lot.php', [
+        'categories' => $categories,
+        'lot' => $lot
+    ]);
+}
+
+$layout = include_template('layout.php', [
+    'content' => $page_content,
+    'title' => 'Добавление лота',
+    'user_name' => $user_name,
+    'categories' => $categories,
+    'is_auth' => $is_auth
+]);
+print($layout);
+
+
+/////////////////////////////////////////////////
 //проверки
-
+/*
 // Название
 if (!empty($val)) {
     if (strlen($val) < 2 || strlen($val) > 101) {
@@ -50,7 +138,7 @@ if (!empty($val)) {
     } else {
         $msg = "Все хорошо";
     }
-}else{
+} else {
     $errors = "Заполните поле";
 }
 
@@ -73,7 +161,7 @@ if (!empty($val)) {
             }
         }
     }
-}else{
+} else {
     $errors = "Заполните поле";
 }
 //для описания
@@ -83,35 +171,35 @@ if (!empty($val)) {
     } else {
         $msg = "Все хорошо";
     }
-}else{
+} else {
     $errors = "Заполните поле";
 }
 
 //категории
-if ($val=="Выберите категорию"){
+if ($val == "Выберите категорию") {
     $errors = "Выберите категорию";
-}else{
+} else {
     $msg = "Все хорошо";
 }
 
 //дата
-if (!empty($val)){
+if (!empty($val)) {
     $dl = strtotime($val);
     $date = date("Y-m-d H:i", $d1);
-    if ( $date == time()){
+    if ($date == time()) {
         $errors = "Дата должна быть больше текущей";
-    }else{
-        if ($date > date("Y-m-d H:i", $d1 . "+ 3 month")){
+    } else {
+        if ($date > date("Y-m-d H:i", $d1 . "+ 3 month")) {
             $errors = "Дата не может быть больше 3 месяцев от текущей";
-        }else {
+        } else {
             $msg = "Все хорошо";
         }
     }
-}else{
+} else {
     $errors = "Укажите дату";
 }
 
-
+*/
 
 /* ВАРИК КАК ПО ДЕМКЕ НО НЕ РАБОТАЕТ
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -169,21 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $page_content = include_template('add_lot.php', []);
 }
 */
-$page_content = include_template('add_lot.php', [
-    'categories' => $categories,
-    'lot' => $lot,
-    'errors' => $errors
-]);
-$layout = include_template('layout.php', [
-    'content' => $page_content,
-    'title' => 'Добавление лота',
-    'user_name' => $user_name,
-    'categories' => $categories,
-    'is_auth' => $is_auth
-]);
-
-
-print($layout);
+/////////////////////////////////////////////////////////////////////
 
 /* ПОДСМОТРЕл
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

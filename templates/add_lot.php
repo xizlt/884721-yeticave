@@ -32,6 +32,8 @@
             <textarea id="message" name="lot[message]" placeholder="Напишите описание лота" required></textarea>
             <span class="form__error">Напишите описание лота</span>
         </div>
+       <?php foreach ($errors as $err) {echo $err . "<br>";} var_dump($_POST); ?>
+
         <div class="form__item form__item--file"> <!-- form__item--uploaded -->
             <label>Изображение</label>
             <div class="preview">
