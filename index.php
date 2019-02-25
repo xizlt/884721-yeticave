@@ -11,7 +11,6 @@ $config = require 'config.php';
 $connection = connectDb($config['db']);
 
 $categories = getCategories($connection);
-
 $lots = getLots($connection);
 
 $page_content = include_template('index.php', [

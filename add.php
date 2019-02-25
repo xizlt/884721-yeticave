@@ -40,6 +40,79 @@ $categories = getCategories($connection);
         }
     }
 
+    
+//проверки
+
+// Название
+if (!empty($val)) {
+    if (strlen($val) < 2 || strlen($val) > 101) {
+        $errors = "Название не может быть меньше 2 и больше 100 символов";
+    } else {
+        $msg = "Все хорошо";
+    }
+}else{
+    $errors = "Заполните поле";
+}
+
+// Цена и ставка
+if (!empty($val)) {
+    if (!is_numeric($var)) {
+        $errors = "Заполните поле цифрами";
+    } else {
+        if ($var < 0) {
+            $errors = "Введите сумму больше 0";
+        } else {
+            if (strlen($val) > 6) {
+                $errors = "Цена не может быть больше 999 999 руб";
+            } else {
+                if (!is_int($val)) {
+                    $errors = "Цена должна равняться целому числу";
+                } else {
+                    $msg = "Все хорошо";
+                }
+            }
+        }
+    }
+}else{
+    $errors = "Заполните поле";
+}
+//для описания
+if (!empty($val)) {
+    if (strlen($val) < 11 || strlen($val) > 301) {
+        $errors = "Описание не может быть меньше 10 и больше 300 символов";
+    } else {
+        $msg = "Все хорошо";
+    }
+}else{
+    $errors = "Заполните поле";
+}
+
+//категории
+if ($val=="Выберите категорию"){
+    $errors = "Выберите категорию";
+}else{
+    $msg = "Все хорошо";
+}
+
+//дата
+if (!empty($val)){
+    $dl = strtotime($val);
+    $date = date("Y-m-d H:i", $d1);
+    if ( $date == time()){
+        $errors = "Дата должна быть больше текущей";
+    }else{
+        if ($date > date("Y-m-d H:i", $d1 . "+ 3 month")){
+            $errors = "Дата не может быть больше 3 месяцев от текущей";
+        }else {
+            $msg = "Все хорошо";
+        }
+    }
+}else{
+    $errors = "Укажите дату";
+}
+
+
+
 /* ВАРИК КАК ПО ДЕМКЕ НО НЕ РАБОТАЕТ
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lot = $_POST['lot'];
