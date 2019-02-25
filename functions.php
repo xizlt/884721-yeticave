@@ -114,23 +114,39 @@ function getLot($connection, $lot_id){
     }
 }
 
-/*
-function add_lot($connection)
-{
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $lot = $_POST['lot'];
+function clean($value = "") {
+    $value = trim($value);
+    $value = stripslashes($value);
+    $value = strip_tags($value);
+    $value = htmlspecialchars($value);
 
-        $filename = uniqid() . '.jpg';
-        $lot['img'] = 'img/' . $filename;
-        move_uploaded_file($_FILES['lot_img']['tmp_name'], $lot['img']);
-
-        $sql = 'INSERT INTO lots (category_id, name, description, img, start_price, end_time, step, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, 1)';
-
-        $stmt = mysqli_prepare($connection, $sql);
-        mysqli_stmt_bind_param($stmt, 'isssisi', $lot['category'], $lot['name'], $lot['message'], $lot['img'], $lot['rate'], $lot['date'], $lot['step']);
-
-        $res = mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-    }return $res;
+    return $value;
 }
-*/
+
+function check_length($value = "", $min, $max) {
+    $result = (mb_strlen($value) < $min || mb_strlen($value) > $max);
+    return !$result;
+}
+
+
+function validate_lot($lot_data){
+    $error = [];
+    foreach ($lot_data as $data => $key){
+        if (empty($key)){
+            $error = $key;
+        }
+    }
+   return $error;
+}
+
+function upload_img($fail_data){
+
+    $tmp_name = $_FILES['lot_img']['tmp_name'];
+    $path = $_FILES['lot_img']['name'];
+    $result = 'img/' . $path;
+    move_uploaded_file($tmp_name, $result);
+
+    return $result;
+}
+
+
