@@ -32,7 +32,10 @@
             <textarea id="message" name="lot[message]" placeholder="Напишите описание лота" required></textarea>
             <span class="form__error">Напишите описание лота</span>
         </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of b433814... попытка
         <div class="form__item form__item--file"> <!-- form__item--uploaded -->
             <label>Изображение</label>
             <div class="preview">

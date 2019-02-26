@@ -12,6 +12,7 @@ $config = require 'config.php';
 if (!isset($_GET['id'])) {
     die('<b>Отсутствует id лота в запросе или такого параметра нет</b>');
 } else {
+
     $lot_id = $_GET['id'];
 }
 
@@ -31,6 +32,7 @@ if ($lot) {
         'error' => 'Такого лота нет'
     ]);
 }
+
 
 $layout = include_template('layout.php', [
     'content' => $page_content,
