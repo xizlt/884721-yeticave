@@ -29,7 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($res) {
             $lot_id = mysqli_insert_id($connection);
             header("Location: lot.php?id=" . $lot_id);
-            die();
+        } else {
+            $content = include_template('error.php', ['errors' => mysqli_error($connection)]);
         }
     }
     $page_content = include_template('add_lot.php', ['errors' => $errors, 'categories' => $categories, 'lot_data' => $lot_data]);
@@ -37,7 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 $page_content = include_template('add_lot.php', [
     'categories' => $categories,
-    '$lot_data' => $lot_data
+    '$lot_data' => $lot_data,
+    'errors' => $errors
 ]);
 
 $layout = include_template('layout.php', [
