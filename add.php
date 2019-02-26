@@ -21,7 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $errors = validate_lot($lot_data);
 
-    if (empty($errors)) {
+    if (isset($errors)) {
+
         $lot_data['img'] = upload_img($fail_data);
 
         $res = add_lot($connection, $lot_data);

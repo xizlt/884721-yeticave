@@ -110,7 +110,9 @@ function validate_lot_start_price($start_price){
  * @return string|null
  */
 function validate_lot_end_time($end_time){
-
+    if (empty($end_time)) {
+        return 'Укажите дату';
+    }
     $result = false;
     $regexp = '/(\d{2})\.(\d{2})\.(\d{4})/m';
     if (preg_match($regexp, $end_time, $parts) && count($parts) == 4) {
@@ -129,7 +131,7 @@ function validate_lot_end_time($end_time){
  * @return string
  */
 function validate_lot_category($category){
-    if ($category === 'Выберите категорию') {
+    if (empty($category)) {
         return 'Выберите категорию';
     }
     return null;
