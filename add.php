@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $errors = validate_lot($lot_data);
 
-    if (isset($errors)) {
+    if (empty($errors)) {
 
         $lot_data['img'] = upload_img($fail_data);
 
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $content = include_template('error.php', ['errors' => mysqli_error($connection)]);
         }
     }
-    $page_content = include_template('add_lot.php', ['errors' => $errors, 'categories' => $categories, 'lot_data' => $lot_data]);
+    $page_content = include_template('add_lot.php', ['errors' => $error, 'categories' => $categories, 'lot_data' => $lot_data]);
 }
 
 $page_content = include_template('add_lot.php', [
