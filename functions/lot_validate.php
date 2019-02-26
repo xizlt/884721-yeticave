@@ -116,10 +116,8 @@ function validate_lot_end_time($end_time){
     if (preg_match($regexp, $end_time, $parts) && count($parts) == 4) {
         $result = checkdate($parts[2], $parts[1], $parts[3]);
     }
-    if ($result) {
-        return 'Укажите дату';
-    }
-    if ($end_time < date('d.m.Y', time())) {
+
+    if ($end_time <= date('d.m.Y', time())) {
         return 'дата должна быть больше текущей';
     }
     return null;
@@ -131,7 +129,7 @@ function validate_lot_end_time($end_time){
  * @return string
  */
 function validate_lot_category($category){
-    if ($category == 'Выберите категорию') {
+    if ($category === 'Выберите категорию') {
         return 'Выберите категорию';
     }
     return null;
