@@ -20,16 +20,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $fail_data = $_FILES;
 
     $errors = validate_lot($lot_data);
-    if (empty($errors)){
-        $page_content = include_template('add_lot.php', ['errors' => $errors, 'categories' => $categories]);
-    }
-    $lot_data['img'] = upload_img($fail_data);
-    $res = add_lot($connection, $lot_data);
-    if ($res) {
+
+    if (!isset($errors)) {
+        $lot_data['img'] = upload_img($fail_data);
+
+        $res = add_lot($connection, $lot_data);
+
         $lot_id = mysqli_insert_id($connection);
         header("Location: lot.php?id=" . $lot_id);
-    }
 
+    }
+    $page_content = include_template('add_lot.php', ['errors' => $errors, 'categories' => $categories, 'lot_data' => $lot_data]);
 }
 
 $page_content = include_template('add_lot.php', [

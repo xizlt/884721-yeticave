@@ -14,5 +14,5 @@ function upload_img($fail_data){
         move_uploaded_file($tmp_name, $result);
         return $result;
            }
-    return "jib,rf";
+    return "нет файла";
 }

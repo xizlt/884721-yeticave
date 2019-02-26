@@ -8,13 +8,14 @@
             <?php endforeach; ?>
         </ul>
     </nav>
-    <?php var_dump($errors); ?>
+
+
     <form class="form form--add-lot container form--invalid" action="add.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
         <h2>Добавление лота</h2>
         <div class="form__container-two">
             <div class="form__item form__item--invalid"> <!-- form__item--invalid -->
                 <label for="lot-name">Наименование</label>
-                <input id="lot-name" type="text" name="name" placeholder="Введите наименование лота" required>
+                <input id="lot-name" type="text" name="name" placeholder="Введите наименование лота" value="<?= $lot_data['name']; ?>" required>
                 <span class="form__error">Введите наименование лота</span>
             </div>
             <div class="form__item">
@@ -48,20 +49,26 @@
                 </label>
             </div>
         </div>
+
+
+        <?php var_dump($errors); ?>
+
+
+
         <div class="form__container-three">
             <div class="form__item form__item--small">
                 <label for="lot-rate">Начальная цена</label>
-                <input id="lot-rate" type="number" name="start_price" placeholder="0" required>
+                <input id="lot-rate" type="number" name="start_price" placeholder="0" value="<?= $lot_data['start_price']; ?>" required>
                 <span class="form__error">Введите начальную цену</span>
             </div>
             <div class="form__item form__item--small">
                 <label for="lot-step">Шаг ставки</label>
-                <input id="lot-step" type="number" name="step" placeholder="0" required>
+                <input id="lot-step" type="number" name="step" placeholder="0" value="<?php $lot_data['step']; ?>" required>
                 <span class="form__error">Введите шаг ставки</span>
             </div>
             <div class="form__item">
                 <label for="lot-date">Дата окончания торгов</label>
-                <input class="form__input-date" id="lot-date" type="date" name="end_time" required>
+                <input class="form__input-date" id="lot-date" type="date" name="end_time" value="<?= $lot_data['end_time']; ?>" required>
                 <span class="form__error">Введите дату завершения торгов</span>
             </div>
         </div>
