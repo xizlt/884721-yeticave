@@ -17,7 +17,7 @@
             <div class="form__item  <?php if($errors['name']): ?>form__item--invalid<?php endif; ?>"> <!-- form__item--invalid -->
                 <label for="lot-name">Наименование</label>
                 <input id="lot-name" type="text" name="name" placeholder="Введите наименование лота" value="<?php $lot_data['name']; ?>" required>
-                <span class="form__error"><?php print ($errors['name']);?></span>
+                <span class="form__error"><?php $errors['name'];?></span>
             </div>
             <div class="form__item">
                 <label for="category">Категория</label>
@@ -51,9 +51,6 @@
             </div>
         </div>
 
-        <?php $classname = isset($errors['start_price']) ? "form__item--invalid" : "";
-        $error_value = isset($errors['start_price']) ? $errors['start_price'] : "";
-        $value = isset($jpg['start_price']) ? $jpg['start_price'] : ""; ?>
 
         <div class="form__container-three">
             <div class="form__item form__item--small <?php if($errors['start_price']): ?>form__item--invalid<?php endif; ?>">
@@ -69,12 +66,10 @@
             <div class="form__item <?php if($errors['end_time']): ?>form__item--invalid<?php endif; ?>">
                 <label for="lot-date">Дата окончания торгов</label>
                 <input class="form__input-date" id="lot-date" type="date" name="end_time" value="<?php $lot_data['end_time']; ?>" required>
-                <span class="form__error"><?php isset($errors['end_time']) ? $errors['end_time'] : ""; ?></span>
+                <span class="form__error"><?= $errors['end_time']; ?></span>
             </div>
         </div>
-        <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.
-
-        </span>
+        <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
         <button type="submit" class="button">Добавить лот</button>
     </form>
 </main>

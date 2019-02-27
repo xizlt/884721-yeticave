@@ -8,22 +8,22 @@
 function validate_lot($lot_data){
     $errors = [];
     if ($error = validate_lot_name($lot_data['name'])){
-        $errors[] = $error;
+        $errors['name'] = $error;
     }
     if ($error = validate_lot_start_price($lot_data['start_price'])){
-        $errors[] = $error;
+        $errors['start_price'] = $error;
     }
     if ($error = validate_lot_description($lot_data['description'])){
-        $errors[] = $error;
+        $errors['description'] = $error;
     }
     if ($error = validate_lot_step($lot_data['step'])){
-        $errors[] = $error;
+        $errors['step'] = $error;
     }
     if ($error = validate_lot_end_time($lot_data['end_time'])){
-        $errors[] = $error;
+        $errors['end_time'] = $error;
     }
     if ($error = validate_lot_category($lot_data['category'])){
-        $errors[] = $error;
+        $errors['category'] = $error;
     }
     return $errors;
 }
@@ -126,11 +126,7 @@ function validate_lot_end_time($end_time){
         $result = checkdate($parts[2], $parts[1], $parts[3]);
         return 'Формат даты должен быть ДД.ММ.ГГГГ';
     }
-
-    //if (date('d.m.Y', time()) > $end_time) {
-    //    return 'дата должна быть больше текущей';
-    //}
-    //return null;
+    return null;
 }
 
 /**
