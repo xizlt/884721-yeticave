@@ -135,7 +135,7 @@ function validate_lot_end_time($end_time){
  * @return string
  */
 function validate_lot_category($category){
-    if (empty($category)) {
+    if (($category)=='not') {
         return 'Выберите категорию';
     }
     return null;

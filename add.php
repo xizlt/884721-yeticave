@@ -6,7 +6,6 @@ require_once ('functions/lot_validate.php');
 require_once ('functions/template.php');
 require_once ('functions/upload.php');
 
-
 $is_auth = rand(0, 1);
 $user_name = 'Иван'; // укажите здесь ваше имя
 
@@ -16,13 +15,23 @@ if (!$connection) {
     $content = include_template('error.php', ['errors' => mysqli_error($connection)]);
 }
 $categories = getCategories($connection);
-
+$file_data = [];
 $lot_data = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lot_data = $_POST;
     $file_data = $_FILES;
 
     $errors = validate_lot($lot_data);
+
+    if (isset($_FILES['img'])) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $file_name = $_FILES['img']['tmp_name'];
+        $file_type = finfo_file($finfo, $file_name);
+        if ($file_type !== 'image/gif' and $file_type !== 'image/jpg' and $file_type !== 'image/jpeg') {
+            $errors['img'] = 'Файл нужно загрузить в формате .jpg, .jpeg, .png';
+        }
+    }
+
 
     if (!$errors) {
         $lot_data['img'] = upload_img($file_data);
@@ -34,10 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
-
 $page_content = include_template('add_lot.php', [
     'categories' => $categories,
-    '$lot_data' => $lot_data,
+    'lot_data' => $lot_data,
     'errors' => $errors
 ]);
 
