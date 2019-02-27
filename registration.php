@@ -1,7 +1,9 @@
 <?php
 date_default_timezone_set("Europe/Moscow");
 
-require_once('functions.php');
+require_once('functions/db.php');
+require_once('functions/template.php');
+
 $config = require 'config.php';
 $connection = connectDb($config['db']);
 
