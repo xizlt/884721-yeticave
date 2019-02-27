@@ -26,10 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!$errors) {
         $lot_data['img'] = upload_img($file_data);
-        $result = add_lot($connection, $lot_data);
+        $lot_id = add_lot($connection, $lot_data);
 
-        if ($result) {
-            header("Location: lot.php?id=" . $result);
+        if ($lot_id) {
+            header("Location: lot.php?id=" . $lot_id);
             exit();
         }
     }
