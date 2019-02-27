@@ -104,8 +104,11 @@ function add_lot($connection, $lot_data){
         $lot_data['end_time'],
         $lot_data['step']
     );
-    $res = mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    return $res;
+    if ($result) {
+        $lot_id = mysqli_insert_id($connection);
+    }
+    return $lot_id;
 }
 

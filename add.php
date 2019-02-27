@@ -12,29 +12,27 @@ $user_name = 'Иван'; // укажите здесь ваше имя
 
 $config = require 'config.php';
 $connection = connectDb($config['db']);
+if (!$connection) {
+    $content = include_template('error.php', ['errors' => mysqli_error($connection)]);
+}
 $categories = getCategories($connection);
 
 $lot_data = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lot_data = $_POST;
-    $fail_data = $_FILES;
+    $file_data = $_FILES;
 
     $errors = validate_lot($lot_data);
 
-    if (!empty($errors)) {
-        $page_content = include_template('add_lot.php', ['errors' => $error, 'categories' => $categories, 'lot_data' => $lot_data]);
-    }else {
-        $lot_data['img'] = upload_img($fail_data);
+    if (!$errors) {
+        $lot_data['img'] = upload_img($file_data);
+        $result = add_lot($connection, $lot_data);
 
-        $res = add_lot($connection, $lot_data);
-        if ($res) {
-            $lot_id = mysqli_insert_id($connection);
-            header("Location: lot.php?id=" . $lot_id);
-        } else {
-            $content = include_template('error.php', ['errors' => mysqli_error($connection)]);
+        if ($result) {
+            header("Location: lot.php?id=" . $result);
+            exit();
         }
     }
-
 }
 
 $page_content = include_template('add_lot.php', [
