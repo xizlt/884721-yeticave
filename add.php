@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $file_name = $_FILES['img']['tmp_name'];
         $file_type = finfo_file($finfo, $file_name);
-        if ($file_type !== 'image/gif' and $file_type !== 'image/jpg' and $file_type !== 'image/jpeg') {
+        if ($file_type !== 'image/gif' and $file_type !== 'image/jpg' and $file_type !== 'image/jpeg' and $file_type !== 'image/png') {
             $errors['img'] = 'Файл нужно загрузить в формате .jpg, .jpeg, .png';
         }
     }
