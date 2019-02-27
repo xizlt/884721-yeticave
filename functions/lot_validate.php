@@ -110,19 +110,27 @@ function validate_lot_start_price($start_price){
  * @return string|null
  */
 function validate_lot_end_time($end_time){
-    if (empty($end_time)) {
-        return 'Укажите дату';
+    if (!isset($end_time)) {
+      return 'Укажите дату';
     }
+    $date = new DateTime($end_time);
+    $now = new DateTime();
+
+    if($date < $now) {
+        return 'дата должна быть больше текущей';
+    }
+
     $result = false;
     $regexp = '/(\d{2})\.(\d{2})\.(\d{4})/m';
     if (preg_match($regexp, $end_time, $parts) && count($parts) == 4) {
         $result = checkdate($parts[2], $parts[1], $parts[3]);
+        return 'Формат даты должен быть ДД.ММ.ГГГГ';
     }
 
-    if ($end_time <= date('d.m.Y', time())) {
-        return 'дата должна быть больше текущей';
-    }
-    return null;
+    //if (date('d.m.Y', time()) > $end_time) {
+    //    return 'дата должна быть больше текущей';
+    //}
+    //return null;
 }
 
 /**
