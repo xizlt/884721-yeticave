@@ -27,7 +27,7 @@
                         <?= $category['name']; ?></option>
                     <?php endforeach; ?>
                 </select>
-                <span class="form__error"><?= $errors['category']; ?></span>
+                <span class="form__error"><?= $errors['$category_id']; ?></span>
             </div>
         </div>
         <div class="form__item form__item--wide <?php if($errors['description']): ?>form__item--invalid <?php endif; ?>">
