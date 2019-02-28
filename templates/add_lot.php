@@ -18,7 +18,7 @@
                 <input id="lot-name" type="text" name="name" placeholder="Введите наименование лота" value="<?= $_POST['name']; ?>" required>
                 <span class="form__error"><?= $errors['name'];?></span>
             </div>
-            <div class="form__item <?php if($errors['category']): ?>form__item--invalid<?php endif; ?>">
+            <div class="form__item <?php if($errors['category_id']): ?>form__item--invalid<?php endif; ?>">
                 <label for="category">Категория</label>
                 <select id="category" name="category_id" required>
                     <option value="">Выберите категорию</option>
@@ -27,7 +27,7 @@
                         <?= $category['name']; ?></option>
                     <?php endforeach; ?>
                 </select>
-                <span class="form__error"><?= $errors['$category_id']; ?></span>
+                <span class="form__error"><?= $errors['category_id']; ?></span>
             </div>
         </div>
         <div class="form__item form__item--wide <?php if($errors['description']): ?>form__item--invalid <?php endif; ?>">
