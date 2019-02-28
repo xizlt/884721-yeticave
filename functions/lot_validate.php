@@ -141,7 +141,7 @@ function validate_lot_end_time($end_time){
  * @return string
  */
 function validate_lot_category_id($category_id){
-    if (($category_id)=='not') {
+    if (($category_id)=='') {
         return 'Выберите категорию';
     }
     return null;

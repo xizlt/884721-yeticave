@@ -21,7 +21,7 @@
             <div class="form__item <?php if($errors['category']): ?>form__item--invalid<?php endif; ?>">
                 <label for="category">Категория</label>
                 <select id="category" name="category_id" required>
-                    <option value="not">Выберите категорию</option>
+                    <option value="">Выберите категорию</option>
                     <?php foreach ($categories as $category): ?>
                     <option value="<?= $category['id']; ?>" <?php if($category['id'] == $lot_data['category_id']){print('selected');} ?>>
                         <?= $category['name']; ?></option>
