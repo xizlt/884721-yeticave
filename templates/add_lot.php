@@ -20,10 +20,11 @@
             </div>
             <div class="form__item <?php if($errors['category']): ?>form__item--invalid<?php endif; ?>">
                 <label for="category">Категория</label>
-                <select id="category" name="category" required>
+                <select id="category" name="category_id" required>
                     <option value="not">Выберите категорию</option>
                     <?php foreach ($categories as $category): ?>
-                    <option value="<?= $category['id']; ?>"><?= $category['name']; ?></option>
+                    <option value="<?= $category['id']; ?>" <?php if($category['id'] == $lot_data['category_id']){print('selected');} ?>>
+                        <?= $category['name']; ?></option>
                     <?php endforeach; ?>
                 </select>
                 <span class="form__error"><?= $errors['category']; ?></span>
@@ -35,7 +36,7 @@
             <span class="form__error"><?= $errors['description']; ?></span>
         </div>
         <div class="form__item form__item--file <?php if($errors['img']): ?>form__item--invalid<?php endif; ?>">
-            <span class="form__item--uploaded"><?= $errors['img']; ?></span><!-- form__item--uploaded -->
+            <!-- form__item--uploaded -->
             <label>Изображение</label>
             <div class="preview">
                 <button class="preview__remove" type="button">x</button>
@@ -49,7 +50,9 @@
                 <label for="photo2">
                     <span>+ Добавить</span>
                 </label>
+
             </div>
+            <span class="form__error"><?= $errors['img']; ?></span>
         </div>
 
 

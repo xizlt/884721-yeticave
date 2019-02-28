@@ -23,16 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $errors = validate_lot($lot_data);
 
-    if (isset($_FILES['img'])) {
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $file_name = $_FILES['img']['tmp_name'];
-        $file_type = finfo_file($finfo, $file_name);
-        if ($file_type !== 'image/gif' and $file_type !== 'image/jpg' and $file_type !== 'image/jpeg' and $file_type !== 'image/png') {
-            $errors['img'] = 'Файл нужно загрузить в формате .jpg, .jpeg, .png';
-        }
-    }
-
-
     if (!$errors) {
         $lot_data['img'] = upload_img($file_data);
         $lot_id = add_lot($connection, $lot_data);

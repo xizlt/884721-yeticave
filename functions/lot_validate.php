@@ -22,8 +22,11 @@ function validate_lot($lot_data){
     if ($error = validate_lot_end_time($lot_data['end_time'])){
         $errors['end_time'] = $error;
     }
-    if ($error = validate_lot_category($lot_data['category'])){
-        $errors['category'] = $error;
+    if ($error = validate_lot_category_id($lot_data['category_id'])){
+        $errors['category_id'] = $error;
+    }
+    if ($error = validate_file()){
+        $errors['img'] = $error;
     }
     return $errors;
 }
@@ -134,9 +137,23 @@ function validate_lot_end_time($end_time){
  * @param integer $category "Выберите категорию"
  * @return string
  */
-function validate_lot_category($category){
-    if (($category)=='not') {
+function validate_lot_category_id($category_id){
+    if (($category_id)=='not') {
         return 'Выберите категорию';
     }
     return null;
 }
+
+function validate_file(){
+    if (isset($_FILES['img'])) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $file_name = $_FILES['img']['tmp_name'];
+        $file_type = finfo_file($finfo, $file_name);
+        if ($file_type !== 'image/gif' and $file_type !== 'image/jpg' and $file_type !== 'image/jpeg' and $file_type !== 'image/png') {
+            return $errors['img'] = 'Файл нужно загрузить в формате .jpg, .jpeg, .png';
+        }
+        return null;
+    }
+     return 'Необходимо загрузить файл';
+}
+

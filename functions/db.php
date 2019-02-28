@@ -96,7 +96,7 @@ function add_lot($connection, $lot_data){
             VALUES (?, ?, ?, ?, ?, ?, ?, 1)';
     $stmt = mysqli_prepare($connection, $sql);
     mysqli_stmt_bind_param($stmt, 'isssisi',
-        $lot_data['category'],
+        $lot_data['category_id'],
         $lot_data['name'],
         $lot_data['description'],
         $lot_data['img'],
