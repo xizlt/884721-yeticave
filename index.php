@@ -1,7 +1,9 @@
 <?php
 date_default_timezone_set("Europe/Moscow");
 
-require_once('functions.php');
+require_once ('functions/db.php');
+require_once ('functions/template.php');
+require_once ('functions/upload.php');
 
 $is_auth = rand(0, 1);
 $user_name = 'Иван'; // укажите здесь ваше имя
