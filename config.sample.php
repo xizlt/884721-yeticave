@@ -2,9 +2,9 @@
 
 $config = [
     'db' => [
-        'host' => 'localhost',
+        'host' => '',
         'user' => '',
         'password' => '',
-        'database' => 'yeticave'
+        'database' => ''
     ]
 ];
