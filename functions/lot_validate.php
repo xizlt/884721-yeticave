@@ -3,7 +3,9 @@
 /**
  * Возвращает массив всех ошибок валидации лота
  * @param array $lot_data
+ * @param $file_data
  * @return array
+ * @throws Exception
  */
 function validate_lot($lot_data, $file_data){
     $errors = [];
@@ -111,6 +113,7 @@ function validate_lot_start_price($start_price){
  * Возвращает текст ошибок для поля "Дата окончания торгов" и проверяет, что переданная дата соответствует формату ДД.ММ.ГГГГ
  * @param string $end_time 'Дата окончания торгов'
  * @return string|null
+ * @throws Exception
  */
 function validate_lot_end_time($end_time){
     if (empty($end_time)) {
@@ -134,7 +137,7 @@ function validate_lot_end_time($end_time){
 
 /**
  * Возвращает текст ошибок для поля "Выберите категорию"
- * @param integer $category "Выберите категорию"
+ * @param $category_id
  * @return string
  */
 function validate_lot_category_id($category_id){
@@ -145,7 +148,7 @@ function validate_lot_category_id($category_id){
 }
 
 function validate_file($file_data){
-    if (isset($file_data['img'])) {
+    if (isset($file_data)) {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $file_name = $file_data['img']['tmp_name'];
         $file_type = finfo_file($finfo, $file_name);
