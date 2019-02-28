@@ -113,7 +113,7 @@ function validate_lot_start_price($start_price){
  * @return string|null
  */
 function validate_lot_end_time($end_time){
-    if (!isset($end_time)) {
+    if (!empty($end_time)) {
       return 'Укажите дату';
     }
     $date = new DateTime($end_time);
