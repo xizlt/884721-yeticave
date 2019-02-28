@@ -5,7 +5,7 @@
  * @param array $lot_data
  * @return array
  */
-function validate_lot($lot_data){
+function validate_lot($lot_data, $file_data){
     $errors = [];
     if ($error = validate_lot_name($lot_data['name'])){
         $errors['name'] = $error;
@@ -25,7 +25,7 @@ function validate_lot($lot_data){
     if ($error = validate_lot_category_id($lot_data['category_id'])){
         $errors['category_id'] = $error;
     }
-    if ($error = validate_file()){
+    if ($error = validate_file($file_data)){
         $errors['img'] = $error;
     }
     return $errors;
@@ -144,10 +144,10 @@ function validate_lot_category_id($category_id){
     return null;
 }
 
-function validate_file(){
-    if (isset($_FILES['img'])) {
+function validate_file($file_data){
+    if (isset($file_data['img'])) {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $file_name = $_FILES['img']['tmp_name'];
+        $file_name = $file_data['img']['tmp_name'];
         $file_type = finfo_file($finfo, $file_name);
         if ($file_type !== 'image/gif' and $file_type !== 'image/jpg' and $file_type !== 'image/jpeg' and $file_type !== 'image/png') {
             return $errors['img'] = 'Файл нужно загрузить в формате .jpg, .jpeg, .png';
