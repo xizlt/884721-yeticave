@@ -12,7 +12,7 @@ $user_name = 'Иван'; // укажите здесь ваше имя
 $config = require 'config.php';
 $connection = connectDb($config['db']);
 if (!$connection) {
-    $content = include_template('error.php', ['errors' => mysqli_error($connection)]);
+    $page_content = include_template('error.php', ['errors' => mysqli_error($connection)]);
 }
 $categories = getCategories($connection);
 $file_data = [];
