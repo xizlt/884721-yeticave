@@ -112,3 +112,29 @@ function add_lot($connection, $lot_data){
     return $lot_id;
 }
 
+function add_user($connection, $user_reg){
+    $password = password_hash($user_reg['password'], PASSWORD_DEFAULT);
+    $sql = 'INSERT INTO users (name, email, contacts, avatar, password) VALUE (? ,? ,? ,? ,?)';
+    $stmt = mysqli_prepare($connection, $sql);
+    mysqli_stmt_bind_param($stmt, 'sssss',
+        $user_reg['name'],
+        $user_reg['email'],
+        $user_reg['contacts'],
+        $user_reg['avatar'],
+        $password
+    );
+    $result = mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    return $result;
+}
+
+function isset_email($connection, $user_reg){
+    $email = mysqli_real_escape_string($connection, $user_reg['email']);
+    $sql = "SELECT id FROM users WHERE email = '$email'";
+    $res = mysqli_query($connection, $sql);
+    $isset = mysqli_num_rows($res);
+    if ($isset > 0) {
+        return 'Пользователь с этим email уже зарегистрирован';
+    }
+    return null;
+}

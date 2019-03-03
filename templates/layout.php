@@ -23,7 +23,7 @@
                 <!--ПРОВЕРИТЬ ДЗ-->
                     <ul class="user-menu__list">
                         <li class="user-menu__item">
-                            <a href="registration.php">Регистрация</a>
+                            <a href="sign_up.php">Регистрация</a>
                         </li>
                         <li class="user-menu__item">
                             <a href="#">Вход</a>
