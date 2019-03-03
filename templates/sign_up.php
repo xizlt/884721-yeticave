@@ -15,7 +15,7 @@
         <h2>Регистрация нового аккаунта</h2>
         <div class="form__item <?php if($errors['email']): ?>form__item--invalid<?php endif; ?>"> <!-- form__item--invalid -->
             <label for="email">E-mail*</label>
-            <input id="email" type="text" name="email" placeholder="Введите e-mail" value="<?= $errors['email']?>" >
+            <input id="email" type="text" name="email" placeholder="Введите e-mail" value="<?= $user_reg['email']?>" >
             <span class="form__error"><?= $errors['email']?></span>
         </div>
         <div class="form__item <?php if($errors['password']): ?>form__item--invalid<?php endif; ?>">
