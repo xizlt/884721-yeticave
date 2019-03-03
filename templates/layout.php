@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -11,7 +12,7 @@
     <header class="main-header">
         <div class="main-header__container container">
             <h1 class="visually-hidden">YetiCave</h1>
-            <a class="main-header__logo">
+            <a href="index.php" class="main-header__logo">
                 <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
             </a>
             <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
@@ -19,17 +20,29 @@
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
             <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
-            <nav class="user-menu">
-                <!--ПРОВЕРИТЬ ДЗ-->
-                    <ul class="user-menu__list">
-                        <li class="user-menu__item">
-                            <a href="sign_up.php">Регистрация</a>
-                        </li>
-                        <li class="user-menu__item">
-                            <a href="#">Вход</a>
-                        </li>
-                    </ul>
-            </nav>
+
+
+
+
+            <?php if (isset($_SESSION['user'])): ?>
+                <div class="user-menu__logged">
+                    <p><?=$_SESSION['user']['name']; ?></p>
+                    <a href="/logout.php">Выйти</a>
+                </div>
+
+            <?php else: ?>
+                <ul class="user-menu__list">
+                    <li class="user-menu__item">
+                        <a href="sign_up.php">Регистрация</a>
+                    </li>
+                    <li class="user-menu__item">
+                        <a href="login.php">Вход</a>
+                    </li>
+                </ul>
+            <?php endif; ?>
+
+
+
         </div>
     </header>
 
