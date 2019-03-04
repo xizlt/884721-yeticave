@@ -10,18 +10,18 @@ if (!$connection) {
     $page_content = include_template('error.php', ['errors' => mysqli_error($connection)]);
 }
 $categories = getCategories($connection);
-$user_reg = [];
+$user_data = [];
 $file_data = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $user_reg = $_POST;
+    $user_data = $_POST;
     $file_data = $_FILES;
 
-    $errors = validate_user($user_reg, $file_data, $connection);
+    $errors = validate_user($user_data, $file_data, $connection);
 
     if (!$errors) {
-        $user_reg['avatar'] = upload_avatar($file_data);
-        $res = add_user($connection, $user_reg, $file_data);
+        $user_data['avatar'] = upload_avatar($file_data);
+        $res = add_user($connection, $user_data, $file_data);
 
         header("Location: login.php");
         exit();
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 $page_content = include_template('sign_up.php', [
     'categories' => $categories,
-    'user_reg' => $user_reg,
+    'user_data' => $user_data,
     'errors' => $errors,
     'file_data' => $file_data
 ]);

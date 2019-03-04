@@ -6,7 +6,7 @@ require_once('functions/registr.php');
 require_once('functions/upload.php');
 require_once('functions/db.php');
 
-$user_reg = [
+$user_data = [
     'name' => 'ivan',
     'contacts' => 'contact',
     'avatar' => 'img/Screenshot_20180505-085242.jpg',
@@ -14,6 +14,6 @@ $user_reg = [
     'email' => 'g@g.ru'
 ];
 
-$errors = validate_user($user_reg, $file_data, $connection);
+$errors = validate_user($user_data, $file_data, $connection);
 var_dump($errors);
 

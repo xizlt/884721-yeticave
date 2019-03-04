@@ -112,15 +112,15 @@ function add_lot($connection, $lot_data){
     return $lot_id;
 }
 
-function add_user($connection, $user_reg){
-    $password = password_hash($user_reg['password'], PASSWORD_DEFAULT);
+function add_user($connection, $user_data){
+    $password = password_hash($user_data['password'], PASSWORD_DEFAULT);
     $sql = 'INSERT INTO users (name, email, contacts, avatar, password) VALUE (? ,? ,? ,? ,?)';
     $stmt = mysqli_prepare($connection, $sql);
     mysqli_stmt_bind_param($stmt, 'sssss',
-        $user_reg['name'],
-        $user_reg['email'],
-        $user_reg['contacts'],
-        $user_reg['avatar'],
+        $user_data['name'],
+        $user_data['email'],
+        $user_data['contacts'],
+        $user_data['avatar'],
         $password
     );
     $result = mysqli_stmt_execute($stmt);

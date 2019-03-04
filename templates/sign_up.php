@@ -13,22 +13,22 @@
         <h2>Регистрация нового аккаунта</h2>
         <div class="form__item <?php if($errors['email']): ?>form__item--invalid<?php endif; ?>"> <!-- form__item--invalid -->
             <label for="email">E-mail*</label>
-            <input id="email" type="text" name="email" placeholder="Введите e-mail" value="<?= $user_reg['email']?>" >
+            <input id="email" type="text" name="email" placeholder="Введите e-mail" value="<?= $user_data['email']?>" >
             <span class="form__error"><?= $errors['email']?></span>
         </div>
         <div class="form__item <?php if($errors['password']): ?>form__item--invalid<?php endif; ?>">
             <label for="password">Пароль*</label>
-            <input id="password" type="password" name="password" placeholder="Введите пароль" value="<?= $user_reg['password']?>" >
+            <input id="password" type="password" name="password" placeholder="Введите пароль" value="<?= $user_data['password']?>" >
             <span class="form__error"><?= $errors['password']?></span>
         </div>
         <div class="form__item <?php if($errors['name']): ?>form__item--invalid<?php endif; ?>">
             <label for="name">Имя*</label>
-            <input id="name" type="text" name="name" placeholder="Введите имя" value="<?= $user_reg['name']?>" >
+            <input id="name" type="text" name="name" placeholder="Введите имя" value="<?= $user_data['name']?>" >
             <span class="form__error"><?= $errors['name']?></span>
         </div>
         <div class="form__item <?php if($errors['contacts']): ?>form__item--invalid<?php endif; ?>">
             <label for="message">Контактные данные*</label>
-            <textarea id="message" name="contacts" placeholder="Напишите как с вами связаться" ><?= $user_reg['contacts']?></textarea>
+            <textarea id="message" name="contacts" placeholder="Напишите как с вами связаться" ><?= $user_data['contacts']?></textarea>
             <span class="form__error"><?= $errors['contacts']?></span>
         </div>
         <div class="form__item form__item--file form__item--last <?php if($errors['avatar']): ?>form__item--invalid<?php endif; ?>">
