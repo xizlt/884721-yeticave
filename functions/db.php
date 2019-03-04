@@ -128,9 +128,9 @@ function add_user($connection, $user_reg){
     return $result;
 }
 
-function isset_email($connection, $user_reg){
-    $email = mysqli_real_escape_string($connection, $user_reg['email']);
-    $sql = "SELECT id FROM users WHERE email = '$email'";
+function isset_email($connection, $email){
+    $email_user = mysqli_real_escape_string($connection, $email);
+    $sql = "SELECT id FROM users WHERE email = '$email_user'";
     $res = mysqli_query($connection, $sql);
     $isset = mysqli_num_rows($res);
     if ($isset > 0) {

@@ -19,11 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $errors = validate_user($user_reg, $file_data, $connection);
 
-// Здесь где-то ошибка
-    if (!isset($file_data['avatar'])) {
-        $errors['avatar'] = null;
-    }
-
     if (!$errors) {
         $user_reg['avatar'] = upload_avatar($file_data);
         $res = add_user($connection, $user_reg, $file_data);

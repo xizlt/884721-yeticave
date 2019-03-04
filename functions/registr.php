@@ -1,6 +1,7 @@
 <?php
 function validate_user($user_reg, $file_data, $connection)
 {
+    $email = $user_reg['email'];
     $errors = [];
     if ($error = validate_user_name($user_reg['name'])) {
         $errors['name'] = $error;
@@ -8,8 +9,8 @@ function validate_user($user_reg, $file_data, $connection)
     if ($error = validate_user_password($user_reg['password'])) {
         $errors['password'] = $error;
     }
-    if(isset_email($connection, $user_reg)) {
-        $errors['email'] = isset_email($connection, $user_reg);
+    if (isset_email($connection, $email)) {
+        $errors['email'] = isset_email($connection, $email);
     }
     if ($error = validate_user_email($user_reg['email'])) {
         $errors['email'] = $error;
@@ -63,6 +64,9 @@ function validate_user_contacts($contacts)
 // Здесь где-то ошибка
 function validate_file($file_data)
 {
+    if (empty($file_data['avatar']['tmp_name'])){
+        return null;
+    }
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $file_name = $file_data['avatar']['tmp_name'];
     $file_type = finfo_file($finfo, $file_name);
