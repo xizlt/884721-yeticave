@@ -126,9 +126,9 @@ function add_user($connection, $user_data){
     $result = mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
     if ($result) {
-        $lot_id = mysqli_insert_id($connection);
+        $user_id = mysqli_insert_id($connection);
     }
-    return $lot_id;
+    return $user_id;
 }
 
 function isset_email($connection, $email){
