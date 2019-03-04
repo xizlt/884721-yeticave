@@ -1,21 +1,17 @@
 <?php
-function validate_user($user_reg, $file_data, $connection)
+function validate_user($user_data, $file_data, $connection)
 {
-    $email = $user_reg['email'];
     $errors = [];
-    if ($error = validate_user_name($user_reg['name'])) {
+    if ($error = validate_user_name($user_data['name'])) {
         $errors['name'] = $error;
     }
-    if ($error = validate_user_password($user_reg['password'])) {
+    if ($error = validate_user_password($user_data['password'])) {
         $errors['password'] = $error;
     }
-    if (isset_email($connection, $email)) {
-        $errors['email'] = isset_email($connection, $email);
-    }
-    if ($error = validate_user_email($user_reg['email'])) {
+    if ($error = validate_user_email($user_data['email'], $connection)) {
         $errors['email'] = $error;
     }
-    if ($error = validate_user_contacts($user_reg['contacts'])) {
+    if ($error = validate_user_contacts($user_data['contacts'])) {
         $errors['contacts'] = $error;
     }
     if ($error = validate_file($file_data)) {
@@ -29,6 +25,9 @@ function validate_user_name($name)
     if (empty($name)) {
         return 'Заполните поле Имя';
     }
+    if (mb_strlen($name) > 255){
+        return 'Допустимая дляна строки 255 символов';
+    }
     return null;
 }
 
@@ -37,18 +36,26 @@ function validate_user_password($password)
     if (empty($password)) {
         return 'Заполните поле пароль';
     }
+    if (mb_strlen($password) > 255){
+        return 'Допустимая дляна строки 255 символов';
+    }
     return null;
 }
 
-function validate_user_email($email)
+function validate_user_email($email, $connection)
 {
+    if (isset_email($connection, $email)) {
+        return 'Данный email уже есть в базе';
+    }
     if (empty($email)) {
         return 'Заполните поле email';
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return 'Проверьте правильность написания email';
     }
-
+    if (mb_strlen($email) > 320) {
+        return 'Допустимая дляна email 320 символов';
+    }
     return null;
 }
 
@@ -58,10 +65,13 @@ function validate_user_contacts($contacts)
     if (empty($contacts)) {
         return 'Заполните поле контакты';
     }
+    if (mb_strlen($contacts) > 1000){
+        return 'Допустимая дляна строки 1000 символов';
+    }
     return null;
 }
 
-// Здесь где-то ошибка
+
 function validate_file($file_data)
 {
     if (empty($file_data['avatar']['tmp_name'])){

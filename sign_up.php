@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!$errors) {
         $user_data['avatar'] = upload_avatar($file_data);
-        $res = add_user($connection, $user_data, $file_data);
+        add_user($connection, $user_data, $file_data);
 
         header("Location: login.php");
         exit();
