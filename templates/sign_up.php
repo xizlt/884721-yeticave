@@ -8,9 +8,7 @@
             <?php endforeach; ?>
         </ul>
     </nav>
-
-    <?php var_dump($errors); ?>
-
+    
     <form class="form container <?php if($errors): ?>form--invalid<?php endif;?>" action="../sign_up.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
         <h2>Регистрация нового аккаунта</h2>
         <div class="form__item <?php if($errors['email']): ?>form__item--invalid<?php endif; ?>"> <!-- form__item--invalid -->
