@@ -50,7 +50,7 @@ function validate_user_email($email, $connection)
     if (isset_email($connection, $email)) {
         return 'Данный email уже есть в базе';
     }
-    
+
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return 'Проверьте правильность написания email';
     }
