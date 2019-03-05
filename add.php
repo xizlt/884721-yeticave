@@ -1,6 +1,7 @@
 <?php
 
 date_default_timezone_set ("Europe/Moscow");
+session_start();
 require_once ('functions/db.php');
 require_once ('functions/lot_validate.php');
 require_once ('functions/template.php');
@@ -34,12 +35,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-$page_content = include_template('add_lot.php', array(
-    'categories' => $categories,
-    'lot_data' => $lot_data,
-    'errors' => $errors,
-    'file_data'=> $file_data
-));
+if (isset($_SESSION['user'])) {
+    $page_content = include_template('add_lot.php', array(
+        'categories' => $categories,
+        'lot_data' => $lot_data,
+        'errors' => $errors,
+        'file_data' => $file_data
+    ));
+}else{
+
+    http_response_code(403);
+    exit();
+
+}
 
 $layout = include_template('layout.php', [
     'content' => $page_content,

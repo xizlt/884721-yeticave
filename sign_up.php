@@ -1,5 +1,8 @@
 <?php
 date_default_timezone_set ("Europe/Moscow");
+
+session_start();
+
 require_once ('functions/db.php');
 require_once ('functions/registr.php');
 require_once ('functions/template.php');
