@@ -26,7 +26,7 @@ function validate_user_name($name)
         return 'Заполните поле Имя';
     }
     if (mb_strlen($name) > 255){
-        return 'Допустимая дляна строки 255 символов';
+        return 'Допустимая длина строки 255 символов';
     }
     return null;
 }
@@ -37,24 +37,25 @@ function validate_user_password($password)
         return 'Заполните поле пароль';
     }
     if (mb_strlen($password) > 255){
-        return 'Допустимая дляна строки 255 символов';
+        return 'Допустимая длина строки 255 символов';
     }
     return null;
 }
 
 function validate_user_email($email, $connection)
 {
-    if (isset_email($connection, $email)) {
-        return 'Данный email уже есть в базе';
-    }
     if (empty($email)) {
         return 'Заполните поле email';
     }
+    if (isset_email($connection, $email)) {
+        return 'Данный email уже есть в базе';
+    }
+
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return 'Проверьте правильность написания email';
     }
     if (mb_strlen($email) > 320) {
-        return 'Допустимая дляна email 320 символов';
+        return 'Допустимая длина email 320 символов';
     }
     return null;
 }
@@ -66,7 +67,7 @@ function validate_user_contacts($contacts)
         return 'Заполните поле контакты';
     }
     if (mb_strlen($contacts) > 1000){
-        return 'Допустимая дляна строки 1000 символов';
+        return 'Допустимая длина строки 1000 символов';
     }
     return null;
 }
