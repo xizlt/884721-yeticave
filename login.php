@@ -2,10 +2,12 @@
 
 date_default_timezone_set ("Europe/Moscow");
 require_once ('functions/db.php');
-require_once ('functions/user.php');
+require_once ('functions/registr.php');
 require_once ('functions/template.php');
 require_once ('functions/upload.php');
+
 session_start();
+
 $is_auth = rand(0, 1);
 $user_name = 'Иван'; // укажите здесь ваше имя
 
@@ -20,16 +22,7 @@ $categories = getCategories($connection);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $form = $_POST;
 
-    function check_user($connection, $form){
-        $email = mysqli_real_escape_string($connection, $form['email']);
-        $sql = "SELECT * FROM users WHERE email = '$email'";
-        $res = mysqli_query($connection, $sql);
-        $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
-        return $user;
-    }
-
     $user = check_user($connection, $form);
-
 
     if (!count($errors) and $user) {
         if (password_verify($form['password'], $user['password'])) {
