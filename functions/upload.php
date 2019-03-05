@@ -14,3 +14,13 @@ function upload_img($file_data){
 
     return $result;
 }
+
+
+function upload_avatar($file_data)
+{
+        $path = $file_data['avatar']['name'];
+        $tmp_name = $file_data['avatar']['tmp_name'];
+        $result = 'avatar/' . $path;
+        move_uploaded_file($tmp_name, $result);
+        return $result;
+}
