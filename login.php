@@ -8,9 +8,6 @@ require_once ('functions/upload.php');
 
 session_start();
 
-$is_auth = rand(0, 1);
-$user_name = 'Иван'; // укажите здесь ваше имя
-
 $config = require 'config.php';
 $connection = connectDb($config['db']);
 if (!$connection) {
