@@ -7,9 +7,6 @@ require_once ('functions/lot_validate.php');
 require_once ('functions/template.php');
 require_once ('functions/upload.php');
 
-$is_auth = rand(0, 1);
-$user_name = 'Иван'; // укажите здесь ваше имя
-
 $config = require 'config.php';
 $connection = connectDb($config['db']);
 if (!$connection) {
