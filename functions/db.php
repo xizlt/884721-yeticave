@@ -142,9 +142,18 @@ function isset_email($connection, $email){
     return null;
 }
 
-function check_user($connection, $login_data){
-    $email = mysqli_real_escape_string($connection, $login_data['email']);
+function get_user_by_email($connection, $email){
+    $email = mysqli_real_escape_string($connection, $email);
     $sql = "SELECT * FROM users WHERE email = '$email'";
+    $res = mysqli_query($connection, $sql);
+    $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
+    return $user;
+}
+
+function get_user_by_id($connection, $id)
+{
+    $id = (int)$id;
+    $sql = "SELECT * FROM users WHERE id = '$id'";
     $res = mysqli_query($connection, $sql);
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
     return $user;

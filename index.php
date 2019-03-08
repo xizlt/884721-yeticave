@@ -8,9 +8,13 @@ require_once ('functions/upload.php');
 $config = require 'config.php';
 $connection = connectDb($config['db']);
 
+$user = null;
 $categories = getCategories($connection);
 $lots = getLots($connection);
 
+if (isset($_SESSION['user_id'])){
+    $user = get_user_by_id($connection, $_SESSION['user_id']);
+}
 $page_content = include_template('index.php', [
     'categories' => $categories,
     'lots' => $lots
@@ -18,9 +22,8 @@ $page_content = include_template('index.php', [
 $layout = include_template('layout.php', [
     'content' => $page_content,
     'title' => 'Главная страница аукциона',
-    'user_name' => $user_name,
-    'categories' => $categories,
-    'is_auth' => $is_auth
+    'user' => $user,
+    'categories' => $categories
 ]);
 
 print($layout);

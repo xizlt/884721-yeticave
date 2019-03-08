@@ -19,25 +19,9 @@ $login_data = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $login_data = $_POST;
 
-    $user = check_user($connection, $login_data);
-/*
-    if (!count($errors) and $user) {
-        if (password_verify($login_data['password'], $user['password'])) {
-            $_SESSION['user'] = $user;
-        } else {
-            $errors['password'] = 'Неверный пароль';
-        }
-    } else {
-        $errors['email'] = 'Такой пользователь не найден';
-    }
-*/
-$errors = validate_login($connection, $login_data);
-if (!$errors){
-    $_SESSION['user'] = $user;
-}
-    if (count($errors)) {
-        $page_content = include_template('login.php', ['login_data' => $login_data, 'errors' => $errors]);
-    } else {
+    $errors = validate_login($connection, $login_data);
+
+    if (!$errors) {
         header("Location: /index.php");
         exit();
     }

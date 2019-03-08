@@ -21,10 +21,10 @@
             </form>
 
 
-            <?php if (isset($_SESSION['user'])): ?>
+            <?php if ($user): ?>
                 <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
                 <div class="user-menu__logged">
-                    <p><?=$_SESSION['user']['name']; ?></p>
+                    <p><?= $user['name']; ?></p>
                     <a href="/logout.php">Выйти</a>
                 </div>
             <?php else: ?>
@@ -88,7 +88,7 @@
         </div>
 
 
-        <?php if (isset($_SESSION['user'])): ?>
+        <?php if ($user): ?>
         <a class="main-footer__add-lot button" href="add.php">Добавить лот</a>
         <?php endif; ?>
 

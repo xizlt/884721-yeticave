@@ -1,14 +1,22 @@
 <?php
 
-function validate_login($login_data,$connection)
+function validate_login($connection, $login_data)
 {
     $errors = [];
-    $user = check_user($login_data, $connection);
+    if ($error = validate_email($login_data['email'])) {
+        $errors['email'] = $error;
+    }
+    if (!isset($errors['email'])){
+        $user = get_user_by_email($connection, $login_data['email']);
+        if (!$user) {
+            $errors['email'] = 'Такой пользователь не найден в базе';
+        }
+    }
     if ($error = validate_password($login_data['password'], $user['password'])) {
         $errors['password'] = $error;
     }
-    if ($error = validate_email($login_data['email'], $user['email'])) {
-        $errors['email'] = $error;
+    if (!$errors){
+        $_SESSION['user_id'] = $user['id'];
     }
     return $errors;
 }
@@ -27,7 +35,7 @@ function validate_password($password,$user)
     return null;
 }
 
-function validate_email($email,$user)
+function validate_email($email)
 {
     if (empty($email)) {
         return 'Заполните поле email';
@@ -37,9 +45,6 @@ function validate_email($email,$user)
     }
     if (mb_strlen($email) > 320) {
         return 'Допустимая длина email 320 символов';
-    }
-    if (!$user){
-        return 'Такой пользователь не найден';
     }
     return null;
 }
