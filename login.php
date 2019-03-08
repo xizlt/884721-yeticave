@@ -3,6 +3,7 @@
 date_default_timezone_set ("Europe/Moscow");
 require_once ('functions/db.php');
 require_once ('functions/template.php');
+require_once ('functions/login_validate.php');
 
 session_start();
 
@@ -19,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $login_data = $_POST;
 
     $user = check_user($connection, $login_data);
-
+/*
     if (!count($errors) and $user) {
         if (password_verify($login_data['password'], $user['password'])) {
             $_SESSION['user'] = $user;
@@ -29,7 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $errors['email'] = 'Такой пользователь не найден';
     }
-
+*/
+$errors = validate_login($connection, $login_data);
+if (!$errors){
+    $_SESSION['user'] = $user;
+}
     if (count($errors)) {
         $page_content = include_template('login.php', ['login_data' => $login_data, 'errors' => $errors]);
     } else {
