@@ -2,19 +2,19 @@
 function validate_user($user_data, $file_data, $connection)
 {
     $errors = [];
-    if ($error = validate_user_name($user_data['name'])) {
+    if ($error = validate_user_name(get_value($user_data,'name'))) {
         $errors['name'] = $error;
     }
-    if ($error = validate_user_password($user_data['password'])) {
+    if ($error = validate_user_password(get_value($user_data, 'password'))) {
         $errors['password'] = $error;
     }
-    if ($error = validate_user_email($user_data['email'], $connection)) {
+    if ($error = validate_user_email(get_value($user_data, 'email'), $connection)) {
         $errors['email'] = $error;
     }
-    if ($error = validate_user_contacts($user_data['contacts'])) {
+    if ($error = validate_user_contacts(get_value($user_data, 'contacts'))) {
         $errors['contacts'] = $error;
     }
-    if ($error = validate_file($file_data)) {
+    if ($error = validate_avatar_file(get_value($file_data, 'avatar'))) {
         $errors['avatar'] = $error;
     }
     return $errors;
@@ -73,14 +73,13 @@ function validate_user_contacts($contacts)
 }
 
 
-function validate_file($file_data)
+function validate_avatar_file($file_data)
 {
-    if (empty($file_data['avatar']['tmp_name'])){
+    if (!$tmp_name = get_value($file_data, 'tmp_name')) {
         return null;
     }
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $file_name = $file_data['avatar']['tmp_name'];
-    $file_type = finfo_file($finfo, $file_name);
+    $file_type = finfo_file($finfo, $tmp_name);
     if ($file_type !== 'image/gif' and $file_type !== 'image/jpg' and $file_type !== 'image/jpeg' and $file_type !== 'image/png') {
         return 'Файл нужно загрузить в формате .jpg, .jpeg, .png';
     }

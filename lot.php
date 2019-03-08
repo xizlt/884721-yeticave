@@ -1,33 +1,38 @@
 <?php
 date_default_timezone_set("Europe/Moscow");
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
+require_once ('functions/main.php');
 require_once ('functions/db.php');
 require_once ('functions/lot_validate.php');
 require_once ('functions/template.php');
 require_once ('functions/upload.php');
 
-$is_auth = rand(0, 1);
-$user_name = 'Иван'; // укажите здесь ваше имя
-
-
 $config = require 'config.php';
 
-if (!isset($_GET['id'])) {
+if (!get_value($_GET, 'id')) {
     die('<b>Отсутствует id лота в запросе или такого параметра нет</b>');
 } else {
 
-    $lot_id = $_GET['id'];
+    $lot_id = get_value($_GET,'id');
 }
 
 $connection = connectDb($config['db']);
 
+$user = null;
 $categories = getCategories($connection);
 
+if ($user_id = get_value($_SESSION, 'user_id')){
+    $user = get_user_by_id($connection, $user_id);
+}
 $lot = getLot($connection, $lot_id);
 if ($lot) {
     $page_content = include_template('lot.php', [
         'categories' => $categories,
-        'lot' => $lot
+        'lot' => $lot,
+        'user' => $user
     ]);
 } else {
     header("HTTP/1.0 404 Not Found");
@@ -36,12 +41,10 @@ if ($lot) {
     ]);
 }
 
-
 $layout = include_template('layout.php', [
     'content' => $page_content,
     'title' => 'Страница лота',
-    'user_name' => $user_name,
     'categories' => $categories,
-    'is_auth' => $is_auth
+    'user' => $user
 ]);
 print($layout);
