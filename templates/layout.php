@@ -1,4 +1,6 @@
-
+<?php
+/** @var string $content содержимое внутреннего шаблона */
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -24,7 +26,7 @@
             <?php if ($user): ?>
                 <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
                 <div class="user-menu__logged">
-                    <p><?= $user['name']; ?></p>
+                    <p><?= get_value($user, 'name'); ?></p>
                     <a href="/logout.php">Выйти</a>
                 </div>
             <?php else: ?>
@@ -37,14 +39,10 @@
                     </li>
                 </ul>
             <?php endif; ?>
-
-
-
-
         </div>
     </header>
 
-        <?=$content; ?>
+    <?= $content; ?>
 
 </div>
 
@@ -54,7 +52,7 @@
             <!--заполните этот список из массива категорий-->
             <?php foreach ($categories as $category) : ?>
                 <li class="nav__item">
-                    <a href="pages/all-lots.html"> <?=$category['name']; ?>  </a>
+                    <a href="pages/all-lots.html"> <?= get_value($category, 'name'); ?>  </a>
                 </li>
             <?php endforeach; ?>
         </ul>

@@ -1,6 +1,8 @@
 <?php
 
 date_default_timezone_set ("Europe/Moscow");
+
+require_once ('functions/main.php');
 require_once ('functions/db.php');
 require_once ('functions/template.php');
 require_once ('functions/login_validate.php');
@@ -15,6 +17,14 @@ if (!$connection) {
 $categories = getCategories($connection);
 
 $login_data = [];
+
+if (isset($_SESSION['user_id'])){
+    $user = get_user_by_id($connection, $_SESSION['user_id']);
+    if ($user){
+        header("Location: /");
+        exit();
+    }
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $login_data = $_POST;
