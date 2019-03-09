@@ -8,6 +8,7 @@
         <?php endforeach; ?>
     </ul>
 </nav>
+    <?php var_dump($rate);?>
    <section class="lot-item container">
     <h2><?= $lot ['name']; ?></h2>
     <div class="lot-item__content">
@@ -20,8 +21,7 @@
         </div>
         <div class="lot-item__right">
 
-            <?php if($user): ?>
-            <?php if($show_rate == null): ?>
+            <?php if($show_rate !== false): ?>
 
                 <div class="lot-item__state">
                     <div class="lot-item__timer timer">
@@ -46,17 +46,16 @@
                     </form>
                 </div>
                 <?php endif;?>
-            <?php endif;?>
+
 
             <div class="history">
                 <h3>История ставок (<span><?= count($rate) ?></span>)</h3>
                 <table class="history__list">
-
                     <?php foreach ($rate as $key): ?>
                     <tr class="history__item">
                         <td class="history__name"><?= $key['name']; ?></td>
-                        <td class="history__price"><?= $key['amount']; ?></td>
-                        <td class="history__time"><?= $key['create_time']; ?></td>
+                        <td class="history__price"><?= formatPrice($key['amount']); ?></td>
+                        <td class="history__time"><?= time_rite($key['time']); ?></td>
                     </tr>
                     <?php endforeach; ?>
 

@@ -59,18 +59,19 @@ function getLots($connection){
 /**
  * получение лота для просмотра
  * @param $connection
- * @param integer $lot_id
+ * @param $lot_id
  * @return |null
  */
 function getLot($connection, $lot_id){
     $result = [];
-    $sql = "SELECT l.id, c.name AS category_name, l.name AS name, COALESCE(MAX(r.amount), l.start_price)AS price, l.img, l.description, (l.step + COALESCE(MAX(r.amount), l.start_price))AS rate, l.end_time, l.user_id
+    $sql = "SELECT l.id, c.name AS category_name, l.name AS name, COALESCE(MAX(r.amount), l.start_price)AS price, l.img, l.description, (l.step + COALESCE(MAX(r.amount), l.start_price))AS rate, l.end_time
             FROM lots l
             JOIN categories c
             ON l.category_id = c.id
             JOIN rate r
-            ON r.lot_id = l.id 
-            where l.id ='$lot_id';";
+            ON r.lot_id = l.id
+            where l.id ='$lot_id'
+            ;";
 
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
@@ -87,23 +88,26 @@ function getLot($connection, $lot_id){
 }
 
 /**
+ *
  * Запись нового лота
  * @param $connection
  * @param $lot_data
- * @return bool
+ * @param $user
+ * @return int|string
  */
-function add_lot($connection, $lot_data){
+function add_lot($connection, $lot_data, $user){
     $sql = 'INSERT INTO lots (category_id, name, description, img, start_price, end_time, step, user_id) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, 1)';
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     $stmt = mysqli_prepare($connection, $sql);
-    mysqli_stmt_bind_param($stmt, 'isssisi',
+    mysqli_stmt_bind_param($stmt, 'isssisii',
         $lot_data['category_id'],
         $lot_data['name'],
         $lot_data['description'],
         $lot_data['img'],
         $lot_data['start_price'],
         $lot_data['end_time'],
-        $lot_data['step']
+        $lot_data['step'],
+        $user['id']
     );
     $result = mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
@@ -190,15 +194,13 @@ function get_user_by_id($connection, $id)
  * @param $amount
  * @return bool
  */
-function add_rate($connection, $amount){
-    $user_id = $_SESSION['user_id'];
-    $lot_id = $_GET['id'];
+function add_rate($connection, $amount, $user, $lot_id){
     $sql = 'INSERT INTO rate(amount, user_id, lot_id) 
             VALUES (?, ?, ?)';
     $stmt = mysqli_prepare($connection, $sql);
     mysqli_stmt_bind_param($stmt, 'iii',
         $amount,
-        $user_id,
+        $user['id'],
         $lot_id
     );
     $result = mysqli_stmt_execute($stmt);
@@ -208,7 +210,12 @@ function add_rate($connection, $amount){
 }
 
 function rate_user($connection, $lot_id){
-    $sql = "SELECT * , u.name FROM rate r JOIN users u ON u.id = r.user_id WHERE r.lot_id = '$lot_id'";
+    $sql = "SELECT * , u.name, r.create_time AS time, r.user_id AS rate_user_id
+            FROM rate r 
+            JOIN users u 
+            ON u.id = r.user_id 
+            WHERE r.lot_id = '$lot_id'
+            ORDER BY time DESC";
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
     }else{

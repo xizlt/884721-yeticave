@@ -2,7 +2,7 @@
 
 date_default_timezone_set("Europe/Moscow");
 //require_once('functions/main.php');
-require_once('functions/rate_validate.php');
+require_once('functions/template.php');
 //require_once('functions/registration.php');
 //require_once('functions/upload.php');
 require_once('functions/db.php');
@@ -21,9 +21,11 @@ $user_data = [
 $name = get_value($user_data, 'sfdgsd');
 var_dump($name);
 */
-$_SESSION['user_id'] = 1;
-$amount = 2;
-$lot = 3;
-$errors = error_amount($amount, $lot);
+
+$lot_id = 2;
+$lot = getLot($connection, $lot_id);
+$user = 42;
+$errors = rate_show($lot, $user, $rate);
+
 var_dump($errors);
 

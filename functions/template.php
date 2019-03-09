@@ -52,20 +52,48 @@ function time_before_end($end_string_time){
     return $result;
 }
 
-function rate_show($lot, $user, $rate){
 
+function rate_show($lot, $user, $rate){
+    if (!$user){
+        return false;
+    }
     if (time_before_end($lot['end_time']) == '00:00'){
         return false;
     }
-    if ($user == $lot['user_id']){
-        return false;
-    }
-   foreach ($rate as $key => $value) {
-        if ($key == 'user_id') {
-            if ($user == $value) {
+    //if ($user == $rate['rate_user_id']){
+   //    return false;
+    //}
+
+  /* foreach ($rate as $key => $value) {
+        if ($key === 'user_id') {
+            if ($user === $value) {
                 return false;
             }
         }
-    }
+    }*/
     return null;
+}
+
+/**
+ * Возвращает дату и время в "человеческом формате"
+ * @param $time
+ * @return false|string
+ */
+function time_rite ($time) {
+    $date_now = date_create("now");
+    $date_add = date_create($time);
+    $diff = date_diff($date_now, $date_add);
+    $days_count = date_interval_format($diff, "%d");
+    $hours_count = date_interval_format($diff, "%h");
+    $minutes_count = date_interval_format($diff, "%i");
+    if ($days_count) {
+        $result = date('d.m.y \в H:i', strtotime($time));
+    }
+    elseif ($hours_count) {
+        $result = "$hours_count" . " ч. назад";
+    }
+    else {
+        $result = "$minutes_count" . " мин. назад";
+    }
+    return $result;
 }

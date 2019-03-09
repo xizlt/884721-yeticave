@@ -30,11 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lot_data = $_POST;
     $file_data = $_FILES;
 
-    $errors = validate_lot($lot_data,$file_data);
+    $errors = validate_lot($lot_data, $file_data);
 
     if (!$errors) {
         $lot_data['img'] = upload_img($file_data);
-        $lot_id = add_lot($connection, $lot_data);
+        $lot_id = add_lot($connection, $lot_data, $user);
 
         if ($lot_id) {
             header("Location: lot.php?id=" . $lot_id);
@@ -53,7 +53,6 @@ $page_content = include_template('add_lot.php', array(
 $layout = include_template('layout.php', [
     'content' => $page_content,
     'title' => 'Добавление лота',
-    'user' => $user,
     'categories' => $categories
 
 ]);

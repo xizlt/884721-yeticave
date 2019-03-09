@@ -29,6 +29,8 @@ if ($user_id = get_value($_SESSION, 'user_id')){
 }
 
 $lot = getLot($connection, $lot_id);
+$rate = rate_user($connection, $lot_id);
+$show_rate = rate_show($lot, $user, $rate);
 if (!$lot) {
     header("HTTP/1.0 404 Not Found");
     $page_content = include_template('error.php', [
@@ -39,17 +41,16 @@ if (!$lot) {
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $amount = $_POST['amount'];
-    $lot = getLot($connection, $lot_id);
+    //$lot = getLot($connection, $lot_id);
     $errors = error_amount($amount, $lot);
 
     if (!$errors) {
-        add_rate($connection, $amount);
+        add_rate($connection, $amount, $user, $lot_id);
         header("Location: lot.php?id=$lot_id");
         exit();
     }
 }
-$rate = rate_user($connection, $lot_id);
-$show_rate = rate_show($lot, $user, $rate);
+
 
 $page_content = include_template('lot.php', [
     'categories' => $categories,
