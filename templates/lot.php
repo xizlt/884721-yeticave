@@ -20,8 +20,8 @@
         </div>
         <div class="lot-item__right">
 
-            <?php if ($user): ?>
-
+            <?php if($user): ?>
+            <?php if(time_before_end($lot['end_time']) !== '00:00'): ?>
                 <div class="lot-item__state">
                     <div class="lot-item__timer timer">
                         <?= time_before_end(get_value($lot, 'end_time')) ?>
@@ -44,7 +44,7 @@
                         <button type="submit" class="button">Сделать ставку</button>
                     </form>
                 </div>
-
+                <?php endif;?>
             <?php endif;?>
 
             <div class="history">

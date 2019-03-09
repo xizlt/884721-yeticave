@@ -64,7 +64,7 @@ function getLots($connection){
  */
 function getLot($connection, $lot_id){
     $result = [];
-    $sql = "SELECT l.id, c.name AS category_name, l.name as name, COALESCE(MAX(r.amount), l.start_price)as price, l.img,l.description, (MAX(r.amount)+ l.step)as rate, l.end_time
+    $sql = "SELECT l.id, c.name AS category_name, l.name as name, COALESCE(MAX(r.amount), l.start_price)as price, l.img, l.description, (MAX(r.amount)+ l.step)as rate, l.end_time
             FROM lots l
             JOIN categories c
             ON l.category_id = c.id
