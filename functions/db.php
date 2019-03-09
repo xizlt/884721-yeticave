@@ -182,7 +182,7 @@ function get_user_by_email($connection, $email){
 function get_user_by_id($connection, $id)
 {
     $id = (int)$id;
-    $sql = "SELECT id FROM users WHERE id = '$id'";
+    $sql = "SELECT * FROM users WHERE id = '$id'";
     $res = mysqli_query($connection, $sql);
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
     return $user;
