@@ -87,6 +87,7 @@ function getLot($connection, $lot_id){
 }
 
 /**
+ * Запись нового лота
  * @param $connection
  * @param $lot_data
  * @return bool
@@ -112,6 +113,12 @@ function add_lot($connection, $lot_data){
     return $lot_id;
 }
 
+/**
+ * Запись нового юзера
+ * @param $connection
+ * @param $user_data
+ * @return int|string
+ */
 function add_user($connection, $user_data){
     $password = password_hash($user_data['password'], PASSWORD_DEFAULT);
     $sql = 'INSERT INTO users (name, email, contacts, avatar, password) VALUE (? ,? ,? ,? ,?)';
@@ -131,6 +138,12 @@ function add_user($connection, $user_data){
     return $user_id;
 }
 
+/**
+ * Сверка email для формы регистрации юзера
+ * @param $connection
+ * @param $email
+ * @return string|null
+ */
 function isset_email($connection, $email){
     $email_user = mysqli_real_escape_string($connection, $email);
     $sql = "SELECT id FROM users WHERE email = '$email_user'";
@@ -142,6 +155,12 @@ function isset_email($connection, $email){
     return null;
 }
 
+/**
+ * Сверка email для формы входа юзера
+ * @param $connection
+ * @param $email
+ * @return array|null
+ */
 function get_user_by_email($connection, $email){
     $email = mysqli_real_escape_string($connection, $email);
     $sql = "SELECT * FROM users WHERE email = '$email'";
@@ -150,6 +169,12 @@ function get_user_by_email($connection, $email){
     return $user;
 }
 
+/**
+ * Получение id для _SESSION
+ * @param $connection
+ * @param $id
+ * @return array|null
+ */
 function get_user_by_id($connection, $id)
 {
     $id = (int)$id;
