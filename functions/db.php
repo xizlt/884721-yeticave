@@ -183,3 +183,26 @@ function get_user_by_id($connection, $id)
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
     return $user;
 }
+
+/**
+ * Запись новой ставки
+ * @param $connection
+ * @param $amount
+ * @return bool
+ */
+function add_rate($connection, $amount){
+    $user_id = $_SESSION['id'];
+    $lot_id = $_GET['id'];
+    $sql = 'INSERT INTO rate(amount, user_id, lot_id) 
+            VALUES (?, ?, ?)';
+    $stmt = mysqli_prepare($connection, $sql);
+    mysqli_stmt_bind_param($stmt, 'iii',
+        $amount,
+        $user_id,
+        $lot_id
+    );
+    $result = mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    return $result;
+}

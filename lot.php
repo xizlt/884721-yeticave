@@ -41,6 +41,17 @@ if ($lot) {
     ]);
 }
 
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $amount = $_POST['amount'];
+
+    $errors = error_amount($amount);
+    if (!$errors) {
+        add_rate($connection, $amount);
+        $lot = getLot($connection, $lot_id);
+    }
+}
+
 $layout = include_template('layout.php', [
     'content' => $page_content,
     'title' => 'Страница лота',

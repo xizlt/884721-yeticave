@@ -147,6 +147,11 @@ function validate_lot_category_id($category_id){
     return null;
 }
 
+/**
+ * Проверяет соответствие формату загружаемой картинки
+ * @param $file_data
+ * @return string|null
+ */
 function validate_lot_img_file($file_data){
     if ($tmp_name = get_value($file_data, 'tmp_name')) {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
