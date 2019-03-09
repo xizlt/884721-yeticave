@@ -64,7 +64,7 @@ function getLots($connection){
  */
 function getLot($connection, $lot_id){
     $result = [];
-    $sql = "SELECT l.id, c.name AS category_name, l.name AS name, COALESCE(MAX(r.amount), l.start_price)AS price, l.img, l.description, (l.step + COALESCE(MAX(r.amount), l.start_price))AS rate, l.end_time
+    $sql = "SELECT l.id, l.user_id AS user_id_rate, c.name AS category_name, l.name AS name, COALESCE(MAX(r.amount), l.start_price)AS price, l.img, l.description, (l.step + COALESCE(MAX(r.amount), l.start_price))AS rate, l.end_time
             FROM lots l
             JOIN categories c
             ON l.category_id = c.id
@@ -182,7 +182,7 @@ function get_user_by_email($connection, $email){
 function get_user_by_id($connection, $id)
 {
     $id = (int)$id;
-    $sql = "SELECT * FROM users WHERE id = '$id'";
+    $sql = "SELECT id FROM users WHERE id = '$id'";
     $res = mysqli_query($connection, $sql);
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
     return $user;
@@ -210,7 +210,7 @@ function add_rate($connection, $amount, $user, $lot_id){
 }
 
 function rate_user($connection, $lot_id){
-    $sql = "SELECT * , u.name, r.create_time AS time, r.user_id AS rate_user_id
+    $sql = "SELECT * , u.name, r.create_time AS time, r.user_id
             FROM rate r 
             JOIN users u 
             ON u.id = r.user_id 

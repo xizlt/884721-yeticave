@@ -8,7 +8,7 @@
         <?php endforeach; ?>
     </ul>
 </nav>
-    <?php var_dump($rate);?>
+
    <section class="lot-item container">
     <h2><?= $lot ['name']; ?></h2>
     <div class="lot-item__content">
@@ -45,9 +45,9 @@
                         <button type="submit" class="button">Сделать ставку</button>
                     </form>
                 </div>
+
                 <?php endif;?>
-
-
+            
             <div class="history">
                 <h3>История ставок (<span><?= count($rate) ?></span>)</h3>
                 <table class="history__list">

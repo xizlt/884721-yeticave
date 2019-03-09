@@ -52,25 +52,30 @@ function time_before_end($end_string_time){
     return $result;
 }
 
-
-function rate_show($lot, $user, $rate){
-    if (!$user){
+/**
+ * Запрет на показ блока сделать ставку
+ * @param $lot
+ * @param $user
+ * @param $rate
+ * @return bool|null
+ */
+function rate_show($lot, $user, $rate)
+{
+    if (!$user) {
         return false;
     }
-    if (time_before_end($lot['end_time']) == '00:00'){
+    if (time_before_end($lot['end_time']) == '00:00') {
         return false;
     }
-    //if ($user == $rate['rate_user_id']){
-   //    return false;
-    //}
-
-  /* foreach ($rate as $key => $value) {
-        if ($key === 'user_id') {
-            if ($user === $value) {
-                return false;
-            }
+    if ($lot['user_id_rate'] == $user['id']) {
+        return false;
+    }
+    foreach ($rate as $key) {
+        if ($key['user_id'] == $user['id']) {
+            return false;
         }
-    }*/
+    }
+
     return null;
 }
 

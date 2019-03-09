@@ -31,6 +31,7 @@ if ($user_id = get_value($_SESSION, 'user_id')){
 $lot = getLot($connection, $lot_id);
 $rate = rate_user($connection, $lot_id);
 $show_rate = rate_show($lot, $user, $rate);
+
 if (!$lot) {
     header("HTTP/1.0 404 Not Found");
     $page_content = include_template('error.php', [
