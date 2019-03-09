@@ -15,8 +15,8 @@
             <div class="lot-item__image">
                 <img src="<?= $lot['img']; ?>" width="730" height="548" alt="Сноуборд">
             </div>
-            <p class="lot-item__category">Категория: <span><?= get_value($lot,'category_name'); ?></span></p>
-            <p class="lot-item__description"> <?= get_value($lot,'description'); ?></p>
+            <p class="lot-item__category">Категория: <span><?= get_value($lot, 'category_name'); ?></span></p>
+            <p class="lot-item__description"> <?= get_value($lot, 'description'); ?></p>
         </div>
         <div class="lot-item__right">
 
@@ -24,29 +24,28 @@
 
                 <div class="lot-item__state">
                     <div class="lot-item__timer timer">
-                        <?= time_before_end(get_value($lot,'end_time')) ?>
+                        <?= time_before_end(get_value($lot, 'end_time')) ?>
                     </div>
                     <div class="lot-item__cost-state">
                         <div class="lot-item__rate">
                             <span class="lot-item__amount">Текущая цена</span>
-                            <span class="lot-item__cost"><?=formatPrice(get_value($lot,'price')); ?></span>
+                            <span class="lot-item__cost"><?=formatPrice(get_value($lot, 'price')); ?></span>
                         </div>
                         <div class="lot-item__min-cost">
                             Мин. ставка <span><?= formatPrice(get_value($lot, 'start_price')); ?></span>
                         </div>
                     </div>
                     <form class="lot-item__form" action="/lot.php?id=<?= $lot['id']; ?>" method="post" enctype="application/x-www-form-urlencoded">
-                        <p class="lot-item__form-item form__item form__item--invalid">
+                        <p class="lot-item__form-item <?php if($errors): ?> form__item--invalid <?php endif; ?>">
                             <label for="cost">Ваша ставка</label>
-                            <input id="cost" type="text" name="cost" placeholder="12 000">
-                            <span class="form__error">Введите наименование лота</span>
+                            <input id="cost" type="text" name="amount" placeholder="12 000">
+                            <span class="form__error"><?= $errors ?></span>
                         </p>
                         <button type="submit" class="button">Сделать ставку</button>
                     </form>
                 </div>
 
             <?php endif;?>
-
 
             <div class="history">
                 <h3>История ставок (<span>10</span>)</h3>

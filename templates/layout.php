@@ -24,7 +24,7 @@
 
 
             <?php if ($user): ?>
-                <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
+                <a class="main-header__add-lot button" href="/add.php">Добавить лот</a>
                 <div class="user-menu__logged">
                     <p><?= get_value($user, 'name'); ?></p>
                     <a href="/logout.php">Выйти</a>

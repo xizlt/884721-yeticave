@@ -1,26 +1,18 @@
 <?php
 
-/**
- * Возвращает массив ошибок при добавлении ставки
- * @param $amount
- * @return null
- */
-function error_amount($amount)
+function error_amount($amount, $lot)
 {
-    if (!isset($_SESSION['user'])) {
-        $errors = 'Для добавления ставки необходимо зарегистрироваться или войти';
+    if (!isset($_SESSION['user_id'])) {
+        return 'Для добавления ставки необходимо зарегистрироваться или войти';
     }
-    if (!$amount) {
-        $errors = 'Укажите ставку';
+    if (empty($amount)) {
+        return 'Укажите ставку';
     }
-    if ($amount < $lot_data['start_price']) {
-        $errors = 'Ставка должна быть больше минимальной ставки';
+    if ($amount < $lot['start_price']) {
+        return 'Ставка должна быть больше минимальной ставки';
     }
-    if ($amount > $lot_data['start_price']) {
-        $errors = 'Следующая ставка должна равняться минимальной ставки';
-    }
-    if (!is_int($amount)) {
-        $errors = 'Ставка может быть только целое число';
+    if (!(int)$amount) {
+        return 'Ставка может быть только целым числом';
     }
     return null;
 }

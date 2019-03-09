@@ -191,7 +191,7 @@ function get_user_by_id($connection, $id)
  * @return bool
  */
 function add_rate($connection, $amount){
-    $user_id = $_SESSION['id'];
+    $user_id = $_SESSION['user_id'];
     $lot_id = $_GET['id'];
     $sql = 'INSERT INTO rate(amount, user_id, lot_id) 
             VALUES (?, ?, ?)';
