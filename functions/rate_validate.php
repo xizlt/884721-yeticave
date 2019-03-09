@@ -8,7 +8,7 @@ function error_amount($amount, $lot)
     if (empty($amount)) {
         return 'Укажите ставку';
     }
-    if ($amount < $lot['start_price']) {
+    if ($amount < $lot['rate']) {
         return 'Ставка должна быть больше минимальной ставки';
     }
     if (!(int)$amount) {

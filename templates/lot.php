@@ -32,13 +32,13 @@
                             <span class="lot-item__cost"><?=formatPrice(get_value($lot, 'price')); ?></span>
                         </div>
                         <div class="lot-item__min-cost">
-                            Мин. ставка <span><?= formatPrice(get_value($lot, 'start_price')); ?></span>
+                            Мин. ставка <span><?= formatPrice(get_value($lot, 'rate')); ?></span>
                         </div>
                     </div>
                     <form class="lot-item__form" action="/lot.php?id=<?= $lot['id']; ?>" method="post" enctype="application/x-www-form-urlencoded">
                         <p class="lot-item__form-item <?php if($errors): ?> form__item--invalid <?php endif; ?>">
                             <label for="cost">Ваша ставка</label>
-                            <input id="cost" type="text" name="amount" placeholder="12 000">
+                            <input id="cost" type="text" name="amount" placeholder="<?= formatPrice($lot['rate']); ?>">
                             <span class="form__error"><?= $errors ?></span>
                         </p>
                         <button type="submit" class="button">Сделать ставку</button>
