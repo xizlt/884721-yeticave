@@ -3,7 +3,7 @@
     <ul class="nav__list container">
         <?php foreach ($categories as $category) : ?>
             <li class="nav__item">
-                <a href=""> <?=$category['name']; ?></a>
+                <a href=""> <?= get_value($category, 'name'); ?></a>
             </li>
         <?php endforeach; ?>
     </ul>
@@ -15,24 +15,24 @@
             <div class="lot-item__image">
                 <img src="<?= $lot['img']; ?>" width="730" height="548" alt="Сноуборд">
             </div>
-            <p class="lot-item__category">Категория: <span><?= $lot['category_name']; ?></span></p>
-            <p class="lot-item__description"> <?= $lot['description']; ?></p>
+            <p class="lot-item__category">Категория: <span><?= get_value($lot,'category_name'); ?></span></p>
+            <p class="lot-item__description"> <?= get_value($lot,'description'); ?></p>
         </div>
         <div class="lot-item__right">
 
-            <?php if (isset($_SESSION['user'])): ?>
+            <?php if ($user): ?>
 
                 <div class="lot-item__state">
                     <div class="lot-item__timer timer">
-                        <?= time_before_end($lot['end_time']) ?>
+                        <?= time_before_end(get_value($lot,'end_time')) ?>
                     </div>
                     <div class="lot-item__cost-state">
                         <div class="lot-item__rate">
                             <span class="lot-item__amount">Текущая цена</span>
-                            <span class="lot-item__cost"><?=formatPrice($lot['price']); ?></span>
+                            <span class="lot-item__cost"><?=formatPrice(get_value($lot,'price')); ?></span>
                         </div>
                         <div class="lot-item__min-cost">
-                            Мин. ставка <span><?= formatPrice($lot['start_price']); ?></span>
+                            Мин. ставка <span><?= formatPrice(get_value($lot, 'start_price')); ?></span>
                         </div>
                     </div>
                     <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">
@@ -46,9 +46,6 @@
                 </div>
 
             <?php endif;?>
-
-
-
 
 
             <div class="history">

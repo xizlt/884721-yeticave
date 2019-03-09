@@ -18,8 +18,8 @@ function upload_img($file_data){
 
 function upload_avatar($file_data)
 {
-        $path = $file_data['avatar']['name'];
-        $tmp_name = $file_data['avatar']['tmp_name'];
+        $path = get_value($file_data, 'name');
+        $tmp_name = get_value($file_data, 'tmp_name');
         $result = 'avatar/' . $path;
         move_uploaded_file($tmp_name, $result);
         return $result;
