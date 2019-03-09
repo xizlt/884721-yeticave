@@ -47,7 +47,7 @@
                 </div>
 
                 <?php endif;?>
-            
+
             <div class="history">
                 <h3>История ставок (<span><?= count($rate) ?></span>)</h3>
                 <table class="history__list">
