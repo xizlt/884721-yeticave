@@ -64,7 +64,7 @@ function getLots($connection){
  */
 function getLot($connection, $lot_id){
     $result = [];
-    $sql = "SELECT l.id, c.name AS category_name, l.name as name, COALESCE(MAX(r.amount), l.start_price)as price, l.img, l.description, (MAX(r.amount)+ l.step)as rate, l.end_time
+    $sql = "SELECT l.id, c.name AS category_name, l.name AS name, COALESCE(MAX(r.amount), l.start_price)AS price, l.img, l.description, (l.step + COALESCE(MAX(r.amount), l.start_price))AS rate, l.end_time, l.user_id
             FROM lots l
             JOIN categories c
             ON l.category_id = c.id
@@ -204,5 +204,16 @@ function add_rate($connection, $amount){
     $result = mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
+    return $result;
+}
+
+function rate_user($connection, $lot_id){
+    $sql = "SELECT * , u.name FROM rate r JOIN users u ON u.id = r.user_id WHERE r.lot_id = '$lot_id'";
+    if ($query = mysqli_query($connection, $sql)) {
+        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    }else{
+        $error = mysqli_error($connection);
+        $result = print('Ошибка MySQL ' . $error);
+    }
     return $result;
 }

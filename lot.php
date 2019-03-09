@@ -44,14 +44,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!$errors) {
         add_rate($connection, $amount);
+        header("Location: lot.php?id=$lot_id");
+        exit();
     }
 }
+$rate = rate_user($connection, $lot_id);
+$show_rate = rate_show($lot, $user, $rate);
 
 $page_content = include_template('lot.php', [
     'categories' => $categories,
     'lot' => $lot,
     'user' => $user,
-    'errors' => $errors
+    'errors' => $errors,
+    'show_rate' => $show_rate,
+    'rate' => $rate
 ]);
 
 $layout = include_template('layout.php', [

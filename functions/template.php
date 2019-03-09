@@ -52,3 +52,20 @@ function time_before_end($end_string_time){
     return $result;
 }
 
+function rate_show($lot, $user, $rate){
+
+    if (time_before_end($lot['end_time']) == '00:00'){
+        return false;
+    }
+    if ($user == $lot['user_id']){
+        return false;
+    }
+   foreach ($rate as $key => $value) {
+        if ($key == 'user_id') {
+            if ($user == $value) {
+                return false;
+            }
+        }
+    }
+    return null;
+}

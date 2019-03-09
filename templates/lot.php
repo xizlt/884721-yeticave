@@ -21,7 +21,8 @@
         <div class="lot-item__right">
 
             <?php if($user): ?>
-            <?php if(time_before_end($lot['end_time']) !== '00:00'): ?>
+            <?php if($show_rate == null): ?>
+
                 <div class="lot-item__state">
                     <div class="lot-item__timer timer">
                         <?= time_before_end(get_value($lot, 'end_time')) ?>
@@ -48,58 +49,17 @@
             <?php endif;?>
 
             <div class="history">
-                <h3>История ставок (<span>10</span>)</h3>
+                <h3>История ставок (<span><?= count($rate) ?></span>)</h3>
                 <table class="history__list">
+
+                    <?php foreach ($rate as $key): ?>
                     <tr class="history__item">
-                        <td class="history__name">Иван</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">5 минут назад</td>
+                        <td class="history__name"><?= $key['name']; ?></td>
+                        <td class="history__price"><?= $key['amount']; ?></td>
+                        <td class="history__time"><?= $key['create_time']; ?></td>
                     </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Константин</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">20 минут назад</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Евгений</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">Час назад</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Игорь</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 08:21</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Енакентий</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 13:20</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Семён</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 12:20</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Илья</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 10:20</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Енакентий</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 13:20</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Семён</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 12:20</td>
-                    </tr>
-                    <tr class="history__item">
-                        <td class="history__name">Илья</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">19.03.17 в 10:20</td>
-                    </tr>
+                    <?php endforeach; ?>
+
                 </table>
             </div>
         </div>
