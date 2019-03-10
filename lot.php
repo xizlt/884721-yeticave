@@ -12,17 +12,29 @@ require_once('functions/template.php');
 require_once('functions/upload.php');
 
 $config = require 'config.php';
-
-if (!get_value($_GET, 'id')) {
-    die('<b>Отсутствует id лота в запросе или такого параметра нет</b>');
-} else {
-    $lot_id = get_value($_GET, 'id');
-}
-
 $connection = connectDb($config['db']);
+if (!$connection) {
+    $page_content = include_template('error.php', ['errors' => mysqli_error($connection), 'categories' => $categories]);
+}
 
 $user = null;
 $categories = getCategories($connection);
+
+if (!get_value($_GET, 'id')) {
+    header("HTTP/1.0 404 Not Found");
+    $page_content = include_template('404.php', ['categories' => $categories]);
+
+    $layout = include_template('layout.php', [
+        'content' => $page_content,
+        'title' => 'Страница лота',
+        'categories' => $categories,
+        'user' => $user
+    ]);
+    print($layout);
+    exit;
+}
+$lot_id = clean(get_value($_GET, 'id'));
+
 
 if ($user_id = get_value($_SESSION, 'user_id')) {
     $user = get_user_by_id($connection, $user_id);
@@ -34,9 +46,16 @@ $show_rate = rate_show($lot, $user, $rate);
 
 if (!$lot) {
     header("HTTP/1.0 404 Not Found");
-    $page_content = include_template('error.php', [
-        'error' => 'Такого лота нет'
+    $page_content = include_template('404.php', ['categories' => $categories]);
+
+    $layout = include_template('layout.php', [
+        'content' => $page_content,
+        'title' => 'Страница лота',
+        'categories' => $categories,
+        'user' => $user
     ]);
+    print($layout);
+    exit;
 }
 
 $errors = [];

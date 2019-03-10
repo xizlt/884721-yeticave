@@ -34,7 +34,7 @@
         </div>
         <div class="form__item form__item--wide <?php if ($errors['description']): ?>form__item--invalid <?php endif; ?>">
             <label for="message">Описание</label>
-            <textarea id="message" name="description" placeholder="Напишите описание лота"><?= get_value($lot_data, 'description'); ?></textarea>
+            <textarea id="message" name="description" placeholder="Напишите описание лота"><?= clean(get_value($lot_data, 'description')); ?></textarea>
             <span class="form__error"><?= $errors['description']; ?></span>
         </div>
         <div class="form__item form__item--file <?php if ($errors['img']): ?>form__item--invalid<?php endif; ?>">
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="form__input-file">
-                <input class="visually-hidden" type="file" id="photo2" name="img">
+                <input class="visually-hidden" type="file" id="photo2" name="img" value="<?= get_value($lot_data, 'img') ?>">
                 <label for="photo2">
                     <span>+ Добавить</span>
                 </label>
@@ -61,17 +61,17 @@
         <div class="form__container-three">
             <div class="form__item form__item--small <?php if ($errors['start_price']): ?>form__item--invalid<?php endif; ?>">
                 <label for="lot-rate">Начальная цена</label>
-                <input id="lot-rate" type="number" name="start_price" placeholder="0" value="<?= get_value($lot_data, 'start_price'); ?>">
+                <input id="lot-rate" type="number" name="start_price" placeholder="0" value="<?= clean(get_value($lot_data, 'start_price')); ?>">
                 <span class="form__error"><?= $errors['start_price']; ?></span>
             </div>
             <div class="form__item form__item--small <?php if ($errors['step']): ?>form__item--invalid<?php endif; ?>">
                 <label for="lot-step">Шаг ставки</label>
-                <input id="lot-step" type="number" name="step" placeholder="0" value="<?= get_value($lot_data, 'step'); ?>">
+                <input id="lot-step" type="number" name="step" placeholder="0" value="<?= clean(get_value($lot_data, 'step')); ?>">
                 <span class="form__error"><?= $errors['step']; ?></span>
             </div>
             <div class="form__item <?php if ($errors['end_time']): ?>form__item--invalid<?php endif; ?>">
                 <label for="lot-date">Дата окончания торгов</label>
-                <input class="form__input-date" id="lot-date" type="date" name="end_time" value="<?= get_value($lot_data, 'end_time'); ?>">
+                <input class="form__input-date" id="lot-date" type="date" name="end_time" value="<?= clean(get_value($lot_data, 'end_time')); ?>">
                 <span class="form__error"><?= $errors['end_time']; ?></span>
             </div>
         </div>

@@ -7,11 +7,13 @@ require_once('functions/registration.php');
 require_once('functions/db.php');
 require_once('functions/template.php');
 require_once('functions/upload.php');
+
 $config = require 'config.php';
 $connection = connectDb($config['db']);
 if (!$connection) {
-    $page_content = include_template('error.php', ['errors' => mysqli_error($connection)]);
+    $page_content = include_template('error.php', ['errors' => mysqli_error($connection), 'categories' => $categories]);
 }
+
 $categories = getCategories($connection);
 $user_data = [];
 $file_data = [];

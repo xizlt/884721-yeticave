@@ -67,28 +67,27 @@ function getLots($connection)
  */
 function get_lot($connection, $lot_id)
 {
-    $result = [];
-    $sql = "SELECT l.id, l.user_id AS user_id_rate, c.name AS category_name, l.name AS name, COALESCE(MAX(r.amount), l.start_price)AS price, l.img, l.description, (l.step + COALESCE(MAX(r.amount), l.start_price))AS rate, l.end_time
+        $sql = "SELECT l.id, l.user_id AS user_id_rate, c.name AS category_name, l.name AS name, COALESCE(MAX(r.amount), l.start_price)AS price, l.img, l.description, (l.step + COALESCE(MAX(r.amount), l.start_price))AS rate, l.end_time
             FROM lots l
             JOIN categories c
             ON l.category_id = c.id
             JOIN rate r
             ON r.lot_id = l.id
-            where l.id ='$lot_id'
+            where l.id = $lot_id
             ;";
 
-    if ($query = mysqli_query($connection, $sql)) {
-        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-    } else {
-        $error = mysqli_error($connection);
-        $result = print('Ошибка MySQL ' . $error);
-    }
+        if ($query = mysqli_query($connection, $sql)) {
+            $result = mysqli_fetch_assoc($query);
+        } else {
+            $error = mysqli_error($connection);
+            die('Ошибка MySQL: ' . $error);
+        }
 
-    if ($result) {
-        return $result[0];
-    } else {
+        if (get_value($result, 'id')) {
+            return $result;
+        }
+
         return null;
-    }
 }
 
 /**
