@@ -11,8 +11,9 @@ require_once('functions/upload.php');
 $config = require 'config.php';
 $connection = connectDb($config['db']);
 if (!$connection) {
-    $page_content = include_template('error.php', ['errors' => mysqli_error($connection), 'categories' => $categories]);
+    $page_content = include_template('error.php', ['error' => mysqli_error($connection)]);
 }
+
 $user = null;
 $categories = getCategories($connection);
 $file_data = [];
