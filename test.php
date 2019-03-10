@@ -23,7 +23,7 @@ var_dump($name);
 */
 
 $lot_id = 2;
-$lot = getLot($connection, $lot_id);
+$lot = get_lot($connection, $lot_id);
 $user = 42;
 $errors = rate_show($lot, $user, $rate);
 

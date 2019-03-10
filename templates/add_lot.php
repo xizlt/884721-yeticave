@@ -17,7 +17,7 @@
             <div class="form__item <?php if ($errors['name']): ?>form__item--invalid<?php endif; ?>">
                 <!-- form__item--invalid -->
                 <label for="lot-name">Наименование</label>
-                <input id="lot-name" type="text" name="name" placeholder="Введите наименование лота" value="<?= get_value($lot_data, 'name'); ?>">
+                <input id="lot-name" type="text" name="name" placeholder="Введите наименование лота" value="<?= clean(get_value($lot_data, 'name')); ?>">
                 <span class="form__error"><?= $errors['name']; ?></span>
             </div>
             <div class="form__item <?php if ($errors['category_id']): ?>form__item--invalid<?php endif; ?>">
