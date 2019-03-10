@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Проверяет ошибки по блоку ставка
+ * @param $amount
+ * @param $lot
+ * @return string|null
+ */
 function error_amount($amount, $lot)
 {
     if (!isset($_SESSION['user_id'])) {

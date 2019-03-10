@@ -5,7 +5,8 @@
  * @param $config
  * @return mysqli|void
  */
-function connectDb($config){
+function connectDb($config)
+{
     $connection = mysqli_connect($config['host'], $config['user'], $config['password'], $config['database']);
     mysqli_set_charset($connection, "utf8");
     // соответствие типам
@@ -23,12 +24,13 @@ function connectDb($config){
  * @param $connection
  * @return array|int|null
  */
-function getCategories($connection){
+function getCategories($connection)
+{
     $result = [];
     $sql = 'SELECT * FROM categories';
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-    }else{
+    } else {
         $error = mysqli_error($connection);
         $result = print('Ошибка MySQL ' . $error);
     }
@@ -40,7 +42,8 @@ function getCategories($connection){
  * @param $connection
  * @return array|int|null
  */
-function getLots($connection){
+function getLots($connection)
+{
     $result = [];
     $sql = 'SELECT l.id, c.name AS category_name, l.name, l.img, l.start_price, l.create_time AS last_rite_time, l.end_time
             FROM lots l
@@ -49,7 +52,7 @@ function getLots($connection){
             ORDER BY l.create_time DESC;';
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-    }else{
+    } else {
         $error = mysqli_error($connection);
         $result = print('Ошибка MySQL ' . $error);
     }
@@ -62,7 +65,8 @@ function getLots($connection){
  * @param $lot_id
  * @return |null
  */
-function getLot($connection, $lot_id){
+function getLot($connection, $lot_id)
+{
     $result = [];
     $sql = "SELECT l.id, l.user_id AS user_id_rate, c.name AS category_name, l.name AS name, COALESCE(MAX(r.amount), l.start_price)AS price, l.img, l.description, (l.step + COALESCE(MAX(r.amount), l.start_price))AS rate, l.end_time
             FROM lots l
@@ -75,7 +79,7 @@ function getLot($connection, $lot_id){
 
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-    } else{
+    } else {
         $error = mysqli_error($connection);
         $result = print('Ошибка MySQL ' . $error);
     }
@@ -95,7 +99,8 @@ function getLot($connection, $lot_id){
  * @param $user
  * @return int|string
  */
-function add_lot($connection, $lot_data, $user){
+function add_lot($connection, $lot_data, $user)
+{
     $sql = 'INSERT INTO lots (category_id, name, description, img, start_price, end_time, step, user_id) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     $stmt = mysqli_prepare($connection, $sql);
@@ -123,7 +128,8 @@ function add_lot($connection, $lot_data, $user){
  * @param $user_data
  * @return int|string
  */
-function add_user($connection, $user_data){
+function add_user($connection, $user_data)
+{
     $password = password_hash($user_data['password'], PASSWORD_DEFAULT);
     $sql = 'INSERT INTO users (name, email, contacts, avatar, password) VALUE (? ,? ,? ,? ,?)';
     $stmt = mysqli_prepare($connection, $sql);
@@ -148,7 +154,8 @@ function add_user($connection, $user_data){
  * @param $email
  * @return string|null
  */
-function isset_email($connection, $email){
+function isset_email($connection, $email)
+{
     $email_user = mysqli_real_escape_string($connection, $email);
     $sql = "SELECT id FROM users WHERE email = '$email_user'";
     $res = mysqli_query($connection, $sql);
@@ -165,7 +172,8 @@ function isset_email($connection, $email){
  * @param $email
  * @return array|null
  */
-function get_user_by_email($connection, $email){
+function get_user_by_email($connection, $email)
+{
     $email = mysqli_real_escape_string($connection, $email);
     $sql = "SELECT * FROM users WHERE email = '$email'";
     $res = mysqli_query($connection, $sql);
@@ -174,7 +182,7 @@ function get_user_by_email($connection, $email){
 }
 
 /**
- * Получение id для _SESSION
+ * Получение Получение массива с данными о пользователе по id
  * @param $connection
  * @param $id
  * @return array|null
@@ -194,7 +202,8 @@ function get_user_by_id($connection, $id)
  * @param $amount
  * @return bool
  */
-function add_rate($connection, $amount, $user, $lot_id){
+function add_rate($connection, $amount, $user, $lot_id)
+{
     $sql = 'INSERT INTO rate(amount, user_id, lot_id) 
             VALUES (?, ?, ?)';
     $stmt = mysqli_prepare($connection, $sql);
@@ -209,7 +218,14 @@ function add_rate($connection, $amount, $user, $lot_id){
     return $result;
 }
 
-function rate_user($connection, $lot_id){
+/**
+ * Возвращает массив с ставками
+ * @param $connection
+ * @param $lot_id
+ * @return array|int|null
+ */
+function rates_user($connection, $lot_id)
+{
     $sql = "SELECT * , u.name, r.create_time AS time, r.user_id
             FROM rate r 
             JOIN users u 
@@ -218,7 +234,7 @@ function rate_user($connection, $lot_id){
             ORDER BY time DESC";
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-    }else{
+    } else {
         $error = mysqli_error($connection);
         $result = print('Ошибка MySQL ' . $error);
     }

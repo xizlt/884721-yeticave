@@ -1,12 +1,18 @@
 <?php
 
+/**
+ * Возвращает массив ошибок при проверки логина и пароля
+ * @param $connection
+ * @param $login_data
+ * @return array
+ */
 function validate_login($connection, $login_data)
 {
     $errors = [];
     if ($error = validate_email($login_data['email'])) {
         $errors['email'] = $error;
     }
-    if (!isset($errors['email'])){
+    if (!isset($errors['email'])) {
         $user = get_user_by_email($connection, $login_data['email']);
         if (!$user) {
             $errors['email'] = 'Такой пользователь не найден в базе';
@@ -15,18 +21,24 @@ function validate_login($connection, $login_data)
     if ($error = validate_password($login_data['password'], $user['password'])) {
         $errors['password'] = $error;
     }
-    if (!$errors){
+    if (!$errors) {
         $_SESSION['user_id'] = $user['id'];
     }
     return $errors;
 }
 
-function validate_password($password,$user)
+/**
+ * Валидация пароля из формы
+ * @param $password
+ * @param $user
+ * @return string|null
+ */
+function validate_password($password, $user)
 {
     if (empty($password)) {
         return 'Заполните поле пароль';
     }
-    if (mb_strlen($password) > 255){
+    if (mb_strlen($password) > 255) {
         return 'Допустимая длина строки 255 символов';
     }
     if (!password_verify($password, $user)) {
@@ -35,6 +47,11 @@ function validate_password($password,$user)
     return null;
 }
 
+/**
+ * Валидация email из формы
+ * @param $email
+ * @return string|null
+ */
 function validate_email($email)
 {
     if (empty($email)) {

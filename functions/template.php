@@ -1,6 +1,13 @@
 <?php
 
-function include_template($name, $data){
+/**
+ * Шаблонизатор
+ * @param $name
+ * @param $data
+ * @return false|string
+ */
+function include_template($name, $data)
+{
     $name = 'templates/' . $name;
     $result = '';
 
@@ -17,8 +24,13 @@ function include_template($name, $data){
     return $result;
 }
 
-//преобразует цену к формату Х ХХХ
-function formatPrice($lot){
+/**
+ * преобразует цену к формату Х ХХХ
+ * @param $lot
+ * @return string
+ */
+function formatPrice($lot)
+{
     $rate_ceil = ceil($lot);
     if ($rate_ceil >= 1000) {
         $rate_ceil = number_format($rate_ceil, 0, null, ' ');
@@ -26,8 +38,13 @@ function formatPrice($lot){
     return $rate_ceil . " &#8381";
 }
 
-//Xss
-function clean($value = "") {
+/**
+ * Xss защита
+ * @param string $value
+ * @return string
+ */
+function clean($value)
+{
     $value = trim($value);
     $value = stripslashes($value);
     $value = strip_tags($value);
@@ -36,15 +53,19 @@ function clean($value = "") {
     return $value;
 }
 
-
-//время до окончания жизни лота
-function time_before_end($end_string_time){
+/**
+ * время до окончания жизни лота
+ * @param $end_string_time
+ * @return string
+ */
+function time_before_end($end_string_time)
+{
     $end_time = strtotime($end_string_time);
     $secs_to_end_time = $end_time - time();
     $hours = floor($secs_to_end_time / 3600);
     $minutes = floor(($secs_to_end_time % 3600) / 60);
     $hours = sprintf('%02d', $hours);
-    $minutes =sprintf('%02d', $minutes);
+    $minutes = sprintf('%02d', $minutes);
     $result = $hours . ":" . $minutes;
     if ($result <= 0) {
         $result = "00:00";
@@ -84,7 +105,8 @@ function rate_show($lot, $user, $rate)
  * @param $time
  * @return false|string
  */
-function time_rite ($time) {
+function time_rite($time)
+{
     $date_now = date_create("now");
     $date_add = date_create($time);
     $diff = date_diff($date_now, $date_add);
@@ -93,11 +115,9 @@ function time_rite ($time) {
     $minutes_count = date_interval_format($diff, "%i");
     if ($days_count) {
         $result = date('d.m.y \в H:i', strtotime($time));
-    }
-    elseif ($hours_count) {
+    } elseif ($hours_count) {
         $result = "$hours_count" . " ч. назад";
-    }
-    else {
+    } else {
         $result = "$minutes_count" . " мин. назад";
     }
     return $result;

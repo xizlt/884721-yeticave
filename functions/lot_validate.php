@@ -7,27 +7,28 @@
  * @return array
  * @throws Exception
  */
-function validate_lot($lot_data, $file_data){
+function validate_lot($lot_data, $file_data)
+{
     $errors = [];
-    if ($error = validate_lot_name($lot_data['name'])){
+    if ($error = validate_lot_name($lot_data['name'])) {
         $errors['name'] = $error;
     }
-    if ($error = validate_lot_start_price($lot_data['start_price'])){
+    if ($error = validate_lot_start_price($lot_data['start_price'])) {
         $errors['start_price'] = $error;
     }
-    if ($error = validate_lot_description($lot_data['description'])){
+    if ($error = validate_lot_description($lot_data['description'])) {
         $errors['description'] = $error;
     }
-    if ($error = validate_lot_step($lot_data['step'])){
+    if ($error = validate_lot_step($lot_data['step'])) {
         $errors['step'] = $error;
     }
-    if ($error = validate_lot_end_time($lot_data['end_time'])){
+    if ($error = validate_lot_end_time($lot_data['end_time'])) {
         $errors['end_time'] = $error;
     }
-    if ($error = validate_lot_category_id($lot_data['category_id'])){
+    if ($error = validate_lot_category_id($lot_data['category_id'])) {
         $errors['category_id'] = $error;
     }
-    if ($error = validate_lot_img_file(get_value($file_data, 'img'))){
+    if ($error = validate_lot_img_file(get_value($file_data, 'img'))) {
         $errors['img'] = $error;
     }
     return $errors;
@@ -39,11 +40,12 @@ function validate_lot($lot_data, $file_data){
  * @param string $name "Наименование лота"
  * @return string|null
  */
-function validate_lot_name($name){
-    if(empty($name)){
+function validate_lot_name($name)
+{
+    if (empty($name)) {
         return 'Укажите имя лота';
     }
-    if (mb_strlen($name)> 255){
+    if (mb_strlen($name) > 255) {
         return 'Максимальная длина строки должна быть не более 255 символов';
     }
     return null;
@@ -54,14 +56,15 @@ function validate_lot_name($name){
  * @param string $description "Описание лота"
  * @return string|null
  */
-function validate_lot_description($description){
-    if(empty($description)){
+function validate_lot_description($description)
+{
+    if (empty($description)) {
         return 'Напишите описание лота';
     }
-    if (mb_strlen($description)> 1000){
+    if (mb_strlen($description) > 1000) {
         return 'Максимальная длина строки должна быть не более 1 000 символов';
     }
-    if (mb_strlen($description) < 3){
+    if (mb_strlen($description) < 3) {
         return 'Описание не может быть меньше 3 символов';
     }
     return null;
@@ -72,17 +75,18 @@ function validate_lot_description($description){
  * @param  integer $step "Шаг ставки"
  * @return string|null
  */
-function validate_lot_step($step){
-    if(empty($step)){
+function validate_lot_step($step)
+{
+    if (empty($step)) {
         return 'Укажите шаг ставки';
     }
-    if(!is_numeric($step)){
+    if (!is_numeric($step)) {
         return 'Шаг ставки должен быть числом';
     }
-    if ($step < 0){
+    if ($step < 0) {
         return 'Шаг ставки не должен быть меньше 0';
     }
-    if ($step > 4294967295){
+    if ($step > 4294967295) {
         return 'Шаг ставки не должна быть больше 4 294 967 295';
     }
     return null;
@@ -93,17 +97,18 @@ function validate_lot_step($step){
  * @param integer $start_price "Начальная цена"
  * @return string|null
  */
-function validate_lot_start_price($start_price){
-    if(empty($start_price)){
+function validate_lot_start_price($start_price)
+{
+    if (empty($start_price)) {
         return 'Укажите стартовую цену лота';
     }
-    if(!is_numeric($start_price)){
+    if (!is_numeric($start_price)) {
         return 'Цена должна быть числом';
     }
-    if ($start_price < 0){
+    if ($start_price < 0) {
         return 'Цена не должна быть меньше 0';
     }
-    if ($start_price > 4294967295){
+    if ($start_price > 4294967295) {
         return 'Цена не должна быть больше 4 294 967 295';
     }
     return null;
@@ -115,14 +120,15 @@ function validate_lot_start_price($start_price){
  * @return string|null
  * @throws Exception
  */
-function validate_lot_end_time($end_time){
+function validate_lot_end_time($end_time)
+{
     if (empty($end_time)) {
-      return 'Укажите дату';
+        return 'Укажите дату';
     }
     $date = new DateTime($end_time);
     $now = new DateTime();
 
-    if($date < $now) {
+    if ($date < $now) {
         return 'дата должна быть больше текущей';
     }
 
@@ -140,7 +146,8 @@ function validate_lot_end_time($end_time){
  * @param $category_id
  * @return string
  */
-function validate_lot_category_id($category_id){
+function validate_lot_category_id($category_id)
+{
     if (empty($category_id)) {
         return 'Выберите категорию';
     }
@@ -152,7 +159,8 @@ function validate_lot_category_id($category_id){
  * @param $file_data
  * @return string|null
  */
-function validate_lot_img_file($file_data){
+function validate_lot_img_file($file_data)
+{
     if ($tmp_name = get_value($file_data, 'tmp_name')) {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $file_type = finfo_file($finfo, $tmp_name);
@@ -161,6 +169,6 @@ function validate_lot_img_file($file_data){
         }
         return null;
     }
-     return 'Необходимо загрузить файл';
+    return 'Необходимо загрузить файл';
 }
 
