@@ -4,6 +4,7 @@
  * Возвращает массив ошибок при проверки логина и пароля
  * @param $connection
  * @param $login_data
+ * @param $user
  * @return array
  */
 function validate_login($connection, $login_data, $user)

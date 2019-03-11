@@ -62,14 +62,15 @@ function time_before_end($end_string_time)
 {
     $end_time = strtotime($end_string_time);
     $secs_to_end_time = $end_time - time();
+    if ($secs_to_end_time <= 0) {
+        return '00:00';
+    }
     $hours = floor($secs_to_end_time / 3600);
     $minutes = floor(($secs_to_end_time % 3600) / 60);
     $hours = sprintf('%02d', $hours);
     $minutes = sprintf('%02d', $minutes);
     $result = $hours . ":" . $minutes;
-    if ($result <= 0) {
-        $result = "00:00";
-    }
+
     return $result;
 }
 

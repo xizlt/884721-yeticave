@@ -142,8 +142,9 @@ function add_user($connection, $user_data)
     mysqli_stmt_close($stmt);
     if ($result) {
         $user_id = mysqli_insert_id($connection);
+        return $user_id;
     }
-    return $user_id;
+    return null;
 }
 
 /**
