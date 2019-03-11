@@ -40,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $page_content = include_template('login.php', [
     'categories' => $categories,
     'errors' => $errors,
-    'login_data' => $login_data
+    'login_data' => $login_data,
+    'user' => $user
 ]);
 
 $layout = include_template('layout.php', [
