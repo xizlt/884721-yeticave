@@ -28,7 +28,7 @@ if ($user_id = get_value($_SESSION, 'user_id')) {
     $user = get_user_by_id($connection, $user_id);
 }
 
-$lot = get_lot($connection, $lot_id);
+$lot = getLot($connection, $lot_id);
 $rate = rates_user($connection, $lot_id);
 $show_rate = rate_show($lot, $user, $rate);
 
@@ -42,7 +42,7 @@ if (!$lot) {
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $amount = $_POST['amount'];
-
+    //$lot = getLot($connection, $lot_id);
     $errors = error_amount($amount, $lot);
 
     if (!$errors) {

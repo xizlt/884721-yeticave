@@ -65,7 +65,7 @@ function getLots($connection)
  * @param $lot_id
  * @return |null
  */
-function get_lot($connection, $lot_id)
+function getLot($connection, $lot_id)
 {
     $result = [];
     $sql = "SELECT l.id, l.user_id AS user_id_rate, c.name AS category_name, l.name AS name, COALESCE(MAX(r.amount), l.start_price)AS price, l.img, l.description, (l.step + COALESCE(MAX(r.amount), l.start_price))AS rate, l.end_time
