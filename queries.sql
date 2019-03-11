@@ -27,7 +27,7 @@ VALUE ('2019-02-12 20:47', 160199, 4, 2),
 
 -- внес данные о зарегистрированных пользователей
 INSERT INTO users (create_time, email, name, password, avatar, contacts)
-VALUE ('2019-01-09 20:47', 'exemple_2@bb.com', 'Берюзюк Юлия', '8585', 'img/avatar.jpg', '8999789545'),
+VALUE ('2019-01-09 20:47', 'exemple_2@bb.com', 'Берюзюк Юлия', '8585', 'img/uploads.jpg', '8999789545'),
       ('2018-06-19 20:00', 'exemple_3@bb.com', 'Мошин Коля', '9696', 'img/user.png', '89221511232'),
       ('2018-08-16 20:01', 'exemple_4@bb.com', 'Тенева Светлана', '7445', null, '8486622151');
 

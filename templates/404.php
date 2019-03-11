@@ -9,7 +9,7 @@
         </ul>
     </nav>
     <section class="lot-item container">
-        <h2>Ошибка</h2>
-        <p class="error"><?= $error; ?></p>
+        <h2>404 Страница не найдена</h2>
+        <p>Данной страницы не существует на сайте.</p>
     </section>
 </main>
