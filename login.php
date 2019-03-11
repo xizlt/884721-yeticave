@@ -12,7 +12,7 @@ session_start();
 $config = require 'config.php';
 $connection = connectDb($config['db']);
 if (!$connection) {
-    $page_content = include_template('error.php', ['error' => mysqli_error($connection)]);
+    $page_content = include_template('error.php', ['errors' => mysqli_error($connection), 'categories' => $categories]);
 }
 $categories = getCategories($connection);
 
@@ -40,8 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $page_content = include_template('login.php', [
     'categories' => $categories,
     'errors' => $errors,
-    'login_data' => $login_data,
-    'user' => $user
+    'login_data' => $login_data
 ]);
 
 $layout = include_template('layout.php', [
