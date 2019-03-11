@@ -10,8 +10,7 @@
     </nav>
 
 
-    <form class="form form--add-lot container <?php if ($errors): ?>form--invalid<?php endif; ?>" action="/add.php"
-          method="post" enctype="multipart/form-data"> <!-- form--invalid -->
+    <form class="form form--add-lot container <?php if ($errors): ?>form--invalid<?php endif; ?>" action="/add.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
         <h2>Добавление лота</h2>
         <div class="form__container-two">
             <div class="form__item <?php if ($errors['name']): ?>form__item--invalid<?php endif; ?>">
@@ -25,8 +24,7 @@
                 <select id="category" name="category_id">
                     <option value="">Выберите категорию</option>
                     <?php foreach ($categories as $category): ?>
-                        <option value="<?= $category['id']; ?>" <?php if ($category['id'] == $lot_data['category_id']) {print('selected'); } ?>>
-                            <?= $category['name']; ?></option>
+                        <option value="<?= $category['id']; ?>" <?php if ($category['id'] == $lot_data['category_id']) {print('selected'); } ?> > <?= $category['name']; ?></option>
                     <?php endforeach; ?>
                 </select>
                 <span class="form__error"><?= $errors['category_id']; ?></span>

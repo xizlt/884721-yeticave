@@ -11,7 +11,7 @@ require_once('functions/upload.php');
 $config = require 'config.php';
 $connection = connectDb($config['db']);
 if (!$connection) {
-    $page_content = include_template('error.php', ['errors' => mysqli_error($connection)]);
+    $page_content = include_template('error.php', ['error' => mysqli_error($connection)]);
 }
 $user = null;
 $categories = getCategories($connection);
@@ -43,12 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-$page_content = include_template('add_lot.php', array(
+$page_content = include_template('add_lot.php', [
     'categories' => $categories,
     'lot_data' => $lot_data,
     'errors' => $errors,
     'file_data' => $file_data
-));
+]);
 
 $layout = include_template('layout.php', [
     'content' => $page_content,

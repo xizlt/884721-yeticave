@@ -200,6 +200,8 @@ function get_user_by_id($connection, $id)
  * Запись новой ставки
  * @param $connection
  * @param $amount
+ * @param $user
+ * @param $lot_id
  * @return bool
  */
 function add_rate($connection, $amount, $user, $lot_id)
