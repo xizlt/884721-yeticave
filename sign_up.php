@@ -8,6 +8,9 @@ require_once('functions/db.php');
 require_once('functions/template.php');
 require_once('functions/upload.php');
 
+if (!file_exists('config.php')) {
+    die('Создайте и сконфигурируйте файл config.php на основе config.sample.php');
+}
 $config = require 'config.php';
 $connection = connectDb($config['db']);
 if (!$connection) {

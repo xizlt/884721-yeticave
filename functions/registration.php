@@ -22,8 +22,8 @@ function validate_user($user_data, $file_data, $connection)
     if ($error = validate_user_contacts(get_value($user_data, 'contacts'))) {
         $errors['contacts'] = $error;
     }
-    if ($error = validate_avatar_file(get_value($file_data, 'avatar'))) {
-        $errors['avatar'] = $error;
+    if ($error = validate_avatar_file(get_value($file_data, 'uploads'))) {
+        $errors['uploads'] = $error;
     }
     return $errors;
 }

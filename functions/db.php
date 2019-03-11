@@ -44,7 +44,6 @@ function get_categories($connection)
  */
 function get_lots($connection)
 {
-    $result = [];
     $sql = 'SELECT l.id, c.name AS category_name, l.name, l.img, l.start_price, l.create_time AS last_rite_time, l.end_time
             FROM lots l
             JOIN categories c

@@ -8,7 +8,11 @@ require_once('functions/lot_validate.php');
 require_once('functions/template.php');
 require_once('functions/upload.php');
 
+if (!file_exists('config.php')) {
+    die('Создайте и сконфигурируйте файл config.php на основе config.sample.php');
+}
 $config = require 'config.php';
+
 $connection = connectDb($config['db']);
 if (!$connection) {
     $page_content = include_template('error.php', ['error' => mysqli_error($connection)]);

@@ -46,7 +46,7 @@
                     <span>+ Добавить</span>
                 </label>
             </div>
-            <span class="form__error"><?= get_value($errors, 'avatar') ?></span>
+            <span class="form__error"><?= get_value($errors, 'uploads') ?></span>
         </div>
         <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
         <button type="submit" class="button">Зарегистрироваться</button>

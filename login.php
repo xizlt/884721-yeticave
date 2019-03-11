@@ -9,7 +9,11 @@ require_once('functions/login_validate.php');
 
 session_start();
 
+if (!file_exists('config.php')) {
+    die('Создайте и сконфигурируйте файл config.php на основе config.sample.php');
+}
 $config = require 'config.php';
+
 $connection = connectDb($config['db']);
 if (!$connection) {
     $page_content = include_template('error.php', ['error' => mysqli_error($connection)]);
