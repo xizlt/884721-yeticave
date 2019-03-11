@@ -3,7 +3,7 @@
         <ul class="nav__list container">
             <?php foreach ($categories as $category): ?>
                 <li class="nav__item">
-                    <a href="all-lots.php"><?= get_value($category, 'name') ?></a>
+                    <a href="all-lots.php"><?= clean(get_value($category, 'name')) ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -19,17 +19,17 @@
         </div>
         <div class="form__item <?php if (get_value($errors, 'password')): ?>form__item--invalid<?php endif; ?>">
             <label for="password">Пароль*</label>
-            <input id="password" type="password" name="password" placeholder="Введите пароль" value="<?= get_value($user_data, 'password') ?>">
+            <input id="password" type="password" name="password" placeholder="Введите пароль" value="<?= clean(get_value($user_data, 'password')) ?>">
             <span class="form__error"><?= get_value($errors, 'password') ?></span>
         </div>
         <div class="form__item <?php if (get_value($errors, 'name')): ?>form__item--invalid<?php endif; ?>">
             <label for="name">Имя*</label>
-            <input id="name" type="text" name="name" placeholder="Введите имя" value="<?= get_value($user_data, 'name') ?>">
+            <input id="name" type="text" name="name" placeholder="Введите имя" value="<?= clean(get_value($user_data, 'name')) ?>">
             <span class="form__error"><?= get_value($errors, 'name') ?></span>
         </div>
         <div class="form__item <?php if (get_value($errors, 'contacts')): ?>form__item--invalid<?php endif; ?>">
             <label for="message">Контактные данные*</label>
-            <textarea id="message" name="contacts" placeholder="Напишите как с вами связаться"><?= get_value($user_data, 'contacts') ?></textarea>
+            <textarea id="message" name="contacts" placeholder="Напишите как с вами связаться"><?= clean(get_value($user_data, 'contacts')) ?></textarea>
             <span class="form__error"><?= get_value($errors, 'contacts') ?></span>
         </div>
         <div class="form__item form__item--file form__item--last <?php if (get_value($errors, 'avatar')): ?>form__item--invalid<?php endif; ?>">

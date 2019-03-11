@@ -1,5 +1,6 @@
 <?php
 /** @var string $content содержимое внутреннего шаблона */
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -23,7 +24,7 @@
             </form>
 
 
-            <?php if ($user): ?>
+            <?php if (!empty($user)): ?>
                 <a class="main-header__add-lot button" href="/add.php">Добавить лот</a>
                 <div class="user-menu__logged">
                     <p><?= get_value($user, 'name'); ?></p>
@@ -102,7 +103,7 @@
         </div>
 
 
-        <?php if ($user): ?>
+        <?php if (!empty($user)): ?>
             <a class="main-footer__add-lot button" href="add.php">Добавить лот</a>
         <?php endif; ?>
 

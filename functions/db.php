@@ -1,7 +1,7 @@
 <?php
 
 /**
- * подключение к БД
+ *  подключение к БД
  * @param $config
  * @return mysqli|void
  */
@@ -24,7 +24,7 @@ function connectDb($config)
  * @param $connection
  * @return array|int|null
  */
-function getCategories($connection)
+function get_categories($connection)
 {
     $result = [];
     $sql = 'SELECT * FROM categories';
@@ -42,7 +42,7 @@ function getCategories($connection)
  * @param $connection
  * @return array|int|null
  */
-function getLots($connection)
+function get_lots($connection)
 {
     $result = [];
     $sql = 'SELECT l.id, c.name AS category_name, l.name, l.img, l.start_price, l.create_time AS last_rite_time, l.end_time
@@ -63,9 +63,9 @@ function getLots($connection)
  * получение лота для просмотра
  * @param $connection
  * @param $lot_id
- * @return |null
+ * @return array|null |null
  */
-function getLot($connection, $lot_id)
+function get_lot($connection, $lot_id)
 {
         $sql = "SELECT l.id, l.user_id AS user_id_rate, c.name AS category_name, l.name AS name, COALESCE(MAX(r.amount), l.start_price)AS price, l.img, l.description, (l.step + COALESCE(MAX(r.amount), l.start_price))AS rate, l.end_time
             FROM lots l
@@ -189,7 +189,7 @@ function get_user_by_email($connection, $email)
 function get_user_by_id($connection, $id)
 {
     $id = (int)$id;
-    $sql = "SELECT id FROM users WHERE id = '$id'";
+    $sql = "SELECT * FROM users WHERE id = '$id'";
     $res = mysqli_query($connection, $sql);
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
     return $user;

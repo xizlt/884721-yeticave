@@ -16,7 +16,7 @@
             <div class="form__item <?php if ($errors['name']): ?>form__item--invalid<?php endif; ?>">
                 <!-- form__item--invalid -->
                 <label for="lot-name">Наименование</label>
-                <input id="lot-name" type="text" name="name" placeholder="Введите наименование лота" value="<?= get_value($lot_data, 'name'); ?>">
+                <input id="lot-name" type="text" name="name" placeholder="Введите наименование лота" value="<?= clean(get_value($lot_data, 'name')); ?>">
                 <span class="form__error"><?= $errors['name']; ?></span>
             </div>
             <div class="form__item <?php if ($errors['category_id']): ?>form__item--invalid<?php endif; ?>">
@@ -24,7 +24,7 @@
                 <select id="category" name="category_id">
                     <option value="">Выберите категорию</option>
                     <?php foreach ($categories as $category): ?>
-                        <option value="<?= $category['id']; ?>" <?php if ($category['id'] == $lot_data['category_id']) {print('selected'); } ?> > <?= $category['name']; ?></option>
+                        <option value="<?= $category['id']; ?>" <?php if (isset($lot_data['category_id']) && ($lot_data['category_id'] == $category['id'])) {print('selected');} ?>> <?= $category['name']; ?></option>
                     <?php endforeach; ?>
                 </select>
                 <span class="form__error"><?= $errors['category_id']; ?></span>

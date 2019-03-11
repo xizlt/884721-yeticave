@@ -27,7 +27,7 @@
         </div>
         <div class="form__item form__item--last <?php if (get_value($errors, 'password')): ?>form__item--invalid<?php endif; ?>">
             <label for="password">Пароль*</label>
-            <input id="password" type="password" name="password" placeholder="Введите пароль" value="<?= get_value($login_data, 'password') ?>">
+            <input id="password" type="password" name="password" placeholder="Введите пароль" value="<?= clean(get_value($login_data, 'password')) ?>">
             <span class="form__error"> <?= get_value($errors, 'password'); ?> </span>
         </div>
         <button type="submit" class="button">Войти</button>

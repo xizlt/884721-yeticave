@@ -6,7 +6,7 @@
  * @param $login_data
  * @return array
  */
-function validate_login($connection, $login_data)
+function validate_login($connection, $login_data, $user)
 {
     $errors = [];
     if ($error = validate_email($login_data['email'])) {

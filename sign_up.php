@@ -11,13 +11,12 @@ require_once('functions/upload.php');
 $config = require 'config.php';
 $connection = connectDb($config['db']);
 if (!$connection) {
-    $page_content = include_template('error.php', ['errors' => mysqli_error($connection), 'categories' => $categories]);
+    $page_content = include_template('error.php', ['error' => mysqli_error($connection)]);
 }
 
-$categories = getCategories($connection);
-$user_data = [];
-$file_data = [];
+$categories = get_categories($connection);
 
+$user = null;
 if (isset($_SESSION['user_id'])) {
     $user = get_user_by_id($connection, $_SESSION['user_id']);
     if ($user) {
@@ -26,6 +25,9 @@ if (isset($_SESSION['user_id'])) {
     }
 }
 
+$user_data = [];
+$file_data = [];
+$errors = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_data = $_POST;
     $file_data = $_FILES;
@@ -49,6 +51,7 @@ $page_content = include_template('sign_up.php', [
 $layout = include_template('layout.php', [
     'content' => $page_content,
     'title' => 'Регистрация',
-    'categories' => $categories
+    'categories' => $categories,
+    '$user' => $user
 ]);
 print($layout);

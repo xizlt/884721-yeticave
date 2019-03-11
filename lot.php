@@ -14,11 +14,11 @@ require_once('functions/upload.php');
 $config = require 'config.php';
 $connection = connectDb($config['db']);
 if (!$connection) {
-    $page_content = include_template('error.php', ['errors' => mysqli_error($connection), 'categories' => $categories]);
+    $page_content = include_template('error.php', ['error' => mysqli_error($connection)]);
 }
 
 $user = null;
-$categories = getCategories($connection);
+$categories = get_categories($connection);
 
 if (!get_value($_GET, 'id')) {
     header("HTTP/1.0 404 Not Found");
@@ -40,7 +40,7 @@ if ($user_id = get_value($_SESSION, 'user_id')) {
     $user = get_user_by_id($connection, $user_id);
 }
 
-$lot = getLot($connection, $lot_id);
+$lot = get_lot($connection, $lot_id);
 $rate = rates_user($connection, $lot_id);
 $show_rate = rate_show($lot, $user, $rate);
 
@@ -61,9 +61,8 @@ if (!$lot) {
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $amount = $_POST['amount'];
-    //$lot = getLot($connection, $lot_id);
-    $errors = error_amount($amount, $lot);
 
+    $errors = error_amount($amount, $lot);
     if (!$errors) {
         add_rate($connection, $amount, $user, $lot_id);
         header("Location: lot.php?id=$lot_id");
