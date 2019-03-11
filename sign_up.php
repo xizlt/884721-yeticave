@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $errors = validate_user($user_data, $file_data, $connection);
 
     if (!$errors) {
-        $user_data['avatar'] = upload_avatar(get_value($file_data, 'avatar'));
+        $user_data['avatar'] = upload_img(get_value($file_data, 'avatar'));
         add_user($connection, $user_data);
 
         header("Location: login.php");

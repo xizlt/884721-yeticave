@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $errors = validate_lot($lot_data, $file_data);
 
     if (empty($errors)) {
-        $lot_data['img'] = upload_img($file_data);
+        $lot_data['img'] = upload_img($file_data['img']);
         $lot_id = add_lot($connection, $lot_data, $user);
 
         if ($lot_id) {
