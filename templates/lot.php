@@ -50,13 +50,13 @@
 
                     </div>
                 <div class="history">
-                    <h3>История ставок (<span><?= count($rate) ?></span>)</h3>
+                    <h3>История ставок (<span><?= count($rates) ?></span>)</h3>
                     <table class="history__list">
-                        <?php foreach ($rate as $key): ?>
+                        <?php foreach ($rates as $rate): ?>
                             <tr class="history__item">
-                                <td class="history__name"><?= clean($key['name']); ?></td>
-                                <td class="history__price"><?= format_price(clean($key['amount'])); ?></td>
-                                <td class="history__time"><?= time_rite(clean($key['time'])); ?></td>
+                                <td class="history__name"><?= clean(get_value($rate, 'name')); ?></td>
+                                <td class="history__price"><?= format_price(clean(get_value($rate, 'amount'))); ?></td>
+                                <td class="history__time"><?= time_rite(clean(get_value($rate, 'time'))); ?></td>
                             </tr>
                         <?php endforeach; ?>
 

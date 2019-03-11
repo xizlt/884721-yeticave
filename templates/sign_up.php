@@ -41,7 +41,7 @@
                 </div>
             </div>
             <div class="form__input-file">
-                <input class="visually-hidden" type="file" id="photo2" value="<?= $file_data['avatar'] ?>" name="avatar">
+                <input class="visually-hidden" type="file" id="photo2" value="<?= get_value($file_data, 'avatar'); ?>" name="avatar">
                 <label for="photo2">
                     <span>+ Добавить</span>
                 </label>
