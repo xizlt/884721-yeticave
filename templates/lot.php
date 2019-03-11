@@ -20,9 +20,6 @@
                 <p class="lot-item__description"> <?= clean(get_value($lot, 'description')); ?></p>
             </div>
             <div class="lot-item__right">
-
-                <?php if ($show_rate !== false): ?>
-
                     <div class="lot-item__state">
                         <div class="lot-item__timer timer">
                             <?= time_before_end(clean(get_value($lot, 'end_time'))) ?>
@@ -36,6 +33,9 @@
                                 Мин. ставка <span><?= format_price(clean(get_value($lot, 'rate'))); ?></span>
                             </div>
                         </div>
+
+                        <?php if ($show_rate !== false): ?>
+
                         <form class="lot-item__form" action="/lot.php?id=<?= $lot['id']; ?>" method="post" enctype="application/x-www-form-urlencoded">
                             <p class="lot-item__form-item <?php if ($errors): ?> form__item--invalid <?php endif; ?>">
                                 <label for="cost">Ваша ставка</label>
@@ -45,10 +45,10 @@
                             </p>
                             <button type="submit" class="button">Сделать ставку</button>
                         </form>
+
+                        <?php endif; ?>
+
                     </div>
-
-                <?php endif; ?>
-
                 <div class="history">
                     <h3>История ставок (<span><?= count($rate) ?></span>)</h3>
                     <table class="history__list">
