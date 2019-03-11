@@ -29,7 +29,7 @@ function include_template($name, $data)
  * @param $lot
  * @return string
  */
-function formatPrice($lot)
+function format_price($lot)
 {
     $rate_ceil = ceil($lot);
     if ($rate_ceil >= 1000) {
