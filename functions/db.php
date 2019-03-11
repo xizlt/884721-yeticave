@@ -1,9 +1,9 @@
 <?php
 
 /**
- *  подключение к БД
+ * подключение к БД
  * @param $config
- * @return mysqli|void
+ * @return mysqli
  */
 function connectDb($config)
 {
@@ -26,7 +26,6 @@ function connectDb($config)
  */
 function get_categories($connection)
 {
-    $result = [];
     $sql = 'SELECT * FROM categories';
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
@@ -114,9 +113,10 @@ function add_lot($connection, $lot_data, $user)
     );
     $result = mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    if ($result) {
-        $lot_id = mysqli_insert_id($connection);
+    if (!$result) {
+        die('Ошибка при сохранении лота');
     }
+    $lot_id = mysqli_insert_id($connection);
     return $lot_id;
 }
 

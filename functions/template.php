@@ -116,9 +116,9 @@ function time_rite($time)
     if ($days_count) {
         $result = date('d.m.y \в H:i', strtotime($time));
     } elseif ($hours_count) {
-        $result = "$hours_count" . " ч. назад";
+        $result = (string)$hours_count . " ч. назад";
     } else {
-        $result = "$minutes_count" . " мин. назад";
+        $result = (string)$minutes_count . " мин. назад";
     }
     return $result;
 }

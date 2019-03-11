@@ -115,28 +115,27 @@ function validate_lot_start_price($start_price)
 }
 
 /**
- * Возвращает текст ошибок для поля "Дата окончания торгов" и проверяет, что переданная дата соответствует формату ДД.ММ.ГГГГ
- * @param string $end_time 'Дата окончания торгов'
+ * Функция проверяет валидность даты
+ * @param $end_time string дата
  * @return string|null
- * @throws Exception
  */
 function validate_lot_end_time($end_time)
 {
     if (empty($end_time)) {
-        return 'Укажите дату';
-    }
-    $date = new DateTime($end_time);
-    $now = new DateTime();
-
-    if ($date < $now) {
-        return 'дата должна быть больше текущей';
+        return 'Заполните дату окончания лота';
     }
 
     $result = false;
-    $regexp = '/(\d{2})\.(\d{2})\.(\d{4})/m';
+    $regexp = '/(\d{4})\-(\d{2})\-(\d{2})/m';
+
     if (preg_match($regexp, $end_time, $parts) && count($parts) == 4) {
-        $result = checkdate($parts[2], $parts[1], $parts[3]);
-        return 'Формат даты должен быть ДД.ММ.ГГГГ';
+        $result = checkdate(get_value($parts, 2), get_value($parts, 3), get_value($parts, 1));
+    }
+    if (!$result) {
+        return 'Неверная дата';
+    }
+    if (strtotime($end_time) < time()) {
+        return 'Дата должна быть больше текущей';
     }
     return null;
 }
