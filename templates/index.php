@@ -8,7 +8,7 @@
             <?php foreach ($categories as $category) : ?>
 
                 <li class="promo__item promo__item--boards">
-                    <a class="promo__link" href="pages/all-lots.html"> <?= get_value($category, 'name'); ?> </a>
+                    <a class="promo__link"  href="/all-lots.php?category=<?= get_value($category, 'id') ?>"><?= get_value($category, 'name') ?></a>
                 </li>
 
             <?php endforeach; ?>

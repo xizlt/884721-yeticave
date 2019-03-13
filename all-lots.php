@@ -6,6 +6,8 @@ error_reporting(E_ALL);
 session_start();
 require_once('functions/main.php');
 require_once('functions/db.php');
+require_once('functions/rate_validate.php');
+require_once('functions/lot_validate.php');
 require_once('functions/template.php');
 require_once('functions/upload.php');
 
@@ -19,32 +21,17 @@ if (!$connection) {
     $page_content = include_template('error.php', ['error' => mysqli_error($connection)]);
 }
 
-$categories = get_categories($connection);
-
 $user = null;
-if (isset($_SESSION['user_id'])) {
-    $user = get_user_by_id($connection, $_SESSION['user_id']);
-}
+$categories = get_categories($connection);
+$categories_page = trim($_GET['category']) ?? '';
 
-$search = trim($_GET['search']) ?? '';
-$cur_page = $_GET['page'] ?? 1;
-$page_items = 9;
-
-$result = mysqli_query($connection, "SELECT COUNT(*) as cnt FROM lots");
-$items_count = mysqli_fetch_assoc($result)['cnt'];
-
-$pages_count = ceil($items_count / $page_items);
-$offset = ($cur_page - 1) * $page_items;
-$pages = range(1, $pages_count);
-
-
-function get_search($connection, $search, $page_items, $offset)
+function get_search($connection, $categories_page)
 {
     $sql = "SELECT l.id AS id_lot, l.name AS lot_name, c.name AS category, l.end_time AS time, img, start_price
         FROM lots l
         JOIN users u ON l.user_id = u.id
         JOIN categories c ON l.category_id = c.id
-        WHERE MATCH(l.name, description) AGAINST ('$search')
+        WHERE MATCH(c.name) AGAINST ('$categories_page')
         ORDER BY l.create_time DESC;
         ";
 
@@ -56,24 +43,22 @@ function get_search($connection, $search, $page_items, $offset)
     }
     return $result;
 }
-$lots = get_search($connection, $search, $page_items, $offset);
-$rates = '6 cnfdjr';
+$lots = get_search($connection, $categories_page);
 
-$page_content = include_template('search.php', [
-    'lots' => $lots,
+$page_content = include_template('all-lots.php', [
     'categories' => $categories,
-    'search' => $search,
-    'rates' => $rates,
-    'pages' => $pages,
-    'pages_count' => $pages_count,
-    'cur_page' => $cur_page
-
+    'lots' => $lots,
+    //'user' => $user,
+    //'errors' => $errors,
+    //'show_rate' => $show_rate,
+    //'rates' => $rates,
+    'categories_page' => $categories_page
 ]);
+
 $layout = include_template('layout.php', [
     'content' => $page_content,
-    'title' => 'Главная страница аукциона',
+    'title' => 'Страница лота',
     'categories' => $categories,
     'user' => $user
 ]);
-
 print($layout);

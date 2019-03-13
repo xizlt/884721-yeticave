@@ -1,13 +1,5 @@
 <main>
-    <nav class="nav">
-        <ul class="nav__list container">
-            <?php foreach ($categories as $category) : ?>
-                <li class="nav__item">
-                    <a href=""> <?= get_value($category, 'name'); ?></a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </nav>
+    <?= require_once('categories.php'); ?>
 
     <section class="lot-item container">
         <h2><?= clean(get_value($lot, 'name')); ?></h2>
