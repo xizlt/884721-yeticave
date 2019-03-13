@@ -23,11 +23,13 @@ CREATE TABLE lots (
   user_id INT NOT NULL,
   category_id INT NOT NULL
 );
+
 CREATE INDEX winner_id_idx ON lots(winner_id);
 CREATE INDEX user_id_idx ON lots(user_id);
 CREATE INDEX category_id_idx ON lots(category_id);
 CREATE INDEX name_idx ON lots(name);
 CREATE INDEX description_idx ON lots(description);
+CREATE FULLTEXT INDEX lot_search ON lots(name, description);
 
 CREATE TABLE rate (
   id INT AUTO_INCREMENT PRIMARY KEY,
