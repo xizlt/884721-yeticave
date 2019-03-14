@@ -26,7 +26,7 @@ if (isset($_SESSION['user_id'])) {
 
 $categories = get_categories($connection);
 
-$total_lots = count_id_category($connection);
+$total_lots = count_lots($connection);
 $cur_page = $_GET['page'] ?? 1;
 $page_items = 9;
 
@@ -42,7 +42,7 @@ if ($cur_page > $pages_count) {
 
     $layout = include_template('layout.php', [
         'content' => $page_content,
-        'title' => 'Главная страница аукциона',
+        'title' => 'Ошибка',
         'categories' => $categories
     ]);
     print($layout);
@@ -52,11 +52,12 @@ if ($cur_page > $pages_count) {
 $page_content = include_template('index.php', [
     'categories' => $categories,
     'lots' => $lots,
-    'pages' => $pages,
-    'pages_count' => $pages_count,
     'cur_page' => $cur_page,
     'page_items' => $page_items,
-    'offset' => $offset
+    'offset' => $offset,
+    'pages' => $pages,
+    'pages_count' => $pages_count
+
 ]);
 $layout = include_template('layout.php', [
     'content' => $page_content,

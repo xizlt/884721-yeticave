@@ -1,6 +1,6 @@
 <main>
 
-<?= require_once('categories.php'); ?>
+    <?= include_template('categories.php', ['categories'=>$categories]); ?>
 
     <form class="form form--add-lot container <?php if ($errors): ?>form--invalid<?php endif; ?>" action="/add.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
         <h2>Добавление лота</h2>

@@ -22,43 +22,39 @@ if (!$connection) {
 }
 
 $user = null;
-$categories = get_categories($connection);
-$categories_page = trim($_GET['category']) ?? '';
-
-function get_search($connection, $categories_page)
-{
-    $sql = "SELECT l.id AS id_lot, l.name AS lot_name, c.name AS category, l.end_time AS time, img, start_price
-        FROM lots l
-        JOIN users u ON l.user_id = u.id
-        JOIN categories c ON l.category_id = c.id
-        WHERE MATCH(c.name) AGAINST ('$categories_page')
-        ORDER BY l.create_time DESC;
-        ";
-
-    if ($query = mysqli_query($connection, $sql)) {
-        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-    } else {
-        $error = mysqli_error($connection);
-        $result = print('Ошибка MySQL ' . $error);
-    }
-    return $result;
+if (isset($_SESSION['user_id'])) {
+    $user = get_user_by_id($connection, $_SESSION['user_id']);
 }
-$lots = get_search($connection, $categories_page);
+
+$categories = get_categories($connection);
+
+$cur_page = $_GET['page'] ?? 1;
+$category_lots = trim($_GET['category']) ?? '';
+
+$total_lots = count_lots_category($connection, $category_lots);
+$page_items = 9;
+
+$pages_count = ceil($total_lots / $page_items);
+$offset = ($cur_page - 1) * $page_items;
+$pages = range(1, $pages_count);
+
+$lots = get_search_by_category($connection, $category_lots, $page_items, $offset);
 
 $page_content = include_template('all-lots.php', [
-    'categories' => $categories,
     'lots' => $lots,
-    //'user' => $user,
-    //'errors' => $errors,
-    //'show_rate' => $show_rate,
-    //'rates' => $rates,
-    'categories_page' => $categories_page
+    'categories' => $categories,
+    'cur_page' => $cur_page,
+    'page_items' => $page_items,
+    'pages' => $pages,
+    'pages_count' => $pages_count,
+    'category_lots' => $category_lots
 ]);
 
 $layout = include_template('layout.php', [
     'content' => $page_content,
-    'title' => 'Страница лота',
+    'title' => 'Страница поиска',
     'categories' => $categories,
     'user' => $user
 ]);
+
 print($layout);

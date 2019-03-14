@@ -6,8 +6,7 @@
 ?>
 
 <main>
-    <?= require_once('categories.php'); ?>
-
+    <?= include_template('categories.php', ['categories'=>$categories]); ?>
 
     <form class="form container <?php if ($errors): ?>form--invalid<?php endif; ?>" action="/login.php"
           enctype="application/x-www-form-urlencoded" method="post"> <!-- form--invalid -->

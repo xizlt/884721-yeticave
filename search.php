@@ -27,51 +27,49 @@ if (isset($_SESSION['user_id'])) {
 }
 
 $search = trim($_GET['search']) ?? '';
+if (empty($search)){
+    header("Location: /");
+    exit();
+}
+
 $cur_page = $_GET['page'] ?? 1;
 $page_items = 9;
+$total_lots = count_search($connection, $search);
 
-$result = mysqli_query($connection, "SELECT COUNT(*) as cnt FROM lots");
-$items_count = mysqli_fetch_assoc($result)['cnt'];
-
-$pages_count = ceil($items_count / $page_items);
+$pages_count = ceil($total_lots / $page_items);
 $offset = ($cur_page - 1) * $page_items;
 $pages = range(1, $pages_count);
 
-
-function get_search($connection, $search, $page_items, $offset)
-{
-    $sql = "SELECT l.id AS id_lot, l.name AS lot_name, c.name AS category, l.end_time AS time, img, start_price
-        FROM lots l
-        JOIN users u ON l.user_id = u.id
-        JOIN categories c ON l.category_id = c.id
-        WHERE MATCH(l.name, description) AGAINST ('$search')
-        ORDER BY l.create_time DESC;
-        ";
-
-    if ($query = mysqli_query($connection, $sql)) {
-        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-    } else {
-        $error = mysqli_error($connection);
-        $result = print('Ошибка MySQL ' . $error);
-    }
-    return $result;
-}
 $lots = get_search($connection, $search, $page_items, $offset);
-$rates = '6 cnfdjr';
 
+if (isset($_GET['page'])) {
+    if ($cur_page > $pages_count) {
+        header("HTTP/1.0 404 Not Found");
+        $page_content = include_template('404.php', ['categories' => $categories]);
+
+        $layout = include_template('layout.php', [
+            'content' => $page_content,
+            'title' => 'Ошибка',
+            'categories' => $categories
+        ]);
+        print($layout);
+        exit;
+    }
+}
 $page_content = include_template('search.php', [
     'lots' => $lots,
     'categories' => $categories,
     'search' => $search,
-    'rates' => $rates,
+    'cur_page' => $cur_page,
+    'page_items' => $page_items,
+    'offset' => $offset,
     'pages' => $pages,
-    'pages_count' => $pages_count,
-    'cur_page' => $cur_page
+    'pages_count' => $pages_count
 
 ]);
 $layout = include_template('layout.php', [
     'content' => $page_content,
-    'title' => 'Главная страница аукциона',
+    'title' => 'Страница поиска',
     'categories' => $categories,
     'user' => $user
 ]);

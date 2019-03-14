@@ -49,7 +49,7 @@
 
 <footer class="main-footer">
 
-    <?= require('categories.php'); ?>
+    <?= include_template('categories.php', ['categories'=>$categories]); ?>
 
     <div class="main-footer__bottom container">
         <div class="main-footer__copyright">

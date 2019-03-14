@@ -1,5 +1,5 @@
 <main>
-    <?= require('categories.php'); ?>
+    <?= include_template('categories.php', ['categories'=>$categories]); ?>
 
     <section class="lot-item container">
         <h2>404 Страница не найдена</h2>

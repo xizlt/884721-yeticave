@@ -1,5 +1,5 @@
 <main>
-    <?= require_once('categories.php'); ?>
+    <?= include_template('categories.php', ['categories'=>$categories]); ?>
 
     <form class="form container <?php if ($errors): ?>form--invalid<?php endif; ?>" action="/sign_up.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
         <h2>Регистрация нового аккаунта</h2>

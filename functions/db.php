@@ -244,12 +244,98 @@ function rates_user($connection, $lot_id)
 }
 
 /**
- * возвращает кол-во записей для пагинации
+ * возвращает кол-во записей для пагинации index
  * @param $connection
  * @return int
  */
-function count_id_category($connection){
+function count_lots($connection){
     $sql='SELECT count(*) AS cnt FROM lots';
+    if ($query = mysqli_query($connection, $sql)) {
+        $result = mysqli_fetch_assoc($query)['cnt'];
+    } else {
+        $error = mysqli_error($connection);
+        $result = print('Ошибка MySQL ' . $error);
+    }
+    return $result;
+}
+
+/**
+ * возвращает кол-во записей для пагинации search
+ * @param $connection
+ * @param $search
+ * @return int
+ */
+function count_search($connection, $search){
+    $sql="SELECT count(*) AS cnt FROM lots
+WHERE MATCH(name, description) AGAINST ('$search')
+";
+    if ($query = mysqli_query($connection, $sql)) {
+        $result = mysqli_fetch_assoc($query)['cnt'];
+    } else {
+        $error = mysqli_error($connection);
+        $result = print('Ошибка MySQL ' . $error);
+    }
+    return $result;
+}
+
+/**
+ * Возвращает массив по запросу поиска
+ * @param $connection
+ * @param $search
+ * @param $page_items
+ * @param $offset
+ * @return array|int|null
+ */
+function get_search($connection, $search, $page_items, $offset)
+{
+    $sql = "SELECT l.id AS id_lot, l.name AS lot_name, c.name AS category, l.end_time AS time, img, start_price
+        FROM lots l
+        JOIN categories c ON l.category_id = c.id
+        WHERE MATCH(l.name, description) AGAINST ('%$search%')
+        ORDER BY l.create_time DESC 
+        LIMIT $page_items OFFSET $offset
+;";
+
+    if ($query = mysqli_query($connection, $sql)) {
+        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    } else {
+        $error = mysqli_error($connection);
+        $result = print('Ошибка MySQL ' . $error);
+    }
+    return $result;
+}
+
+/**
+ * Возвращает лоты по id категории
+ * @param $connection
+ * @param $category_lots
+ * @param $page_items
+ * @param $offset
+ * @return array|int|null
+ */
+function get_search_by_category($connection, $category_lots, $page_items, $offset)
+{
+    $sql = "SELECT l.id AS id_lot, l.name AS lot_name, c.name AS category, l.end_time AS time, img, start_price
+        FROM lots l
+        JOIN categories c ON l.category_id = c.id
+        WHERE c.id = $category_lots
+        ORDER BY l.create_time DESC
+        LIMIT $page_items OFFSET $offset
+          ;";
+
+    if ($query = mysqli_query($connection, $sql)) {
+        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    } else {
+        $error = mysqli_error($connection);
+        $result = print('Ошибка MySQL ' . $error);
+    }
+    return $result;
+}
+
+function count_lots_category($connection, $category_lots){
+    $sql="SELECT count(*) AS cnt FROM lots
+          WHERE  category_id = $category_lots 
+          ";
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_assoc($query)['cnt'];
     } else {
