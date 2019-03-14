@@ -24,7 +24,7 @@
                                     <span class="lot__amount">Стартовая цена</span>
                                     <span class="lot__cost"><?= format_price(clean(get_value($lot, 'start_price'))) ?></span>
                                 </div>
-                                <div class="lot__timer timer">
+                                <div class="lot__timer timer <?php if (time_before_end(clean(get_value($lot, 'time'))) < '00:10'): ?>timer--finishing<?php endif; ?>">
                                     <?= time_before_end(clean(get_value($lot, 'time'))) ?>
                                 </div>
                             </div>
@@ -40,13 +40,13 @@
             <ul class="pagination-list">
 
                 <?php if ($cur_page > 1): ?>
-                    <li class="pagination-item <?php if ($pages === $cur_page): ?> pagination-item-prev<?php endif; ?>">
+                    <li class="pagination-item pagination-item-prev">
                         <a href="all-lots.php?category=<?= $category_lots ?>&page=<?= ($cur_page - 1); ?>">Назад</a>
                     </li>
                 <?php endif; ?>
 
                 <?php foreach ($pages as $page): ?>
-                    <li class="pagination-item">
+                    <li class="pagination-item <?php if ((int)$page === (int)$cur_page): ?>pagination-item-active<?php endif; ?>">
                         <a href="all-lots.php?category=<?= $category_lots ?>&page=<?= $page; ?>"><?= $page; ?></a>
                     </li>
                 <?php endforeach; ?>

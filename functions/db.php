@@ -159,7 +159,7 @@ function add_user($connection, $user_data)
 function isset_email($connection, $email)
 {
     $email_user = mysqli_real_escape_string($connection, $email);
-    $sql = "SELECT id FROM users WHERE email = '$email_user'";
+    $sql = "SELECT id FROM users WHERE email = $email_user";
     $res = mysqli_query($connection, $sql);
     $isset = mysqli_num_rows($res);
     if ($isset > 0) {
@@ -177,7 +177,7 @@ function isset_email($connection, $email)
 function get_user_by_email($connection, $email)
 {
     $email = mysqli_real_escape_string($connection, $email);
-    $sql = "SELECT * FROM users WHERE email = '$email'";
+    $sql = "SELECT * FROM users WHERE email = $email";
     $res = mysqli_query($connection, $sql);
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
     return $user;
@@ -192,7 +192,7 @@ function get_user_by_email($connection, $email)
 function get_user_by_id($connection, $id)
 {
     $id = (int)$id;
-    $sql = "SELECT * FROM users WHERE id = '$id'";
+    $sql = "SELECT * FROM users WHERE id = $id";
     $res = mysqli_query($connection, $sql);
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
     return $user;
@@ -269,8 +269,8 @@ function count_lots($connection){
  */
 function count_search($connection, $search){
     $sql="SELECT count(*) AS cnt FROM lots
-WHERE MATCH(name, description) AGAINST ('$search')
-";
+          WHERE MATCH(name, description) AGAINST ('$search')
+          ";
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_assoc($query)['cnt'];
     } else {
@@ -334,6 +334,11 @@ function get_search_by_category($connection, $category_lots, $page_items, $offse
     return $result;
 }
 
+/**
+ * @param $connection
+ * @param $category_lots
+ * @return int
+ */
 function count_lots_category($connection, $category_lots){
     $sql="SELECT count(*) AS cnt FROM lots
           WHERE  category_id = $category_lots 
