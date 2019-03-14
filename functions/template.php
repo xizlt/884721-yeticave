@@ -86,14 +86,14 @@ function rate_show($lot, $user, $rate)
     if (!$user) {
         return false;
     }
-    if (time_before_end($lot['end_time']) == '00:00') {
+    if (time_before_end($lot['end_time']) === '00:00') {
         return false;
     }
-    if ($lot['user_id_rate'] == $user['id']) {
+    if ($lot['user_id_rate'] === $user['id']) {
         return false;
     }
     foreach ($rate as $key) {
-        if ($key['user_id'] == $user['id']) {
+        if ($key['user_id'] === $user['id']) {
             return false;
         }
     }

@@ -31,7 +31,7 @@ if (isset($_SESSION['user_id'])) {
 $user_data = [];
 $file_data = [];
 $errors = [];
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_data = $_POST;
     $file_data = $_FILES;
 

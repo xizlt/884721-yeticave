@@ -13,7 +13,7 @@ function connectDb($config)
     $link = mysqli_init();
     mysqli_options($link, MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1);
 
-    if ($connection == false) {
+    if ($connection === false) {
         $connection = die("Ошибка подключения: " . mysqli_connect_error()); // проверка на ошибку соединения
     }
     return $connection;
@@ -39,6 +39,8 @@ function get_categories($connection)
 /**
  * получение списка лотов
  * @param $connection
+ * @param $page_items
+ * @param $offset
  * @return array|int|null
  */
 function get_lots($connection, $page_items, $offset)

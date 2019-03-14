@@ -6,10 +6,7 @@ error_reporting(E_ALL);
 session_start();
 require_once('functions/main.php');
 require_once('functions/db.php');
-require_once('functions/rate_validate.php');
-require_once('functions/lot_validate.php');
 require_once('functions/template.php');
-require_once('functions/upload.php');
 
 if (!file_exists('config.php')) {
     die('Создайте и сконфигурируйте файл config.php на основе config.sample.php');
@@ -27,6 +24,20 @@ if (isset($_SESSION['user_id'])) {
 }
 
 $categories = get_categories($connection);
+
+if (!get_value($_GET, 'category')) {
+    header("HTTP/1.0 404 Not Found");
+    $page_content = include_template('404.php', ['categories' => $categories]);
+
+    $layout = include_template('layout.php', [
+        'content' => $page_content,
+        'title' => 'Страница лота',
+        'categories' => $categories,
+        'user' => $user
+    ]);
+    print($layout);
+    exit;
+}
 
 $cur_page = $_GET['page'] ?? 1;
 $category_lots = trim($_GET['category']) ?? '';
