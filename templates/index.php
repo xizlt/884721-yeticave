@@ -43,5 +43,28 @@
 
             <?php endforeach; ?>
         </ul>
+        <?php if ($pages_count > 1): ?>
+            <ul class="pagination-list">
+
+                <?php if ($cur_page > 1): ?>
+                    <li class="pagination-item <?php if ($pages === $cur_page): ?> pagination-item-prev<?php endif; ?>">
+                        <a href="index.php?page=<?= ($cur_page - 1); ?>">Назад</a>
+                    </li>
+                <?php endif; ?>
+
+                <?php foreach ($pages as $page): ?>
+                    <li class="pagination-item">
+                        <a href="index.php?page=<?= $page; ?>"><?= $page; ?></a>
+                    </li>
+                <?php endforeach; ?>
+
+                <?php if ($cur_page < $pages_count): ?>
+                    <li class="pagination-item pagination-item-next">
+                        <a href="index.php?page=<?= ($cur_page + 1); ?>">Вперед</a>
+                    </li>
+                <?php endif; ?>
+
+            </ul>
+        <?php endif; ?>
     </section>
 </main>

@@ -1,5 +1,6 @@
 <main>
-    <?= require_once('categories.php'); ?>
+
+    <?= require('categories.php'); ?>
 
     <section class="lot-item container">
         <h2><?= clean(get_value($lot, 'name')); ?></h2>

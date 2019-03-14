@@ -41,13 +41,14 @@ function get_categories($connection)
  * @param $connection
  * @return array|int|null
  */
-function get_lots($connection)
+function get_lots($connection, $page_items, $offset)
 {
-    $sql = 'SELECT l.id, c.name AS category_name, l.name, l.img, l.start_price, l.create_time AS last_rite_time, l.end_time
+    $sql = "SELECT l.id, c.name AS category_name, l.name, l.img, l.start_price, l.create_time AS last_rite_time, l.end_time
             FROM lots l
             JOIN categories c
             ON l.category_id = c.id
-            ORDER BY l.create_time DESC;';
+            ORDER BY l.create_time DESC
+            LIMIT $page_items offset $offset";
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
     } else {
@@ -235,6 +236,22 @@ function rates_user($connection, $lot_id)
             ORDER BY time DESC";
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    } else {
+        $error = mysqli_error($connection);
+        $result = print('Ошибка MySQL ' . $error);
+    }
+    return $result;
+}
+
+/**
+ * возвращает кол-во записей для пагинации
+ * @param $connection
+ * @return int
+ */
+function count_id_category($connection){
+    $sql='SELECT count(*) AS cnt FROM lots';
+    if ($query = mysqli_query($connection, $sql)) {
+        $result = mysqli_fetch_assoc($query)['cnt'];
     } else {
         $error = mysqli_error($connection);
         $result = print('Ошибка MySQL ' . $error);
