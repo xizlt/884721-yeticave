@@ -10,7 +10,7 @@
                 </span></h2>
 
             <ul class="lots__list">
-                <?php if(empty($lots)): ?> <h3> Ничего не найдено по вашему запросу </h3> <?php endif; ?>
+                <?php if(empty($lots)): ?> <h3> Ничего не найдено по вашему запросу </h3> <?php else: ?>
                 <?php foreach ($lots as $lot): ?>
                     <li class="lots__item lot">
                         <div class="lot__image">
@@ -31,7 +31,7 @@
                         </div>
                     </li>
                 <?php endforeach; ?>
-
+                <?php endif; ?>
             </ul>
         </section>
 

@@ -40,7 +40,10 @@ if (!get_value($_GET, 'category')) {
 }
 
 $cur_page = $_GET['page'] ?? 1;
+$cur_page = clean($cur_page);
+
 $category_lots = trim($_GET['category']) ?? '';
+$category_lots = clean($category_lots);
 
 $total_lots = count_lots_category($connection, $category_lots);
 $page_items = 9;

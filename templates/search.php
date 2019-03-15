@@ -5,7 +5,7 @@
         <section class="lots">
             <h2>Результаты поиска по запросу «<span><?= $search ?></span>»</h2>
             <ul class="lots__list">
-                <?php if(!$lots): ?> <h3> Ничего не найдено по вашему запросу </h3> <?php endif; ?>
+                <?php if(!$lots): ?> <h3> Ничего не найдено по вашему запросу </h3> <?php else: ?>
                 <?php foreach ($lots as $lot): ?>
                 <li class="lots__item lot">
                     <div class="lot__image">
@@ -26,7 +26,7 @@
                     </div>
                 </li>
                 <?php endforeach; ?>
-
+                <?php endif; ?>
             </ul>
         </section>
 

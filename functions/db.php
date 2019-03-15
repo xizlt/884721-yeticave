@@ -41,7 +41,7 @@ function get_categories($connection)
  * @param $connection
  * @param $page_items
  * @param $offset
- * @return array|int|null
+ * @return array|null
  */
 function get_lots($connection, $page_items, $offset)
 {
@@ -52,12 +52,9 @@ function get_lots($connection, $page_items, $offset)
             ORDER BY l.create_time DESC
             LIMIT $page_items offset $offset";
     if ($query = mysqli_query($connection, $sql)) {
-        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-    } else {
-        $error = mysqli_error($connection);
-        $result = print('Ошибка MySQL ' . $error);
+        return $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
     }
-    return $result;
+    return null;
 }
 
 /**
@@ -248,17 +245,14 @@ function rates_user($connection, $lot_id)
 /**
  * возвращает кол-во записей для пагинации index
  * @param $connection
- * @return int
+ * @return null|array
  */
 function count_lots($connection){
     $sql='SELECT count(*) AS cnt FROM lots';
     if ($query = mysqli_query($connection, $sql)) {
-        $result = mysqli_fetch_assoc($query)['cnt'];
-    } else {
-        $error = mysqli_error($connection);
-        $result = print('Ошибка MySQL ' . $error);
+        return $result = mysqli_fetch_assoc($query)['cnt'];
     }
-    return $result;
+    return null;
 }
 
 /**
@@ -272,12 +266,9 @@ function count_search($connection, $search){
           WHERE MATCH(name, description) AGAINST ('$search')
           ";
     if ($query = mysqli_query($connection, $sql)) {
-        $result = mysqli_fetch_assoc($query)['cnt'];
-    } else {
-        $error = mysqli_error($connection);
-        $result = print('Ошибка MySQL ' . $error);
+        return $result = mysqli_fetch_assoc($query)['cnt'];
     }
-    return $result;
+    return null;
 }
 
 /**
@@ -286,7 +277,7 @@ function count_search($connection, $search){
  * @param $search
  * @param $page_items
  * @param $offset
- * @return array|int|null
+ * @return array|null
  */
 function get_search($connection, $search, $page_items, $offset)
 {
@@ -296,15 +287,12 @@ function get_search($connection, $search, $page_items, $offset)
         WHERE MATCH(l.name, description) AGAINST ('%$search%')
         ORDER BY l.create_time DESC 
         LIMIT $page_items OFFSET $offset
-;";
+          ;";
 
     if ($query = mysqli_query($connection, $sql)) {
-        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-    } else {
-        $error = mysqli_error($connection);
-        $result = print('Ошибка MySQL ' . $error);
+        return $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
     }
-    return $result;
+    return null;
 }
 
 /**
@@ -326,28 +314,22 @@ function get_search_by_category($connection, $category_lots, $page_items, $offse
           ;";
 
     if ($query = mysqli_query($connection, $sql)) {
-        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-    } else {
-        $error = mysqli_error($connection);
-        $result = print('Ошибка MySQL ' . $error);
+        return $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
     }
-    return $result;
+    return null;
 }
 
 /**
  * @param $connection
  * @param $category_lots
- * @return int
+ * @return array|null
  */
 function count_lots_category($connection, $category_lots){
     $sql="SELECT count(*) AS cnt FROM lots
           WHERE  category_id = $category_lots 
           ";
     if ($query = mysqli_query($connection, $sql)) {
-        $result = mysqli_fetch_assoc($query)['cnt'];
-    } else {
-        $error = mysqli_error($connection);
-        $result = print('Ошибка MySQL ' . $error);
+        return $result = mysqli_fetch_assoc($query)['cnt'];
     }
-    return $result;
+    return null;
 }

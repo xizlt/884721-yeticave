@@ -28,6 +28,7 @@ $categories = get_categories($connection);
 
 $total_lots = count_lots($connection);
 $cur_page = $_GET['page'] ?? 1;
+$cur_page = clean($cur_page);
 $page_items = 9;
 
 $pages_count = ceil($total_lots / $page_items);

@@ -26,13 +26,15 @@ if (isset($_SESSION['user_id'])) {
     $user = get_user_by_id($connection, $_SESSION['user_id']);
 }
 
-$search = trim($_GET['search']) ?? '';
+$search = $_GET['search'] ?? '';
+$search = clean($search);
 if (empty($search)){
     header("Location: /");
     exit();
 }
-
 $cur_page = $_GET['page'] ?? 1;
+$cur_page = clean($cur_page);
+
 $page_items = 9;
 $total_lots = count_search($connection, $search);
 
@@ -42,7 +44,7 @@ $pages = range(1, $pages_count);
 
 $lots = get_search($connection, $search, $page_items, $offset);
 
-if (isset($_GET['page'])) {
+if (clean(isset($_GET['page']))) {
     if ($cur_page > $pages_count) {
         header("HTTP/1.0 404 Not Found");
         $page_content = include_template('404.php', ['categories' => $categories]);
