@@ -28,6 +28,7 @@
                 <a class="main-header__add-lot button" href="/add.php">Добавить лот</a>
                 <div class="user-menu__logged">
                     <p><?= clean(get_value($user, 'name')); ?></p>
+                    <a href="/my-lots.php">Мои ставки</a><br>
                     <a href="/logout.php">Выйти</a>
                 </div>
             <?php else: ?>

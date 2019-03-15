@@ -156,7 +156,7 @@ function add_user($connection, $user_data)
 function isset_email($connection, $email)
 {
     $email_user = mysqli_real_escape_string($connection, $email);
-    $sql = "SELECT id FROM users WHERE email = $email_user";
+    $sql = "SELECT id FROM users WHERE email = '$email_user'";
     $res = mysqli_query($connection, $sql);
     $isset = mysqli_num_rows($res);
     if ($isset > 0) {
@@ -174,7 +174,7 @@ function isset_email($connection, $email)
 function get_user_by_email($connection, $email)
 {
     $email = mysqli_real_escape_string($connection, $email);
-    $sql = "SELECT * FROM users WHERE email = $email";
+    $sql = "SELECT * FROM users WHERE email = '$email'";
     $res = mysqli_query($connection, $sql);
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
     return $user;
