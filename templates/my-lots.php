@@ -5,22 +5,24 @@
         <table class="rates__list">
 
             <?php foreach ($lots as $lot): ?>
-            <tr class="rates__item <?php if (time_before_end(clean(get_value($lot, 'end_time_lot'))) === '00:00'): ?>rates__item--end<?php endif; ?>">
+            <tr class="rates__item <?php if (time_before_end_by_my_lots(clean(get_value($lot, 'end_time_lot'))) === '00:00:00'): ?>rates__item--end<?php endif; ?>">
                 <td class="rates__info">
                     <div class="rates__img">
                         <img src="<?= get_value($lot, 'img') ?>" width="54" height="40" alt="<?= get_value($lot, 'name_lot') ?>">
                     </div>
-                    <h3 class="rates__title"><a href="lot.php?=<?= $lot['id_lot'] ?>"><?= get_value($lot, 'name_lot') ?></a></h3>
+                    <h3 class="rates__title"><a href="lot.php?id=<?= $lot['id_lot'] ?>"><?= get_value($lot, 'name_lot') ?></a></h3>
                 </td>
                 <td class="rates__category">
-                    <?= get_value($lot, 'category_name') ?>
+                    <?= clean(get_value($lot, 'category_name')) ?>
                 </td>
                 <td class="rates__timer">
-                    <?php if (time_before_end(clean(get_value($lot, 'end_time_lot'))) === '00:00'): ?>
+                    <?php if (time_before_end_by_my_lots(clean(get_value($lot, 'end_time_lot'))) === '00:00:00'): ?>
                             <div class="timer timer--end">Торги окончены</div>
+                    <?php elseif (get_value($lot, 'winner_id')): ?>
+                        <div class="timer timer--win">Ставка выиграла</div>
                     <?php else: ?>
-                    <div class="timer <?php if (time_before_end(clean(get_value($lot, 'end_time_lot'))) < '00:10'): ?>timer--finishing<?php endif; ?>">
-                        <?= time_before_end(clean(get_value($lot, 'end_time_lot'))) ?>
+                    <div class="timer <?php if (time_before_end_by_my_lots(clean(get_value($lot, 'end_time_lot'))) < '01:00:00'): ?>timer--finishing<?php endif; ?>">
+                        <?= time_before_end_by_my_lots(clean(get_value($lot, 'end_time_lot'))) ?>
                     </div>
                     <?php endif; ?>
                 </td>

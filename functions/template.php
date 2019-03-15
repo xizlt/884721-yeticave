@@ -54,7 +54,7 @@ function clean($value)
 }
 
 /**
- * время до окончания жизни лота
+ * время до окончания жизни лота в формате часы:минуты
  * @param $end_string_time
  * @return string
  */
@@ -70,6 +70,29 @@ function time_before_end($end_string_time)
     $hours = sprintf('%02d', $hours);
     $minutes = sprintf('%02d', $minutes);
     $result = $hours . ":" . $minutes;
+
+    return $result;
+}
+
+/**
+ * время до окончания жизни лота в формате часы:минуты:секунды
+ * @param $end_string_time
+ * @return string
+ */
+function time_before_end_by_my_lots($end_string_time)
+{
+    $end_time = strtotime($end_string_time);
+    $secs_to_end_time = $end_time - time();
+    if ($secs_to_end_time <= 0) {
+        return '00:00:00';
+    }
+    $hours = floor($secs_to_end_time / 3600);
+    $minutes = floor(($secs_to_end_time % 3600) / 60);
+    $seconds = floor((($secs_to_end_time % 3600) /60)/60);
+    $hours = sprintf('%02d', $hours);
+    $minutes = sprintf('%02d', $minutes);
+    $seconds = sprintf('%02d', $seconds);
+    $result = $hours . ":" . $minutes . ":" . $seconds;
 
     return $result;
 }
@@ -123,3 +146,4 @@ function time_rite($time)
     }
     return $result;
 }
+

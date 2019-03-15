@@ -231,7 +231,7 @@ function rates_user($connection, $lot_id)
             FROM rate r 
             JOIN users u 
             ON u.id = r.user_id 
-            WHERE r.lot_id = '$lot_id'
+            WHERE r.lot_id = $lot_id
             ORDER BY time DESC";
     if ($query = mysqli_query($connection, $sql)) {
         $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
@@ -332,4 +332,61 @@ function count_lots_category($connection, $category_lots){
         return $result = mysqli_fetch_assoc($query)['cnt'];
     }
     return null;
+}
+
+/**
+ * Возвращает все ставки user
+ * @param $connection
+ * @param $user_id
+ * @return array|null
+ */
+function get_my_lots($connection, $user_id){
+    $sql = "SELECT l.winner_id , l.end_time as end_time_lot, r.create_time as time_add_rite, r.amount, l.name as name_lot, c.name as category_name, l.id as id_lot, img 
+            FROM rate r
+            join lots l ON r.lot_id = l.id
+            JOIN categories c ON c.id = l.category_id
+            JOIN users u ON u.id = l.user_id
+            WHERE r.user_id = $user_id  
+            ORDER BY end_time_lot DESC, time_add_rite ASC;
+            ";
+    $query = mysqli_query($connection, $sql);
+    return  $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+}
+
+/**
+ * Возвращает список победителей
+ * @param $connection
+ * @return array|int|null
+ */
+function search_winner($connection)
+{
+    $sql = "SELECT l.id as id_lot, u.id as user_id, email,amount, r.create_time, l.end_time
+            FROM rate r
+            JOIN lots l ON r.lot_id = l.id
+            JOIN users u ON  r.user_id = u.id
+            WHERE winner_id is null and l.end_time <= now()
+            AND r.amount in (select MAX(r.amount) FROM rate r JOIN lots l ON r.lot_id = l.id GROUP BY l.id)
+            ";
+    if ($query = mysqli_query($connection, $sql)) {
+        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    } else {
+        $error = mysqli_error($connection);
+        $result = print('Ошибка MySQL ' . $error);
+    }
+    return $result;
+}
+
+/**
+ * Записывает победителей в базу
+ * @param $connection
+ * @param $user_id
+ * @param $lot_id
+ * @return int
+ */
+function winner_update($connection, $user_id, $lot_id) {
+    $sql = "UPDATE lots SET winner_id = $user_id WHERE id = $lot_id
+  ;";
+    $res = mysqli_query($connection, $sql);
+
+    return mysqli_affected_rows($connection);
 }

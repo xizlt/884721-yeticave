@@ -35,19 +35,6 @@ $pages_count = ceil($total_lots / $page_items);
 $offset = ($cur_page - 1) * $page_items;
 $pages = range(1, $pages_count);
 
-function get_my_lots($connection, $user_id){
-    $sql = "SELECT l.end_time as end_time_lot, r.create_time as time_add_rite, r.amount, l.name as name_lot, c.name as category_name, l.id as id_lot, img 
-            FROM rate r
-            join lots l ON r.lot_id = l.id
-            JOIN categories c ON c.id = l.category_id
-            JOIN users u ON u.id = l.user_id
-            WHERE r.user_id = $user_id  
-            ORDER BY l.end_time DESC 
-            ";
-    $query = mysqli_query($connection, $sql);
-    return  $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-}
-
 $lots = get_my_lots($connection, $user_id);
 
 if ($cur_page > $pages_count) {
@@ -70,7 +57,8 @@ $page_content = include_template('my-lots.php', [
     'page_items' => $page_items,
     'offset' => $offset,
     'pages' => $pages,
-    'pages_count' => $pages_count
+    'pages_count' => $pages_count,
+    'user_id' => $user_id
 
 ]);
 $layout = include_template('layout.php', [

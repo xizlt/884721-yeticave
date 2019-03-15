@@ -14,7 +14,7 @@
             </div>
             <div class="lot-item__right">
                     <div class="lot-item__state">
-                        <div class="lot-item__timer timer <?php if (time_before_end(clean(get_value($lot, 'end_time'))) < '00:10'): ?>timer--finishing<?php endif; ?>">
+                        <div class="lot-item__timer timer <?php if (time_before_end(clean(get_value($lot, 'end_time'))) < '01:00'): ?>timer--finishing<?php endif; ?>">
                             <?= time_before_end(clean(get_value($lot, 'end_time'))) ?>
                         </div>
                         <div class="lot-item__cost-state">

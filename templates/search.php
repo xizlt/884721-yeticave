@@ -19,7 +19,7 @@
                                 <span class="lot__amount">Стартовая цена</span>
                                 <span class="lot__cost"><?= format_price(clean(get_value($lot, 'start_price'))) ?></span>
                             </div>
-                            <div class="lot__timer timer <?php if (time_before_end(clean(get_value($lot, 'time'))) < '00:10'): ?>timer--finishing<?php endif; ?>">
+                            <div class="lot__timer timer <?php if (time_before_end(clean(get_value($lot, 'time'))) < '01:00'): ?>timer--finishing<?php endif; ?>">
                                 <?= time_before_end(clean(get_value($lot, 'time'))) ?>
                             </div>
                         </div>
