@@ -31,7 +31,7 @@ if (isset($_SESSION['user_id'])) {
 
 $login_data = [];
 $errors = [];
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login_data = $_POST;
 
     $errors = validate_login($connection, $login_data, $user);

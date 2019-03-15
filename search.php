@@ -19,40 +19,49 @@ if (!$connection) {
     $page_content = include_template('error.php', ['error' => mysqli_error($connection)]);
 }
 
+$categories = get_categories($connection);
+
 $user = null;
 if (isset($_SESSION['user_id'])) {
     $user = get_user_by_id($connection, $_SESSION['user_id']);
 }
 
-$categories = get_categories($connection);
-
-$total_lots = count_lots($connection);
+$search = $_GET['search'] ?? '';
+$search = clean($search);
+if (empty($search)){
+    header("Location: /");
+    exit();
+}
 $cur_page = $_GET['page'] ?? 1;
 $cur_page = clean($cur_page);
+
 $page_items = 9;
+$total_lots = count_search($connection, $search);
 
 $pages_count = ceil($total_lots / $page_items);
 $offset = ($cur_page - 1) * $page_items;
 $pages = range(1, $pages_count);
 
-$lots = get_lots($connection, $page_items, $offset);
+$lots = get_search($connection, $search, $page_items, $offset);
 
-if ($cur_page > $pages_count) {
-    header("HTTP/1.0 404 Not Found");
-    $page_content = include_template('404.php', ['categories' => $categories]);
+if (clean(isset($_GET['page']))) {
+    if ($cur_page > $pages_count) {
+        header("HTTP/1.0 404 Not Found");
+        $page_content = include_template('404.php', ['categories' => $categories]);
 
-    $layout = include_template('layout.php', [
-        'content' => $page_content,
-        'title' => 'Ошибка',
-        'categories' => $categories
-    ]);
-    print($layout);
-    exit;
+        $layout = include_template('layout.php', [
+            'content' => $page_content,
+            'title' => 'Ошибка',
+            'categories' => $categories
+        ]);
+        print($layout);
+        exit;
+    }
 }
-
-$page_content = include_template('index.php', [
-    'categories' => $categories,
+$page_content = include_template('search.php', [
     'lots' => $lots,
+    'categories' => $categories,
+    'search' => $search,
     'cur_page' => $cur_page,
     'page_items' => $page_items,
     'offset' => $offset,
@@ -62,9 +71,9 @@ $page_content = include_template('index.php', [
 ]);
 $layout = include_template('layout.php', [
     'content' => $page_content,
-    'title' => 'Главная страница аукциона',
-    'user' => $user,
-    'categories' => $categories
+    'title' => 'Страница поиска',
+    'categories' => $categories,
+    'user' => $user
 ]);
 
 print($layout);

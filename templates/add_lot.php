@@ -1,14 +1,6 @@
 <main>
-    <nav class="nav">
-        <ul class="nav__list container">
-            <?php foreach ($categories as $category): ?>
-                <li class="nav__item">
-                    <a href="all-lots.php"><?= get_value($category, 'name') ?></a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </nav>
 
+    <?= include_template('categories.php', ['categories'=>$categories]); ?>
 
     <form class="form form--add-lot container <?php if ($errors): ?>form--invalid<?php endif; ?>" action="/add.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
         <h2>Добавление лота</h2>
@@ -24,7 +16,7 @@
                 <select id="category" name="category_id">
                     <option value="">Выберите категорию</option>
                     <?php foreach ($categories as $category): ?>
-                        <option value="<?= $category['id']; ?>" <?= get_value($lot_data, 'category_id') == get_value($category, 'id')? 'selected': '' ?>> <?= $category['name']; ?></option>
+                        <option value="<?= $category['id']; ?>" <?= get_value($lot_data, 'category_id') === get_value($category, 'id')? 'selected': '' ?>> <?= $category['name']; ?></option>
                     <?php endforeach; ?>
                 </select>
                 <span class="form__error"><?= $errors['category_id']; ?></span>

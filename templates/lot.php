@@ -1,13 +1,6 @@
 <main>
-    <nav class="nav">
-        <ul class="nav__list container">
-            <?php foreach ($categories as $category) : ?>
-                <li class="nav__item">
-                    <a href=""> <?= get_value($category, 'name'); ?></a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </nav>
+
+    <?= include_template('categories.php', ['categories'=>$categories]); ?>
 
     <section class="lot-item container">
         <h2><?= clean(get_value($lot, 'name')); ?></h2>
@@ -21,7 +14,7 @@
             </div>
             <div class="lot-item__right">
                     <div class="lot-item__state">
-                        <div class="lot-item__timer timer">
+                        <div class="lot-item__timer timer <?php if (time_before_end(clean(get_value($lot, 'end_time'))) < '00:10'): ?>timer--finishing<?php endif; ?>">
                             <?= time_before_end(clean(get_value($lot, 'end_time'))) ?>
                         </div>
                         <div class="lot-item__cost-state">
