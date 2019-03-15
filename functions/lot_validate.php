@@ -2,10 +2,9 @@
 
 /**
  * Возвращает массив всех ошибок валидации лота
- * @param array $lot_data
+ * @param $lot_data
  * @param $file_data
  * @return array
- * @throws Exception
  */
 function validate_lot($lot_data, $file_data)
 {
@@ -128,7 +127,7 @@ function validate_lot_end_time($end_time)
     $result = false;
     $regexp = '/(\d{4})\-(\d{2})\-(\d{2})/m';
 
-    if (preg_match($regexp, $end_time, $parts) && count($parts) == 4) {
+    if (preg_match($regexp, $end_time, $parts) && count($parts) === 4) {
         $result = checkdate(get_value($parts, 2), get_value($parts, 3), get_value($parts, 1));
     }
     if (!$result) {

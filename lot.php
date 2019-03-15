@@ -63,7 +63,7 @@ if (!$lot) {
 }
 
 $errors = [];
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $amount = $_POST['amount'];
 
     $errors = error_amount($amount, $lot);

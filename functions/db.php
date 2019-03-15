@@ -13,7 +13,7 @@ function connectDb($config)
     $link = mysqli_init();
     mysqli_options($link, MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1);
 
-    if ($connection == false) {
+    if ($connection === false) {
         $connection = die("Ошибка подключения: " . mysqli_connect_error()); // проверка на ошибку соединения
     }
     return $connection;
@@ -39,22 +39,22 @@ function get_categories($connection)
 /**
  * получение списка лотов
  * @param $connection
- * @return array|int|null
+ * @param $page_items
+ * @param $offset
+ * @return array|null
  */
-function get_lots($connection)
+function get_lots($connection, $page_items, $offset)
 {
-    $sql = 'SELECT l.id, c.name AS category_name, l.name, l.img, l.start_price, l.create_time AS last_rite_time, l.end_time
+    $sql = "SELECT l.id, c.name AS category_name, l.name, l.img, l.start_price, l.create_time AS last_rite_time, l.end_time
             FROM lots l
             JOIN categories c
             ON l.category_id = c.id
-            ORDER BY l.create_time DESC;';
+            ORDER BY l.create_time DESC
+            LIMIT $page_items offset $offset";
     if ($query = mysqli_query($connection, $sql)) {
-        $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
-    } else {
-        $error = mysqli_error($connection);
-        $result = print('Ошибка MySQL ' . $error);
+        return $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
     }
-    return $result;
+    return null;
 }
 
 /**
@@ -156,7 +156,7 @@ function add_user($connection, $user_data)
 function isset_email($connection, $email)
 {
     $email_user = mysqli_real_escape_string($connection, $email);
-    $sql = "SELECT id FROM users WHERE email = '$email_user'";
+    $sql = "SELECT id FROM users WHERE email = $email_user";
     $res = mysqli_query($connection, $sql);
     $isset = mysqli_num_rows($res);
     if ($isset > 0) {
@@ -174,7 +174,7 @@ function isset_email($connection, $email)
 function get_user_by_email($connection, $email)
 {
     $email = mysqli_real_escape_string($connection, $email);
-    $sql = "SELECT * FROM users WHERE email = '$email'";
+    $sql = "SELECT * FROM users WHERE email = $email";
     $res = mysqli_query($connection, $sql);
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
     return $user;
@@ -189,7 +189,7 @@ function get_user_by_email($connection, $email)
 function get_user_by_id($connection, $id)
 {
     $id = (int)$id;
-    $sql = "SELECT * FROM users WHERE id = '$id'";
+    $sql = "SELECT * FROM users WHERE id = $id";
     $res = mysqli_query($connection, $sql);
     $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
     return $user;
@@ -240,4 +240,96 @@ function rates_user($connection, $lot_id)
         $result = print('Ошибка MySQL ' . $error);
     }
     return $result;
+}
+
+/**
+ * возвращает кол-во записей для пагинации index
+ * @param $connection
+ * @return null|array
+ */
+function count_lots($connection){
+    $sql='SELECT count(*) AS cnt FROM lots';
+    if ($query = mysqli_query($connection, $sql)) {
+        return $result = mysqli_fetch_assoc($query)['cnt'];
+    }
+    return null;
+}
+
+/**
+ * возвращает кол-во записей для пагинации search
+ * @param $connection
+ * @param $search
+ * @return int
+ */
+function count_search($connection, $search){
+    $sql="SELECT count(*) AS cnt FROM lots
+          WHERE MATCH(name, description) AGAINST ('$search')
+          ";
+    if ($query = mysqli_query($connection, $sql)) {
+        return $result = mysqli_fetch_assoc($query)['cnt'];
+    }
+    return null;
+}
+
+/**
+ * Возвращает массив по запросу поиска
+ * @param $connection
+ * @param $search
+ * @param $page_items
+ * @param $offset
+ * @return array|null
+ */
+function get_search($connection, $search, $page_items, $offset)
+{
+    $sql = "SELECT l.id AS id_lot, l.name AS lot_name, c.name AS category, l.end_time AS time, img, start_price
+        FROM lots l
+        JOIN categories c ON l.category_id = c.id
+        WHERE MATCH(l.name, description) AGAINST ('%$search%')
+        ORDER BY l.create_time DESC 
+        LIMIT $page_items OFFSET $offset
+          ;";
+
+    if ($query = mysqli_query($connection, $sql)) {
+        return $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    }
+    return null;
+}
+
+/**
+ * Возвращает лоты по id категории
+ * @param $connection
+ * @param $category_lots
+ * @param $page_items
+ * @param $offset
+ * @return array|int|null
+ */
+function get_search_by_category($connection, $category_lots, $page_items, $offset)
+{
+    $sql = "SELECT l.id AS id_lot, l.name AS lot_name, c.name AS category, l.end_time AS time, img, start_price
+        FROM lots l
+        JOIN categories c ON l.category_id = c.id
+        WHERE c.id = $category_lots
+        ORDER BY l.create_time DESC
+        LIMIT $page_items OFFSET $offset
+          ;";
+
+    if ($query = mysqli_query($connection, $sql)) {
+        return $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    }
+    return null;
+}
+
+/**
+ * @param $connection
+ * @param $category_lots
+ * @return array|null
+ */
+function count_lots_category($connection, $category_lots){
+    $sql="SELECT count(*) AS cnt FROM lots
+          WHERE  category_id = $category_lots 
+          ";
+    if ($query = mysqli_query($connection, $sql)) {
+        return $result = mysqli_fetch_assoc($query)['cnt'];
+    }
+    return null;
 }
