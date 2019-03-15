@@ -20,8 +20,8 @@ if (!$connection) {
 }
 
 $user = null;
-if (isset($_SESSION['user_id'])) {
-    $user = get_user_by_id($connection, $_SESSION['user_id']);
+if ($user_id = get_value($_SESSION, 'user_id')) {
+    $user = get_user_by_id($connection, $user_id);
 }
 
 $categories = get_categories($connection);
@@ -35,7 +35,20 @@ $pages_count = ceil($total_lots / $page_items);
 $offset = ($cur_page - 1) * $page_items;
 $pages = range(1, $pages_count);
 
-$lots = get_lots($connection, $page_items, $offset);
+function get_my_lots($connection, $user_id){
+    $sql = "SELECT l.end_time as end_time_lot, r.create_time as time_add_rite, r.amount, l.name as name_lot, c.name as category_name, l.id as id_lot, img 
+            FROM rate r
+            join lots l ON r.lot_id = l.id
+            JOIN categories c ON c.id = l.category_id
+            JOIN users u ON u.id = l.user_id
+            WHERE r.user_id = $user_id  
+            ORDER BY l.end_time DESC 
+            ";
+    $query = mysqli_query($connection, $sql);
+    return  $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+}
+
+$lots = get_my_lots($connection, $user_id);
 
 if ($cur_page > $pages_count) {
     header("HTTP/1.0 404 Not Found");
@@ -62,7 +75,7 @@ $page_content = include_template('my-lots.php', [
 ]);
 $layout = include_template('layout.php', [
     'content' => $page_content,
-    'title' => 'Главная страница аукциона',
+    'title' => 'Мои ставки',
     'user' => $user,
     'categories' => $categories
 ]);

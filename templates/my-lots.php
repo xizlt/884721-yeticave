@@ -3,26 +3,36 @@
     <section class="rates container">
         <h2>Мои ставки</h2>
         <table class="rates__list">
-            <tr class="rates__item">
+
+            <?php foreach ($lots as $lot): ?>
+            <tr class="rates__item <?php if (time_before_end(clean(get_value($lot, 'end_time_lot'))) === '00:00'): ?>rates__item--end<?php endif; ?>">
                 <td class="rates__info">
                     <div class="rates__img">
-                        <img src="img/rate1.jpg" width="54" height="40" alt="Сноуборд">
+                        <img src="<?= get_value($lot, 'img') ?>" width="54" height="40" alt="<?= get_value($lot, 'name_lot') ?>">
                     </div>
-                    <h3 class="rates__title"><a href="lot.html">2014 Rossignol District Snowboard</a></h3>
+                    <h3 class="rates__title"><a href="lot.php?=<?= $lot['id_lot'] ?>"><?= get_value($lot, 'name_lot') ?></a></h3>
                 </td>
                 <td class="rates__category">
-                    Доски и лыжи
+                    <?= get_value($lot, 'category_name') ?>
                 </td>
                 <td class="rates__timer">
-                    <div class="timer timer--finishing">07:13:34</div>
+                    <?php if (time_before_end(clean(get_value($lot, 'end_time_lot'))) === '00:00'): ?>
+                            <div class="timer timer--end">Торги окончены</div>
+                    <?php else: ?>
+                    <div class="timer <?php if (time_before_end(clean(get_value($lot, 'end_time_lot'))) < '00:10'): ?>timer--finishing<?php endif; ?>">
+                        <?= time_before_end(clean(get_value($lot, 'end_time_lot'))) ?>
+                    </div>
+                    <?php endif; ?>
                 </td>
                 <td class="rates__price">
-                    10 999 р
+                    <?= format_price(clean(get_value($lot, 'amount'))) ?>
                 </td>
                 <td class="rates__time">
-                    5 минут назад
+                    <?= time_rite(clean(get_value($lot, 'time_add_rite'))) ?>
                 </td>
             </tr>
+            <?php endforeach; ?>
+
             <tr class="rates__item">
                 <td class="rates__info">
                     <div class="rates__img">
